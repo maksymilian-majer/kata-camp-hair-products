@@ -54,3 +54,6 @@ out
 
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
+
+# Build artifacts
+apps/web/tsconfig.tsbuildinfo

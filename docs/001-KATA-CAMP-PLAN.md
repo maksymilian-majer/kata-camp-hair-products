@@ -587,7 +587,7 @@ When user runs `/implement Phase N`:
 
 ## Execution Order
 
-### For Repository Setup:
+### Part 1: Repository Setup ✅ COMPLETE
 
 1. ✅ Run Nx workspace creation command
 2. ✅ Add planning documents to docs/
@@ -602,21 +602,45 @@ When user runs `/implement Phase N`:
 11. ✅ Configure pre-commit hooks (Husky + lint-staged)
 12. ✅ Test build/test/lint/typecheck commands
 
-### For AI Workflow Setup:
+**Status:** All 12 steps complete. Repository is fully functional:
+
+- Web app: `pnpm dev:web` → http://localhost:3000
+- API app: `pnpm dev:api` → http://localhost:3001/api
+- Both: `pnpm dev` → runs both apps
+- All commands verified: build ✅, test ✅, lint ✅, typecheck ✅
+
+### Part 2: AI Workflow Setup 🔄 IN PROGRESS
 
 1. ✅ Update CLAUDE.md with project rules (keep Nx section)
 2. ⬜ Create AI-WORKFLOW.md with diagrams
 3. 🔄 Create slash commands (story, plan, implement, commit, pr)
 
 - ✅ `/commit` - Conventional commits with Claude Code attribution
-- ⬜ `/prd`
-- ⬜ `/story`
-- ⬜ `/plan`
-- ⬜ `/implement`
-- ⬜ `/pr`
+- ⬜ `/prd` - Product requirements document
+- ⬜ `/story` - User stories with BDD scenarios
+- ⬜ `/plan` - 7-phase implementation planning
+- ⬜ `/implement` - Phase dispatcher
+- ⬜ `/pr` - Pull request creation
 
 4. ⬜ Create phase subagents (7 agents)
-5. ⬜ Create skills (nextjs-patterns, nestjs-architecture, drizzle-repository, vitest-testing, testcontainers, bff-patterns)
+
+- ⬜ frontend-phase-1: Presentational UI
+- ⬜ frontend-phase-2: API Client + Mocks
+- ⬜ frontend-phase-3: Smart Components
+- ⬜ backend-phase-4: Repository (TDD)
+- ⬜ backend-phase-5: Service Layer (TDD)
+- ⬜ backend-phase-6: Controllers (TDD)
+- ⬜ integration-phase-7: Frontend-Backend Integration
+
+5. ⬜ Create skills
+
+- ⬜ nextjs-patterns/SKILL.md
+- ⬜ nestjs-architecture/SKILL.md
+- ⬜ drizzle-repository/SKILL.md
+- ⬜ vitest-testing/SKILL.md
+- ⬜ testcontainers/SKILL.md
+- ⬜ bff-patterns/SKILL.md
+
 6. ⬜ Test workflow end-to-end
 
 ---

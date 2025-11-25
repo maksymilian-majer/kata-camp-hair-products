@@ -612,7 +612,7 @@ When user runs `/implement Phase N`:
 ### Part 2: AI Workflow Setup 🔄 IN PROGRESS
 
 1. ✅ Update CLAUDE.md with project rules (keep Nx section)
-2. ⬜ Create AI-WORKFLOW.md with diagrams
+2. ✅ Create AI-WORKFLOW.md with diagrams
 3. 🔄 Create slash commands (story, plan, implement, commit, pr)
 
 - ✅ `/commit` - Conventional commits with Claude Code attribution
@@ -620,7 +620,7 @@ When user runs `/implement Phase N`:
 - ⬜ `/story` - User stories with BDD scenarios
 - ⬜ `/plan` - 7-phase implementation planning
 - ⬜ `/implement` - Phase dispatcher
-- ⬜ `/pr` - Pull request creation
+- ⬜ `/pr` - Pull request creation (should use gitthub CLI)
 
 4. ⬜ Create phase subagents (7 agents)
 

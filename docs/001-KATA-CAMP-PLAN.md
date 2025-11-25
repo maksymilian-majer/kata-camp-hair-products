@@ -615,31 +615,33 @@ When user runs `/implement Phase N`:
 2. ✅ Create AI-WORKFLOW.md with diagrams
 3. 🔄 Create slash commands (story, plan, implement, commit, pr)
 
-- ✅ `/commit` - Conventional commits with Claude Code attribution
-- ⬜ `/prd` - Product requirements document
-- ⬜ `/story` - User stories with BDD scenarios
-- ⬜ `/plan` - 7-phase implementation planning
-- ⬜ `/implement` - Phase dispatcher
-- ⬜ `/pr` - Pull request creation (should use gitthub CLI)
+- [x] `/commit` - Conventional commits with Claude Code attribution
+- [x] `/prd` - Product requirements document
+- [x] `/story` - User stories with BDD scenarios
+- [ ] `/plan` - 7-phase implementation planning
+- [ ] `/implement` - Phase dispatcher
+- [ ] `/pr` - Pull request creation (using GitHub CLI)
 
 4. ⬜ Create phase subagents (7 agents)
 
-- ⬜ frontend-phase-1: Presentational UI
-- ⬜ frontend-phase-2: API Client + Mocks
-- ⬜ frontend-phase-3: Smart Components
-- ⬜ backend-phase-4: Repository (TDD)
-- ⬜ backend-phase-5: Service Layer (TDD)
-- ⬜ backend-phase-6: Controllers (TDD)
-- ⬜ integration-phase-7: Frontend-Backend Integration
+- [ ] frontend-phase-1: Presentational UI
+- [ ] frontend-phase-2: API Client + Mocks
+- [ ] frontend-phase-3: Smart Components
+- [ ] backend-phase-4: Repository (TDD)
+- [ ] backend-phase-5: Service Layer (TDD)
+- [ ] backend-phase-6: Controllers (TDD)
+- [ ] integration-phase-7: Frontend-Backend Integration
+- [ ] Ensure that the /implement command explicitly calls out the right agent to use for a given plan phase
 
 5. ⬜ Create skills
 
-- ⬜ nextjs-patterns/SKILL.md
-- ⬜ nestjs-architecture/SKILL.md
-- ⬜ drizzle-repository/SKILL.md
-- ⬜ vitest-testing/SKILL.md
-- ⬜ testcontainers/SKILL.md
-- ⬜ bff-patterns/SKILL.md
+- [ ] nextjs-patterns/SKILL.md
+- [ ] nestjs-architecture/SKILL.md
+- [ ] drizzle-repository/SKILL.md
+- [ ] vitest-testing/SKILL.md
+- [ ] testcontainers/SKILL.md
+- [ ] bff-patterns/SKILL.md
+- [ ] Ensure that each subagent has the right skills autoloaded
 
 6. ⬜ Test workflow end-to-end
 

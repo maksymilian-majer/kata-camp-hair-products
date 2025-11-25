@@ -1,10 +1,10 @@
 import {
+  jsonb,
   pgTable,
-  uuid,
-  varchar,
   text,
   timestamp,
-  jsonb,
+  uuid,
+  varchar,
 } from 'drizzle-orm/pg-core';
 
 // Quiz responses - user's hair profile

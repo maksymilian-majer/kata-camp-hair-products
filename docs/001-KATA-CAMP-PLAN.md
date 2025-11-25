@@ -618,7 +618,7 @@ When user runs `/implement Phase N`:
 - [x] `/commit` - Conventional commits with Claude Code attribution
 - [x] `/prd` - Product requirements document
 - [x] `/story` - User stories with BDD scenarios
-- [ ] `/plan` - 7-phase implementation planning
+- [x] `/plan` - 7-phase implementation planning
 - [ ] `/implement` - Phase dispatcher
 - [ ] `/pr` - Pull request creation (using GitHub CLI)
 

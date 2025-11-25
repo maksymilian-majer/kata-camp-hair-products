@@ -31,13 +31,13 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 
 ### Required Tools & Accounts
 
-| Tool | Purpose | Setup |
-|------|---------|-------|
+| Tool            | Purpose            | Setup                 |
+|-----------------|--------------------|-----------------------|
 | Claude Code Pro | AI-assisted coding | Subscription required |
-| Lovable.dev | Rapid prototyping | Free account |
-| Node.js 22+ | Runtime | Pre-installed |
-| Docker | Database & testing | Pre-installed |
-| Git | Version control | Pre-installed |
+| Lovable.dev     | Rapid prototyping  | Free account          |
+| Node.js 22+     | Runtime            | Pre-installed         |
+| Docker          | Database & testing | Pre-installed         |
+| Git             | Version control    | Pre-installed         |
 
 ### Provided Materials
 
@@ -57,26 +57,26 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 
 ### Stack Decisions (Final)
 
-| Component | Choice | Rationale |
-|-----------|--------|-----------|
-| **Monorepo** | Nx 22 | Intelligent caching, parallel execution, mature ecosystem |
-| **Frontend** | Next.js 16 | Better AI knowledge, more documentation, mature Nx plugin |
-| **Backend** | NestJS 11 | Structured architecture, matches Go Clean Architecture patterns |
-| **ORM** | Drizzle | SQL-like syntax (similar to Go), fast, type-safe |
-| **Styling** | Tailwind 4.1 | Latest features, excellent AI support |
-| **Server State** | TanStack Query | Caching, refetching, optimistic updates |
-| **Client State** | Zustand | Simple, fast, minimal boilerplate |
-| **Testing** | Vitest | 2-3x faster, ESM native, official support in both NestJS 11 and Next.js |
-| **DB Testing** | Testcontainers | Real PostgreSQL in tests, same as Go approach |
+| Component        | Choice         | Rationale                                                               |
+|------------------|----------------|-------------------------------------------------------------------------|
+| **Monorepo**     | Nx 22          | Intelligent caching, parallel execution, mature ecosystem               |
+| **Frontend**     | Next.js 16     | Better AI knowledge, more documentation, mature Nx plugin               |
+| **Backend**      | NestJS 11      | Structured architecture, matches Go Clean Architecture patterns         |
+| **ORM**          | Drizzle        | SQL-like syntax (similar to Go), fast, type-safe                        |
+| **Styling**      | Tailwind 4.1   | Latest features, excellent AI support                                   |
+| **Server State** | TanStack Query | Caching, refetching, optimistic updates                                 |
+| **Client State** | Zustand        | Simple, fast, minimal boilerplate                                       |
+| **Testing**      | Vitest         | 2-3x faster, ESM native, official support in both NestJS 11 and Next.js |
+| **DB Testing**   | Testcontainers | Real PostgreSQL in tests, same as Go approach                           |
 
 ### Why Next.js over React Router 7?
 
-| Factor | Next.js 16 | React Router 7 |
-|--------|-----------|----------------|
-| **AI Knowledge** | Excellent - tons of training data | Limited - very new |
-| **Documentation** | Extensive | Still evolving |
-| **Nx Integration** | Mature plugin | Newer plugin |
-| **Post-kata learning** | More resources for participants | Fewer examples |
+| Factor                 | Next.js 16                        | React Router 7     |
+|------------------------|-----------------------------------|--------------------|
+| **AI Knowledge**       | Excellent - tons of training data | Limited - very new |
+| **Documentation**      | Extensive                         | Still evolving     |
+| **Nx Integration**     | Mature plugin                     | Newer plugin       |
+| **Post-kata learning** | More resources for participants   | Fewer examples     |
 
 **Decision**: Next.js 16 - AI assistants know it better, participants can find more resources after.
 
@@ -84,12 +84,12 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 
 ### Why Vitest over Jest?
 
-| Factor | Vitest | Jest |
-|--------|--------|------|
-| **Speed** | 2-3x faster | Baseline |.
-| **ESM** | Native | Requires config |
-| **NestJS 11** | [Official recipe](https://docs.nestjs.com/recipes/swc) | Native |
-| **Next.js** | [Official guide](https://nextjs.org/docs/app/guides/testing/vitest) | Needs config |
+| Factor        | Vitest                                                              | Jest            |
+|---------------|---------------------------------------------------------------------|-----------------|
+| **Speed**     | 2-3x faster                                                         | Baseline        |.
+| **ESM**       | Native                                                              | Requires config |
+| **NestJS 11** | [Official recipe](https://docs.nestjs.com/recipes/swc)              | Native          |
+| **Next.js**   | [Official guide](https://nextjs.org/docs/app/guides/testing/vitest) | Needs config    |
 
 **Decision**: Vitest - faster feedback loop for kata, official support in both frameworks.
 
@@ -99,14 +99,14 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 
 ```typescript
 // Drizzle - SQL-like, similar to Go raw SQL approach
-const products = await db
+const drizzleProducts = await db
   .select()
   .from(productsTable)
   .where(eq(productsTable.hairType, 'curly'));
 
 // vs TypeORM - ORM abstraction
-const products = await productRepository.find({
-  where: { hairType: 'curly' }
+const typeOrmProducts = await productRepository.find({
+  where: {hairType: 'curly'}
 });
 ```
 
@@ -143,6 +143,7 @@ const products = await productRepository.find({
 This project intentionally uses an **anemic domain model**, not Domain-Driven Design. The domain is simple enough that rich domain objects with behavior would be over-engineering.
 
 **What this means:**
+
 - **Domain types** = Data structures (interfaces/types) returned from repositories
 - **Business logic** = Lives in services, not in domain objects
 - **No aggregates, entities, or value objects** in the DDD sense
@@ -179,27 +180,28 @@ Controller → Service → Repository → Drizzle (SQL)
 
 ### Example: Questionnaire Module Structure
 
-```typescript
+```
 // apps/api/src/modules/questionnaires/
 ├── questionnaires.controller.ts    // HTTP Handler - returns shared types
 ├── questionnaires.service.ts       // Service - business logic
 ├── questionnaires.repository.ts    // Repository - data access with Drizzle
 ├── questionnaires.module.ts        // NestJS module wiring
-├── domain/
+├── domain /
 │   └── questionnaire.ts            // Domain types (anemic - just data structures)
-└── __tests__/
-    ├── questionnaires.repository.spec.ts  // Integration tests (testcontainers)
-    ├── questionnaires.service.spec.ts     // Unit tests (mocked deps)
-    └── questionnaires.e2e.spec.ts         // E2E tests (full stack)
+└── __tests__ /
+    └── questionnaires.repository.spec.ts  // Integration tests (testcontainers)
+├── questionnaires.service.spec.ts     // Unit tests (mocked deps)
+└── questionnaires.e2e.spec.ts         // E2E tests (full stack)
 
 // libs/shared/src/
-├── types/
+├── types /
 │   └── questionnaire.types.ts      // API response types (shared FE/BE)
-└── schemas/
+└── schemas /
     └── questionnaire.schemas.ts    // Zod schemas (shared validation FE/BE)
 ```
 
 **BFF Pattern with Shared Types:**
+
 - `libs/shared` contains API contracts (response types) and Zod schemas
 - Controllers return types from `@hair-scanner/shared`
 - Frontend forms use same Zod schemas for validation
@@ -224,7 +226,7 @@ export type HairType = 'straight' | 'wavy' | 'curly' | 'coily';
 // ═══════════════════════════════════════════════════════════
 // SHARED SCHEMAS (libs/shared/src/schemas/questionnaire.schemas.ts)
 // ═══════════════════════════════════════════════════════════
-import { z } from 'zod';
+import {z} from 'zod';
 
 export const createQuestionnaireSchema = z.object({
   hairType: z.enum(['straight', 'wavy', 'curly', 'coily']),
@@ -237,11 +239,12 @@ export type CreateQuestionnaireInput = z.infer<typeof createQuestionnaireSchema>
 // ═══════════════════════════════════════════════════════════
 // CONTROLLER (returns shared types)
 // ═══════════════════════════════════════════════════════════
-import { QuestionnaireResponse, CreateQuestionnaireInput } from '@hair-scanner/shared';
+import {QuestionnaireResponse, CreateQuestionnaireInput} from '@hair-scanner/shared';
 
 @Controller('questionnaires')
 export class QuestionnairesController {
-  constructor(private readonly service: QuestionnairesService) {}
+  constructor(private readonly service: QuestionnairesService) {
+  }
 
   @Post()
   async create(@Body() input: CreateQuestionnaireInput): Promise<QuestionnaireResponse> {
@@ -259,7 +262,8 @@ export class QuestionnairesController {
 // ═══════════════════════════════════════════════════════════
 @Injectable()
 export class QuestionnairesService {
-  constructor(private readonly repository: QuestionnairesRepository) {}
+  constructor(private readonly repository: QuestionnairesRepository) {
+  }
 
   async create(input: CreateQuestionnaireInput): Promise<QuestionnaireResponse> {
     const questionnaire = await this.repository.save(input);
@@ -288,7 +292,8 @@ export class QuestionnairesService {
 // ═══════════════════════════════════════════════════════════
 @Injectable()
 export class QuestionnairesRepository {
-  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {}
+  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {
+  }
 
   async save(input: CreateQuestionnaireInput): Promise<Questionnaire> {
     const [result] = await this.db
@@ -314,6 +319,7 @@ export class QuestionnairesRepository {
 // Domain interface in domain/questionnaire.ts
 export interface IQuestionnairesRepository {
   findById(id: string): Promise<Questionnaire | null>;
+
   save(input: CreateQuestionnaireInput): Promise<Questionnaire>;
 }
 
@@ -338,7 +344,8 @@ export class QuestionnairesService {
   constructor(
     @Inject('IQuestionnairesRepository')
     private readonly repository: IQuestionnairesRepository
-  ) {}
+  ) {
+  }
 }
 ```
 
@@ -443,12 +450,14 @@ Feature: Favorites
 **Purpose:** Review pre-built prototype and understand the design system.
 
 **Activities:**
+
 - Walk through the Lovable prototype
 - Identify component hierarchy
 - Choose the specific screen to implement in the kata
 - Export component names and structure
 
 **Pre-Built Materials:**
+
 - Lovable prototype with design system (colors, typography, spacing)
 - Basic responsive layout skeleton
 - Component library structure
@@ -522,12 +531,12 @@ See detailed phase descriptions in the original document. Key changes:
 
 ### What Makes a Test Meaningful?
 
-| Meaningful | Not Meaningful |
-|------------|----------------|
-| Tests user can complete quiz | Tests component renders |
-| Tests API returns valid products | Tests service method is called |
-| Tests scanned label is analyzed | Tests mock was called with args |
-| Tests data persists to database | Tests repository method exists |
+| Meaningful                       | Not Meaningful                  |
+|----------------------------------|---------------------------------|
+| Tests user can complete quiz     | Tests component renders         |
+| Tests API returns valid products | Tests service method is called  |
+| Tests scanned label is analyzed  | Tests mock was called with args |
+| Tests data persists to database  | Tests repository method exists  |
 
 ---
 
@@ -535,16 +544,16 @@ See detailed phase descriptions in the original document. Key changes:
 
 ### Timeline
 
-| Time | Duration | Activity |
-|------|----------|----------|
-| 0:00 | 10 min | **Introduction**: Workflow overview, stack intro |
-| 0:10 | 5 min | **Phase 0**: Review Lovable prototype, identify target screen |
-| 0:15 | 10 min | **Demo**: `/story` and `/plan` commands |
-| 0:25 | 15 min | **Phases 1-3**: Frontend implementation with `/implement` |
-| 0:40 | 25 min | **Phases 4-6**: Backend TDD with testcontainers |
-| 1:05 | 10 min | **Phase 7**: Integration + `/commit` |
-| 1:15 | 10 min | **Wrap-up**: `/pr`, Q&A, resources |
-| 1:25 | 5 min | **Buffer** |
+| Time | Duration | Activity                                                      |
+|------|----------|---------------------------------------------------------------|
+| 0:00 | 10 min   | **Introduction**: Workflow overview, stack intro              |
+| 0:10 | 5 min    | **Phase 0**: Review Lovable prototype, identify target screen |
+| 0:15 | 10 min   | **Demo**: `/story` and `/plan` commands                       |
+| 0:25 | 15 min   | **Phases 1-3**: Frontend implementation with `/implement`     |
+| 0:40 | 25 min   | **Phases 4-6**: Backend TDD with testcontainers               |
+| 1:05 | 10 min   | **Phase 7**: Integration + `/commit`                          |
+| 1:15 | 10 min   | **Wrap-up**: `/pr`, Q&A, resources                            |
+| 1:25 | 5 min    | **Buffer**                                                    |
 
 ### Command Flow Demonstration
 
@@ -620,7 +629,7 @@ See detailed phase descriptions in the original document. Key changes:
 - [ ] Product Requirements Document ready
 - [ ] Sample BDD scenarios written
 - [ ] Slash commands configured in `.claude/commands/`
-- [ ] `AGENTS.md` with project-specific rules
+- [ ] `CLAUDE.md` with project-specific rules (extend existing Nx section)
 
 ---
 
@@ -698,7 +707,7 @@ hair-product-scanner/
 
 ```typescript
 // drizzle.config.ts
-import { defineConfig } from 'drizzle-kit';
+import {defineConfig} from 'drizzle-kit';
 
 export default defineConfig({
   schema: './apps/api/src/database/schema.ts',
@@ -727,12 +736,12 @@ pnpm drizzle-kit push
 
 ```typescript
 // apps/api/src/database/schema.ts
-import { pgTable, uuid, varchar, text, timestamp, jsonb } from 'drizzle-orm/pg-core';
+import {pgTable, uuid, varchar, text, timestamp, jsonb} from 'drizzle-orm/pg-core';
 
 // Quiz responses - user's hair profile
 export const questionnaires = pgTable('questionnaires', {
   id: uuid('id').primaryKey().defaultRandom(),
-  hairType: varchar('hair_type', { length: 50 }).notNull(),
+  hairType: varchar('hair_type', {length: 50}).notNull(),
   concerns: jsonb('concerns').$type<string[]>().notNull(),
   goals: jsonb('goals').$type<string[]>().notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -742,12 +751,12 @@ export const questionnaires = pgTable('questionnaires', {
 export const scans = pgTable('scans', {
   id: uuid('id').primaryKey().defaultRandom(),
   questionnaireId: uuid('questionnaire_id').references(() => questionnaires.id).notNull(),
-  productName: varchar('product_name', { length: 255 }).notNull(),
-  brand: varchar('brand', { length: 100 }),
+  productName: varchar('product_name', {length: 255}).notNull(),
+  brand: varchar('brand', {length: 100}),
   ingredients: text('ingredients').notNull(),
-  imageUrl: varchar('image_url', { length: 500 }),
+  imageUrl: varchar('image_url', {length: 500}),
   aiAnalysis: jsonb('ai_analysis').$type<AiAnalysis>(),
-  compatibilityScore: varchar('compatibility_score', { length: 10 }),
+  compatibilityScore: varchar('compatibility_score', {length: 10}),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
@@ -773,10 +782,10 @@ interface AiAnalysis {
 
 ```typescript
 // apps/api/test/setup.ts
-import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { migrate } from 'drizzle-orm/node-postgres/migrator';
-import { Pool } from 'pg';
+import {PostgreSqlContainer, StartedPostgreSqlContainer} from '@testcontainers/postgresql';
+import {drizzle} from 'drizzle-orm/node-postgres';
+import {migrate} from 'drizzle-orm/node-postgres/migrator';
+import {Pool} from 'pg';
 
 let container: StartedPostgreSqlContainer;
 let pool: Pool;
@@ -789,9 +798,9 @@ export async function setupTestDatabase() {
   });
 
   const db = drizzle(pool);
-  await migrate(db, { migrationsFolder: './drizzle' });
+  await migrate(db, {migrationsFolder: './drizzle'});
 
-  return { db, pool, connectionUri: container.getConnectionUri() };
+  return {db, pool, connectionUri: container.getConnectionUri()};
 }
 
 export async function teardownTestDatabase() {
@@ -823,6 +832,7 @@ Initialize the foundation with all tooling configured and tested:
 Build Claude Code workflow with subagents and skills:
 
 **Commands to create** (in `.claude/commands/`):
+
 - [ ] `/prd` - Create Product Requirements Document (high-level features)
 - [ ] `/story` - Create User Story with BDD scenarios (Gherkin)
 - [ ] `/plan` - Generate 7-phase implementation plan
@@ -831,13 +841,15 @@ Build Claude Code workflow with subagents and skills:
 - [ ] `/pr` - Create pull request
 
 **Project rules to create:**
+
 - [ ] Global rules (code generation practices, git commit, no shell scripts)
 - [ ] Frontend phase rules (adapted for Next.js 16 + Vitest)
 - [ ] Backend phase rules (adapted for NestJS 11 + Drizzle + Testcontainers)
 - [ ] Nx rules (workspace-aware commands)
 
 **Workflow documentation:**
-- [ ] Write `AGENTS.md` with stack overview and architecture patterns
+
+- [ ] Update `CLAUDE.md` with stack overview and architecture patterns (keep Nx section)
 - [ ] Create `AI-WORKFLOW.md` adapted for Next.js + NestJS stack
 
 ### Step 3: Build Lovable Prototype

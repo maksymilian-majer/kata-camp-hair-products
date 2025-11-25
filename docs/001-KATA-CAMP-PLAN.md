@@ -117,6 +117,9 @@ pnpm add openai
 
 # Supertest for E2E
 pnpm add -D supertest @types/supertest
+
+# Pre-commit hooks
+pnpm add -D husky lint-staged
 ```
 
 ### Step 1.7: Configure Vitest
@@ -215,6 +218,7 @@ volumes:
 ```json
 {
   "scripts": {
+    "prepare": "husky",
     "dev": "nx run-many --target=serve --projects=web,api",
     "dev:web": "nx serve web",
     "dev:api": "nx serve api",
@@ -223,12 +227,57 @@ volumes:
     "test:web": "nx test web",
     "test:api": "nx test api",
     "lint": "nx run-many --target=lint",
+    "typecheck": "nx run-many --target=typecheck",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio"
   }
 }
 ```
+
+### Step 1.11: Configure Pre-commit Hooks (Husky + lint-staged)
+
+Install husky and lint-staged at the root (monorepo best practice):
+
+```bash
+pnpm add -D husky lint-staged
+pnpm exec husky init
+```
+
+**Create `.husky/pre-commit`:**
+
+```bash
+npx lint-staged --concurrent false --relative
+```
+
+**Key flags:**
+- `--concurrent false`: Prevents formatting/linting from conflicting with type-checking
+- `--relative`: Ensures file paths are relative to repo root (required for Nx)
+
+**Create `lint-staged.config.js` (root):**
+
+```javascript
+module.exports = {
+  // Type-check affected TypeScript files
+  '{apps,libs}/**/*.{ts,tsx}': (files) => {
+    return `nx affected --target=typecheck --files=${files.join(',')}`;
+  },
+  // Lint and format affected files
+  '{apps,libs}/**/*.{js,ts,jsx,tsx,json}': (files) => [
+    `nx affected:lint --files=${files.join(',')}`,
+    `nx format:write --files=${files.join(',')}`,
+  ],
+};
+```
+
+**How it works:**
+1. `lint-staged` collects staged files and passes them to Nx commands
+2. `nx affected` uses the `--files` flag to override default behavior
+3. Only modified files and their dependents are checked (not entire workspace)
+
+**References:**
+- [This Dot Labs - Nx + Husky + lint-staged Guide](https://www.thisdot.co/blog/linting-formatting-and-type-checking-commits-in-an-nx-monorepo-with-husky)
+- [Christian Lüdemann - Git Hooks in Nx](https://christianlydemann.com/how-to-set-up-git-hooks-in-an-nx-repo/)
 
 ---
 
@@ -284,15 +333,15 @@ volumes:
     └── bff-patterns/           # BFF response shapes and contracts
         └── SKILL.md
 
-AGENTS.md                        # Global rules (project root)
+CLAUDE.md                        # Global rules (project root, extends Nx section)
 AI-WORKFLOW.md                   # Workflow documentation
 ```
 
-### Step 2.1: Create AGENTS.md (Global Rules)
+### Step 2.1: Update CLAUDE.md (Global Rules)
 
-Location: Project root `AGENTS.md`
+Location: Project root `CLAUDE.md` (already exists with Nx guidelines)
 
-Content (not phase-specific):
+**Keep existing Nx section**, then add project-specific content:
 
 - Project overview and stack summary
 - Architecture philosophy (anemic domain, not DDD)
@@ -301,7 +350,6 @@ Content (not phase-specific):
 - Code generation practices (no comments unless requested)
 - Git commit conventions
 - Testing philosophy (inside-out TDD for backend)
-- Nx workspace commands
 
 ### Step 2.2: Create AI-WORKFLOW.md
 
@@ -431,7 +479,7 @@ skills: nextjs-patterns, vitest-testing
 - Tests pass
 
 ## References
-- Read AGENTS.md for global patterns
+- Read CLAUDE.md for global patterns
 - Use nextjs-patterns skill for App Router patterns
 - Use vitest-testing skill for test patterns
 ```
@@ -545,8 +593,8 @@ When user runs `/implement Phase N`:
 ### For Repository Setup:
 
 1. ✅ Run Nx workspace creation command
-2. ✅ Copy planning documents (TRAINING-REQUIREMENTS.md, KATA-CAMP-PLAN.md) to docs/
-3. ⬜ Add plugins
+2. ✅ Add planning documents to docs/
+3. ⬜ Add plugins (@nx/next, @nx/nest, @nx/vite)
 4. ⬜ Generate apps (web, api)
 5. ⬜ Generate shared library
 6. ⬜ Install dependencies
@@ -554,11 +602,12 @@ When user runs `/implement Phase N`:
 8. ⬜ Configure Drizzle
 9. ⬜ Create Docker Compose
 10. ⬜ Add package.json scripts
-11. ⬜ Test build/test/lint commands
+11. ⬜ Configure pre-commit hooks (Husky + lint-staged)
+12. ⬜ Test build/test/lint/typecheck commands
 
 ### For AI Workflow Setup:
 
-1. ⬜ Create AGENTS.md with global rules
+1. ⬜ Update CLAUDE.md with project rules (keep Nx section)
 2. ⬜ Create AI-WORKFLOW.md with diagrams
 3. 🔄 Create slash commands (story, plan, implement, commit, pr)
   - ✅ `/commit` - Conventional commits with Claude Code attribution
@@ -578,7 +627,7 @@ When user runs `/implement Phase N`:
 | Aspect               | Cursor (Command-Based)           | Claude Code (Subagent-Based)          |
 |----------------------|----------------------------------|---------------------------------------|
 | Phase implementation | Commands read rules files        | Subagents with isolated context       |
-| Rule organization    | Multiple `.mdc` files            | Single `AGENTS.md` + subagents        |
+| Rule organization    | Multiple `.mdc` files            | Single `CLAUDE.md` + subagents        |
 | Skill/Rule loading   | Glob patterns                    | Skills explicitly loaded by subagents |
 | Phase dispatch       | Command parses and applies rules | Command invokes specialized subagents |
 | Context control      | File-based inclusion             | Subagent isolation                    |
@@ -587,6 +636,6 @@ When user runs `/implement Phase N`:
 
 1. **Better isolation**: Each phase subagent has its own context window
 2. **Explicit skills**: Skills loaded only when needed by subagents
-3. **Simpler maintenance**: One AGENTS.md vs many .mdc files
+3. **Simpler maintenance**: One CLAUDE.md vs many .mdc files
 4. **Native integration**: Uses Claude Code's built-in subagent system
 5. **Model flexibility**: Can use Haiku for fast phases, Sonnet for complex

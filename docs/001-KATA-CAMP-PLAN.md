@@ -613,14 +613,14 @@ When user runs `/implement Phase N`:
 
 1. ✅ Update CLAUDE.md with project rules (keep Nx section)
 2. ✅ Create AI-WORKFLOW.md with diagrams
-3. 🔄 Create slash commands (story, plan, implement, commit, pr)
+3. ✅ Create slash commands (story, plan, implement, commit, pr)
 
 - [x] `/commit` - Conventional commits with Claude Code attribution
 - [x] `/prd` - Product requirements document
 - [x] `/story` - User stories with BDD scenarios
 - [x] `/plan` - 7-phase implementation planning
 - [x] `/implement` - Phase dispatcher
-- [ ] `/pr` - Pull request creation (using GitHub CLI)
+- [x] `/pr` - Pull request creation (using GitHub CLI)
 
 4. ⬜ Create phase subagents (7 agents)
 

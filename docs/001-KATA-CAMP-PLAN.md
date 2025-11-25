@@ -619,7 +619,7 @@ When user runs `/implement Phase N`:
 - [x] `/prd` - Product requirements document
 - [x] `/story` - User stories with BDD scenarios
 - [x] `/plan` - 7-phase implementation planning
-- [ ] `/implement` - Phase dispatcher
+- [x] `/implement` - Phase dispatcher
 - [ ] `/pr` - Pull request creation (using GitHub CLI)
 
 4. ⬜ Create phase subagents (7 agents)

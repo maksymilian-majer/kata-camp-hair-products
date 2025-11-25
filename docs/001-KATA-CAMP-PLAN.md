@@ -127,21 +127,17 @@ pnpm add -D husky lint-staged
 **Root `vitest.workspace.ts`:**
 
 ```typescript
-import {defineWorkspace} from 'vitest/config';
+import { defineWorkspace } from 'vitest/config';
 
-export default defineWorkspace([
-  'apps/web/vitest.config.ts',
-  'apps/api/vitest.config.ts',
-  'libs/shared/vitest.config.ts',
-]);
+export default defineWorkspace(['apps/web/vitest.config.ts', 'apps/api/vitest.config.ts', 'libs/shared/vitest.config.ts']);
 ```
 
 **Frontend Vitest (`apps/web/vitest.config.ts`):**
 
 ```typescript
-import {defineConfig} from 'vitest/config';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
-import {nxViteTsPaths} from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   plugins: [react(), nxViteTsPaths()],
@@ -156,8 +152,8 @@ export default defineConfig({
 **Backend Vitest (`apps/api/vitest.config.ts`):**
 
 ```typescript
-import {defineConfig} from 'vitest/config';
-import {nxViteTsPaths} from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { defineConfig } from 'vitest/config';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   plugins: [nxViteTsPaths()],
@@ -174,7 +170,7 @@ export default defineConfig({
 **`drizzle.config.ts` (root):**
 
 ```typescript
-import {defineConfig} from 'drizzle-kit';
+import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
   schema: './apps/api/src/database/schema.ts',
@@ -205,7 +201,7 @@ services:
       POSTGRES_PASSWORD: dev
       POSTGRES_DB: hair_scanner
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -251,6 +247,7 @@ npx lint-staged --concurrent false --relative
 ```
 
 **Key flags:**
+
 - `--concurrent false`: Prevents formatting/linting from conflicting with type-checking
 - `--relative`: Ensures file paths are relative to repo root (required for Nx)
 
@@ -263,19 +260,18 @@ module.exports = {
     return `nx affected --target=typecheck --files=${files.join(',')}`;
   },
   // Lint and format affected files
-  '{apps,libs}/**/*.{js,ts,jsx,tsx,json}': (files) => [
-    `nx affected:lint --files=${files.join(',')}`,
-    `nx format:write --files=${files.join(',')}`,
-  ],
+  '{apps,libs}/**/*.{js,ts,jsx,tsx,json}': (files) => [`nx affected:lint --files=${files.join(',')}`, `nx format:write --files=${files.join(',')}`],
 };
 ```
 
 **How it works:**
+
 1. `lint-staged` collects staged files and passes them to Nx commands
 2. `nx affected` uses the `--files` flag to override default behavior
 3. Only modified files and their dependents are checked (not entire workspace)
 
 **References:**
+
 - [This Dot Labs - Nx + Husky + lint-staged Guide](https://www.thisdot.co/blog/linting-formatting-and-type-checking-commits-in-an-nx-monorepo-with-husky)
 - [Christian Lüdemann - Git Hooks in Nx](https://christianlydemann.com/how-to-set-up-git-hooks-in-an-nx-repo/)
 
@@ -418,7 +414,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 ```yaml
 ---
 description: Create 7-phase implementation plan
-argument-hint: [ STORY-ID or DESCRIPTION ]
+argument-hint: [STORY-ID or DESCRIPTION]
 allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 ```
@@ -502,7 +498,6 @@ name: nextjs-patterns
 description: Next.js 16 App Router patterns. Use when building React components, pages, or layouts in the web app.
 allowed-tools: Read, Glob
 ---
-
 # Next.js 16 Patterns for Hair Product Scanner
 
 ## App Router Structure
@@ -576,13 +571,15 @@ When user runs `/implement Phase N`:
 1. Identify phase number (1-7)
 2. Read the plan file to get phase tasks
 3. Invoke the appropriate subagent:
-  - Phase 1 → Use frontend-phase-1 subagent
-  - Phase 2 → Use frontend-phase-2 subagent
-  - Phase 3 → Use frontend-phase-3 subagent
-  - Phase 4 → Use backend-phase-4 subagent
-  - Phase 5 → Use backend-phase-5 subagent
-  - Phase 6 → Use backend-phase-6 subagent
-  - Phase 7 → Use integration-phase-7 subagent
+
+- Phase 1 → Use frontend-phase-1 subagent
+- Phase 2 → Use frontend-phase-2 subagent
+- Phase 3 → Use frontend-phase-3 subagent
+- Phase 4 → Use backend-phase-4 subagent
+- Phase 5 → Use backend-phase-5 subagent
+- Phase 6 → Use backend-phase-6 subagent
+- Phase 7 → Use integration-phase-7 subagent
+
 4. After completion, update plan with checkmarks
 ```
 
@@ -594,28 +591,30 @@ When user runs `/implement Phase N`:
 
 1. ✅ Run Nx workspace creation command
 2. ✅ Add planning documents to docs/
-3. ⬜ Add plugins (@nx/next, @nx/nest, @nx/vite)
-4. ⬜ Generate apps (web, api)
-5. ⬜ Generate shared library
-6. ⬜ Install dependencies
-7. ⬜ Configure Vitest
-8. ⬜ Configure Drizzle
-9. ⬜ Create Docker Compose
-10. ⬜ Add package.json scripts
-11. ⬜ Configure pre-commit hooks (Husky + lint-staged)
-12. ⬜ Test build/test/lint/typecheck commands
+3. ✅ Add plugins (@nx/next, @nx/nest, @nx/vite)
+4. ✅ Generate apps (web, api)
+5. ✅ Generate shared library
+6. ✅ Install dependencies
+7. ✅ Configure Vitest
+8. ✅ Configure Drizzle
+9. ✅ Create Docker Compose
+10. ✅ Add package.json scripts
+11. ✅ Configure pre-commit hooks (Husky + lint-staged)
+12. ✅ Test build/test/lint/typecheck commands
 
 ### For AI Workflow Setup:
 
-1. ⬜ Update CLAUDE.md with project rules (keep Nx section)
+1. ✅ Update CLAUDE.md with project rules (keep Nx section)
 2. ⬜ Create AI-WORKFLOW.md with diagrams
 3. 🔄 Create slash commands (story, plan, implement, commit, pr)
-  - ✅ `/commit` - Conventional commits with Claude Code attribution
-  - ⬜ `/prd`
-  - ⬜ `/story`
-  - ⬜ `/plan`
-  - ⬜ `/implement`
-  - ⬜ `/pr`
+
+- ✅ `/commit` - Conventional commits with Claude Code attribution
+- ⬜ `/prd`
+- ⬜ `/story`
+- ⬜ `/plan`
+- ⬜ `/implement`
+- ⬜ `/pr`
+
 4. ⬜ Create phase subagents (7 agents)
 5. ⬜ Create skills (nextjs-patterns, nestjs-architecture, drizzle-repository, vitest-testing, testcontainers, bff-patterns)
 6. ⬜ Test workflow end-to-end
@@ -625,7 +624,7 @@ When user runs `/implement Phase N`:
 ## Key Differences from Cursor Command-Based Workflow
 
 | Aspect               | Cursor (Command-Based)           | Claude Code (Subagent-Based)          |
-|----------------------|----------------------------------|---------------------------------------|
+| -------------------- | -------------------------------- | ------------------------------------- |
 | Phase implementation | Commands read rules files        | Subagents with isolated context       |
 | Rule organization    | Multiple `.mdc` files            | Single `CLAUDE.md` + subagents        |
 | Skill/Rule loading   | Glob patterns                    | Skills explicitly loaded by subagents |

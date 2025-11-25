@@ -45,6 +45,7 @@ export default defineConfig([
       'no-empty-function': ['error', { allow: ['arrowFunctions'] }],
       'prefer-promise-reject-errors': 'error',
       'prefer-const': 'error',
+      'max-lines-per-function': ['error', { max: 100, skipBlankLines: true, skipComments: true }],
 
       // Import organization and sorting
       'simple-import-sort/imports': 'error',

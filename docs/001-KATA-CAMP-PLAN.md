@@ -622,16 +622,16 @@ When user runs `/implement Phase N`:
 - [x] `/implement` - Phase dispatcher
 - [x] `/pr` - Pull request creation (using GitHub CLI)
 
-4. ⬜ Create phase subagents (7 agents)
+4. ✅ Create phase subagents (7 agents)
 
-- [ ] frontend-phase-1: Presentational UI
-- [ ] frontend-phase-2: API Client + Mocks
-- [ ] frontend-phase-3: Smart Components
-- [ ] backend-phase-4: Repository (TDD)
-- [ ] backend-phase-5: Service Layer (TDD)
-- [ ] backend-phase-6: Controllers (TDD)
-- [ ] integration-phase-7: Frontend-Backend Integration
-- [ ] Ensure that the /implement command explicitly calls out the right agent to use for a given plan phase
+- [x] frontend-phase-1: Presentational UI
+- [x] frontend-phase-2: API Client + Mocks
+- [x] frontend-phase-3: Smart Components
+- [x] backend-phase-4: Repository (TDD)
+- [x] backend-phase-5: Service Layer (TDD)
+- [x] backend-phase-6: Controllers (TDD)
+- [x] integration-phase-7: Frontend-Backend Integration
+- [x] Ensure that the /implement command explicitly calls out the right agent to use for a given plan phase
 
 5. ⬜ Create skills
 
@@ -641,6 +641,7 @@ When user runs `/implement Phase N`:
 - [ ] vitest-testing/SKILL.md
 - [ ] testcontainers/SKILL.md
 - [ ] bff-patterns/SKILL.md
+- [ ] business-logic/SKILL.md (validation patterns, complex business logic, domain model guidelines)
 - [ ] Ensure that each subagent has the right skills autoloaded
 
 6. ⬜ Test workflow end-to-end
@@ -664,3 +665,98 @@ When user runs `/implement Phase N`:
 3. **Simpler maintenance**: One CLAUDE.md vs many .mdc files
 4. **Native integration**: Uses Claude Code's built-in subagent system
 5. **Model flexibility**: Can use Haiku for fast phases, Sonnet for complex
+
+---
+
+## Part 3: Boilerplate Improvements (Future)
+
+These improvements should be implemented as separate plans after the initial setup is complete.
+
+### 3.1: Exception Filter for ValidationException
+
+**Current State**: Controllers manually catch `ValidationException` and map to HTTP errors using `mapError()` method.
+
+**Improvement**: Create a NestJS exception filter that automatically maps `ValidationException` to HTTP responses.
+
+```typescript
+// apps/api/src/shared/filters/validation-exception.filter.ts
+@Catch(ValidationException)
+export class ValidationExceptionFilter implements ExceptionFilter {
+  catch(exception: ValidationException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+
+    const statusMap = {
+      NOT_FOUND: HttpStatus.NOT_FOUND,
+      CONFLICT: HttpStatus.CONFLICT,
+      INVALID_INPUT: HttpStatus.BAD_REQUEST,
+    };
+
+    response.status(statusMap[exception.code]).json({
+      statusCode: statusMap[exception.code],
+      message: exception.message,
+      error: exception.code,
+    });
+  }
+}
+```
+
+**Benefits**:
+
+- Remove boilerplate `try/catch` from controllers
+- Consistent error response format
+- Single place to modify error handling
+
+### 3.2: Request Validation with Zod Pipes
+
+**Current State**: Controllers accept raw types from shared lib without validation.
+
+**Improvement**: Create Zod validation pipes that work with shared schemas:
+
+```typescript
+// apps/api/src/shared/pipes/zod-validation.pipe.ts
+export class ZodValidationPipe<T extends z.ZodSchema> implements PipeTransform {
+  constructor(private schema: T) {}
+
+  transform(value: unknown): z.infer<T> {
+    const result = this.schema.safeParse(value);
+    if (!result.success) {
+      throw ValidationException.invalidInput(result.error.message);
+    }
+    return result.data;
+  }
+}
+```
+
+### 3.3: Database Module with Drizzle Provider
+
+**Current State**: Database setup assumed but not documented.
+
+**Improvement**: Document standard Drizzle provider pattern:
+
+- `DatabaseModule` with connection pool
+- `DRIZZLE` injection token
+- Migration runner setup
+- Test database utilities
+
+### 3.4: Passport Authentication
+
+**Current State**: Controllers assume `req.user` is populated but no auth is implemented.
+
+**Improvement**: Implement Passport.js authentication following NestJS docs:
+
+- Reference: https://docs.nestjs.com/recipes/passport
+- JWT strategy for API authentication
+- Auth guards for protected routes
+- E2E test utilities for mocking authenticated users
+
+**Implementation steps**:
+
+1. Install `@nestjs/passport`, `passport`, `passport-jwt`
+2. Create `AuthModule` with JWT strategy
+3. Create `JwtAuthGuard` for route protection
+4. Extend Express `Request` type with `user` property
+5. Create test helpers for authenticated requests in E2E tests
+6. Seed development database with test user:
+   - Email: `developer@test.com`
+   - Password: `Str0ngP@ssword!`

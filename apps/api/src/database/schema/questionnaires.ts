@@ -1,0 +1,1 @@
+export const QUESTIONNAIRES_SCHEMA_PLACEHOLDER = true;

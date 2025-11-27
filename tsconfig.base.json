@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@hair-scanner/shared": ["libs/shared/src/index.ts"]
+      "@hair-product-scanner/shared": ["libs/shared/src/index.ts"],
+      "@/api/*": ["apps/api/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

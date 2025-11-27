@@ -2,6 +2,10 @@
   "name": "@hair-product-scanner/source",
   "version": "0.0.0",
   "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0"
+  },
   "scripts": {
     "dev": "nx run-many --target=dev,serve --projects=api,web",
     "check-all": "nx run-many --target=lint,test,build --all",

@@ -5,6 +5,11 @@ description: |
   then implement Drizzle repositories. Tests must pass before phase completion.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: opus
+skills:
+  - nestjs-architecture
+  - drizzle-repository
+  - testcontainers
+  - vitest-testing
 ---
 
 # Phase 4: Repository Layer (TDD)

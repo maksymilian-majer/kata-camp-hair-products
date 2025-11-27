@@ -5,6 +5,10 @@ description: |
   remove/disable MSW mocks, and perform manual testing of all BDD scenarios.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: opus
+skills:
+  - nextjs-patterns
+  - nestjs-architecture
+  - bff-patterns
 ---
 
 # Phase 7: Frontend-Backend Integration

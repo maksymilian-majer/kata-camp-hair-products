@@ -5,6 +5,11 @@ description: |
   then implement NestJS controllers. Tests must pass before completion.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: opus
+skills:
+  - nestjs-architecture
+  - bff-patterns
+  - testcontainers
+  - vitest-testing
 ---
 
 # Phase 6: HTTP Controllers (TDD)

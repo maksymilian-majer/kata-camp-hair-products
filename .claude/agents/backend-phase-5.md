@@ -5,6 +5,10 @@ description: |
   then implement NestJS services with business logic. Tests must pass before completion.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: opus
+skills:
+  - nestjs-architecture
+  - business-logic
+  - vitest-testing
 ---
 
 # Phase 5: Service Layer (TDD)

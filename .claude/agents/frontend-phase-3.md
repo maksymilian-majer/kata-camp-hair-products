@@ -5,6 +5,9 @@ description: |
   add Zustand stores, implement forms with React Hook Form + Zod, handle loading/error states.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: opus
+skills:
+  - nextjs-patterns
+  - vitest-testing
 ---
 
 # Phase 3: Smart Components + State

@@ -5,6 +5,9 @@ description: |
   and shared types. No component connections yet - that's Phase 3.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: opus
+skills:
+  - nextjs-patterns
+  - vitest-testing
 ---
 
 # Phase 2: API Client + Mocks

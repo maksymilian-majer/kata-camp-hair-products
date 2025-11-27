@@ -5,6 +5,11 @@ description: |
   no API calls, no global state. Use for implementing the visual layer of features.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: opus
+skills:
+  - nextjs-patterns
+  - design-system
+  - vitest-testing
+  - frontend-design
 ---
 
 # Phase 1: Presentational UI Components

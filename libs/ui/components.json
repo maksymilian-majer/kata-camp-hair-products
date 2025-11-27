@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@hair-product-scanner/ui/components",
+    "utils": "@hair-product-scanner/ui/lib/utils",
+    "hooks": "@hair-product-scanner/ui/hooks",
+    "lib": "@hair-product-scanner/ui/lib",
+    "ui": "@hair-product-scanner/ui/components"
+  }
+}

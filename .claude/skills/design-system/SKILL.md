@@ -1,6 +1,67 @@
-# Design System (Tailwind 4.1)
+# Design System (Tailwind 4.1 + shadcn/ui)
 
-Patterns for Tailwind CSS 4.1 styling and component design. This is a placeholder skill - actual design system details will be added based on project-specific design.
+This project uses shadcn/ui components with Tailwind CSS 4.1 in an Nx monorepo setup.
+
+## shadcn/ui Component Management
+
+Components are managed in `libs/ui`. This library serves as the single source of truth for all UI components and styles.
+
+### Adding New shadcn Components
+
+```bash
+# From project root (components.json is configured)
+pnpm dlx shadcn@latest add <component-name>
+
+# Examples:
+pnpm dlx shadcn@latest add card
+pnpm dlx shadcn@latest add input
+pnpm dlx shadcn@latest add dialog
+pnpm dlx shadcn@latest add dropdown-menu
+```
+
+After adding a component, export it from `libs/ui/src/index.ts`:
+
+```typescript
+// libs/ui/src/index.ts
+export { cn } from './lib/utils';
+export { Button, buttonVariants } from './components/button';
+export { Card, CardContent, CardHeader } from './components/card';
+// ... add new exports here
+```
+
+### Using Components in Apps
+
+```typescript
+import { Button, Card, cn } from '@hair-product-scanner/ui';
+
+export function MyComponent() {
+  return (
+    <Card>
+      <Button variant="default">Click me</Button>
+    </Card>
+  );
+}
+```
+
+### UI Library Structure
+
+```
+libs/ui/
+├── src/
+│   ├── components/     # shadcn components (button.tsx, card.tsx, etc.)
+│   ├── hooks/          # Custom React hooks
+│   ├── lib/
+│   │   └── utils.ts    # cn() utility for classname merging
+│   ├── styles/
+│   │   └── globals.css # Centralized Tailwind CSS + theme variables
+│   └── index.ts        # Barrel exports
+├── components.json     # shadcn CLI config
+└── postcss.config.mjs  # PostCSS/Tailwind config
+```
+
+### Theme Customization
+
+Edit `libs/ui/src/styles/globals.css` to customize the color theme. The project uses a custom light blue theme with oklch color values.
 
 ## Additional Resources
 
@@ -145,48 +206,38 @@ Use `dark:` prefix for dark mode styles:
 >
 ```
 
-### CSS Variables for Colors
+### CSS Variables for Colors (Tailwind 4.1)
+
+The project uses Tailwind 4.1's CSS-first approach with oklch colors. Variables are defined in `libs/ui/src/styles/globals.css`:
 
 ```css
-/* app/globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* libs/ui/src/styles/globals.css */
+@import 'tailwindcss';
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-  }
+:root {
+  --background: oklch(0.97 0.01 250); /* Light periwinkle */
+  --foreground: oklch(0.15 0.02 260); /* Dark blue-gray */
+  --primary: oklch(0.55 0.15 250); /* Blue */
+  --primary-foreground: oklch(1 0 0); /* White */
+  --secondary: oklch(0.95 0.01 250);
+  --muted: oklch(0.95 0.01 250);
+  --accent: oklch(0.55 0.15 250);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0.01 250);
+  --ring: oklch(0.55 0.15 250);
+  --radius: 0.75rem;
+}
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-  }
+.dark {
+  --background: oklch(0.15 0.02 260);
+  --foreground: oklch(0.98 0 0);
+  /* ... dark mode overrides */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-primary: var(--primary);
+  /* ... maps CSS vars to Tailwind colors */
 }
 ```
 

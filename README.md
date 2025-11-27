@@ -1,96 +1,256 @@
-# HairProductScanner
+# Hair Product Scanner
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+An AI-powered hair product ingredient scanner that helps users analyze product compatibility with their hair type. Built as a training kata for AI-assisted development workflows.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## TL;DR - Quick Start
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+```bash
+# 1. Use correct Node.js version
+nvm use
 
-## Run tasks
+# 2. Install dependencies
+pnpm install
 
-To run tasks with Nx use:
+# 3. Start development servers (frontend + backend)
+pnpm dev
 
-```sh
-npx nx <target> <project-name>
+# Frontend: http://localhost:3000
+# Backend:  http://localhost:3001
 ```
 
-For example:
+## Prerequisites
 
-```sh
-npx nx build myproject
+### Required Software
+
+| Tool    | Version | Installation                                                      |
+| ------- | ------- | ----------------------------------------------------------------- |
+| Node.js | 24+     | Via nvm (see below)                                               |
+| pnpm    | 10+     | `corepack enable && corepack prepare pnpm@latest --activate`      |
+| Docker  | Latest  | [Docker Desktop](https://www.docker.com/products/docker-desktop/) |
+| Git     | Latest  | [git-scm.com](https://git-scm.com/)                               |
+
+### Node.js Setup with nvm
+
+```bash
+# Install nvm (if not installed)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+# Install and use correct Node.js version (reads from .nvmrc)
+nvm install
+nvm use
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### Windows Users
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+**Windows Subsystem for Linux (WSL) is required.** This project does not support native Windows development.
 
-## Add new projects
+1. Install WSL: `wsl --install`
+2. Install Ubuntu from Microsoft Store
+3. Follow the Linux installation steps inside WSL
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+## Project Structure
 
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+```
+hair-product-scanner/
+├── apps/
+│   ├── web/                 # Next.js 16 frontend
+│   │   └── app/             # App Router pages
+│   └── api/                 # NestJS 11 backend
+│       └── src/
+│           ├── database/    # Drizzle schema & migrations
+│           └── modules/     # Feature modules
+├── libs/
+│   ├── ui/                  # shadcn/ui component library
+│   │   └── src/
+│   │       ├── components/  # UI components (Button, etc.)
+│   │       └── styles/      # Global CSS & theme
+│   └── shared/              # Shared types and Zod schemas
+├── docs/                    # Documentation
+├── .claude/                 # AI workflow configuration
+│   ├── commands/            # Slash commands (/story, /plan, etc.)
+│   ├── agents/              # Phase subagents
+│   └── skills/              # Reusable knowledge
+└── docker-compose.yml       # Local PostgreSQL
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+## Technology Stack
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+| Layer         | Technology     | Purpose                             |
+| ------------- | -------------- | ----------------------------------- |
+| Monorepo      | Nx 22          | Build system, caching, task running |
+| Frontend      | Next.js 16     | React framework with App Router     |
+| Backend       | NestJS 11      | Node.js API framework               |
+| Database      | PostgreSQL 16  | Relational database                 |
+| ORM           | Drizzle        | Type-safe SQL query builder         |
+| Styling       | Tailwind 4.1   | Utility-first CSS                   |
+| UI Components | shadcn/ui      | Accessible component library        |
+| Server State  | TanStack Query | Data fetching & caching             |
+| Client State  | Zustand        | Lightweight state management        |
+| Testing       | Vitest         | Fast unit & integration tests       |
+| DB Testing    | Testcontainers | Real PostgreSQL in tests            |
+| API Mocking   | MSW            | Mock Service Worker for frontend    |
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+## Development Commands
+
+### Daily Development
+
+```bash
+# Start all dev servers
+pnpm dev
+
+# Start only frontend
+pnpm dev:web
+
+# Start only backend
+pnpm dev:api
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Quality Checks
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+# Run all checks (lint, test, build)
+pnpm check-all
 
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+# Individual checks
+pnpm lint        # ESLint
+pnpm test        # Vitest
+pnpm build       # Production build
+pnpm typecheck   # TypeScript
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Database
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+# Generate migration from schema changes
+pnpm db:generate
 
-### Step 2
+# Run migrations
+pnpm db:migrate
 
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+# Open Drizzle Studio (database browser)
+pnpm db:studio
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Nx Commands
 
-## Install Nx Console
+```bash
+# Run specific target for a project
+pnpm nx <target> <project>
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+# Examples
+pnpm nx build web
+pnpm nx test api
+pnpm nx lint ui
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+# View project graph
+pnpm nx graph
 
-## Useful links
+# Show project details
+pnpm nx show project web
+```
 
-Learn more:
+## UI Components (shadcn/ui)
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Components live in `libs/ui`. To add new shadcn components:
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+# Add a component
+pnpm dlx shadcn@latest add card
+pnpm dlx shadcn@latest add input
+pnpm dlx shadcn@latest add dialog
+```
+
+After adding, export from `libs/ui/src/index.ts`:
+
+```typescript
+export { Card, CardContent, CardHeader } from './components/card';
+```
+
+Use in your app:
+
+```typescript
+import { Button, Card, cn } from '@hair-product-scanner/ui';
+```
+
+## AI-Assisted Development Workflow
+
+This project includes a structured 7-phase workflow for AI-assisted development using Claude Code.
+
+### Available Commands
+
+| Command              | Purpose                              |
+| -------------------- | ------------------------------------ |
+| `/story [ID] [desc]` | Create user story with BDD scenarios |
+| `/plan [ID]`         | Generate 7-phase implementation plan |
+| `/implement Phase N` | Execute phase with specialized agent |
+| `/commit`            | Create conventional commit           |
+| `/pr`                | Create pull request                  |
+
+### Workflow Overview
+
+```
+Planning:     /story → /plan
+Implementation: /implement + @plan (autodetects phase)
+  Frontend:     Phase 1 (UI) → Phase 2 (API Client) → Phase 3 (Smart Components)
+  Backend:      Phase 4 (Repository) → Phase 5 (Service) → Phase 6 (Controller)
+  Integration:  Phase 7 (Connect Frontend to Backend)
+Delivery:     /commit → /pr
+```
+
+See [AI-WORKFLOW.md](./AI-WORKFLOW.md) for detailed documentation.
+
+## Architecture
+
+### Frontend (Next.js)
+
+- **App Router** with Server Components by default
+- **TanStack Query** for server state (API calls)
+- **Zustand** for client state (UI state)
+- **React Hook Form + Zod** for form validation
+
+### Backend (NestJS)
+
+Uses Clean Architecture pattern:
+
+```
+Controller → Service → Repository → Database
+     ↓           ↓
+   DTOs      Business Logic
+```
+
+- **Controllers** - HTTP handlers, thin layer
+- **Services** - Business logic
+- **Repositories** - Data access with Drizzle
+- **Shared types** - API contracts in `libs/shared`
+
+### Testing Strategy
+
+| Layer      | Testing Approach            | Tools                    |
+| ---------- | --------------------------- | ------------------------ |
+| Frontend   | Integration tests           | Vitest + Testing Library |
+| Repository | Integration tests (real DB) | Vitest + Testcontainers  |
+| Service    | Unit tests (mocked repos)   | Vitest                   |
+| Controller | E2E tests                   | Vitest + Supertest       |
+
+## Documentation
+
+- [CLAUDE.md](./CLAUDE.md) - Project guidelines and conventions
+- [AI-WORKFLOW.md](./AI-WORKFLOW.md) - 7-phase delivery workflow
+- [docs/TRAINING-REQUIREMENTS.md](./docs/TRAINING-REQUIREMENTS.md) - Full training context
+
+## Git Conventions
+
+This project uses conventional commits:
+
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `test:` - Adding tests
+- `refactor:` - Code change without feature/fix
+- `docs:` - Documentation
+- `chore:` - Maintenance
+
+Use `/commit` command for AI-attributed commits.
+
+## License
+
+MIT

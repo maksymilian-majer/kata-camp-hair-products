@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@hair-product-scanner/shared": ["libs/shared/src/index.ts"],
-      "@/api/*": ["apps/api/src/*"]
+      "@/api/*": ["apps/api/src/*"],
+      "@hair-product-scanner/ui": ["libs/ui/src/index.ts"],
+      "@hair-product-scanner/ui/*": ["libs/ui/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

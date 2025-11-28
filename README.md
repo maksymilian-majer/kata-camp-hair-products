@@ -25,7 +25,7 @@ pnpm dev
 | Tool    | Version | Installation                                                      |
 | ------- | ------- | ----------------------------------------------------------------- |
 | Node.js | 24+     | Via nvm (see below)                                               |
-| pnpm    | 10+     | `corepack enable && corepack prepare pnpm@latest --activate`      |
+| pnpm    | 10+     | `npm install -g pnpm`                                             |
 | Docker  | Latest  | [Docker Desktop](https://www.docker.com/products/docker-desktop/) |
 | Git     | Latest  | [git-scm.com](https://git-scm.com/)                               |
 

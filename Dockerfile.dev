@@ -1,0 +1,30 @@
+FROM node:24-bookworm
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable pnpm
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies with BuildKit cache mount
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+# Store node_modules in a safe location for the entrypoint to copy
+RUN cp -r /app/node_modules /node_modules_cache
+
+# Entrypoint to restore node_modules if empty
+COPY <<'EOF' /entrypoint.sh
+#!/bin/sh
+if [ ! -d "/app/node_modules/nx" ]; then
+  echo "Restoring node_modules from cache..."
+  cp -rn /node_modules_cache/. /app/node_modules/ 2>/dev/null || true
+  echo "Done!"
+fi
+exec "$@"
+EOF
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

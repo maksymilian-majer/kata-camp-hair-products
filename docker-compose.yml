@@ -15,6 +15,62 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - hair-scanner-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: hair-scanner-api
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.nx
+    ports:
+      - '3001:3001'
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/hair_scanner
+      - PORT=3001
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+      - NX_TUI=false
+      - CI=true
+    command: pnpm dev:api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - hair-scanner-network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: hair-scanner-web
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.nx
+    ports:
+      - '3000:3000'
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+      - NX_TUI=false
+      - CI=true
+    command: pnpm dev:web
+    depends_on:
+      - api
+    networks:
+      - hair-scanner-network
+
+networks:
+  hair-scanner-network:
+    driver: bridge
 
 volumes:
   postgres_data:

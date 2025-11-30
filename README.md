@@ -2,16 +2,42 @@
 
 An AI-powered hair product ingredient scanner that helps users analyze product compatibility with their hair type. Built as a training kata for AI-assisted development workflows.
 
-## TL;DR - Quick Start
+## Development
+
+### Option 1: Docker Development (Recommended for Training)
+
+Dev servers run in containers with hot reload. Requires Node.js on host for dependency installation.
 
 ```bash
-# 1. Use correct Node.js version
-nvm use
-
-# 2. Install dependencies
+# Install dependencies on host first
 pnpm install
 
-# 3. Start development servers (frontend + backend)
+# Start all services with hot reload
+docker compose up
+
+# Frontend: http://localhost:3000
+# Backend:  http://localhost:3001
+# Database: localhost:5432
+```
+
+### Option 2: Local Development
+
+Run Node.js locally with only PostgreSQL in Docker.
+
+```bash
+# Copy environment file
+cp .env.example .env
+
+# Use correct Node.js version
+nvm use
+
+# Install dependencies
+pnpm install
+
+# Start database only
+docker compose up postgres
+
+# Start development servers (in separate terminal)
 pnpm dev
 
 # Frontend: http://localhost:3000

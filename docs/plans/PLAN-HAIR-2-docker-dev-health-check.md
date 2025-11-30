@@ -208,18 +208,18 @@ export function HealthBadge({ status }: HealthBadgeProps) {
 
 ---
 
-## Phase 2: API Client + Mocks
+## Phase 2: API Client + Mocks ✅ (2025-11-30)
 
 **Subagent**: `frontend-phase-2`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Create `apps/web/src/app/env.ts` for centralized environment configuration
-- [ ] Define health check types in `@hair-product-scanner/shared`
-- [ ] Create `useHealthCheck` TanStack Query hook
-- [ ] Set up MSW handler for `/api/health` endpoint
-- [ ] Create QueryClientProvider wrapper
+- [x] Create `apps/web/src/app/env.ts` for centralized environment configuration
+- [x] Define health check types in `@hair-product-scanner/shared`
+- [x] Create `useHealthCheck` TanStack Query hook
+- [x] Set up MSW handler for `/api/health` endpoint
+- [x] Create QueryClientProvider wrapper
 
 ### Environment Configuration
 
@@ -291,10 +291,10 @@ export const handlers = [
 
 ### Completion Criteria
 
-- [ ] Types defined in shared library
-- [ ] Query hook created and working
-- [ ] MSW mock returns realistic data
-- [ ] QueryClientProvider wraps the app
+- [x] Types defined in shared library
+- [x] Query hook created and working
+- [x] MSW mock returns realistic data
+- [x] QueryClientProvider wraps the app
 
 ---
 

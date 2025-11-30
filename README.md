@@ -6,18 +6,25 @@ An AI-powered hair product ingredient scanner that helps users analyze product c
 
 ### Option 1: Docker Development (Recommended for Training)
 
-Dev servers run in containers with hot reload. Requires Node.js on host for dependency installation.
+Dev servers run in containers with hot reload.
 
 ```bash
-# Install dependencies on host first
-pnpm install
+# First time setup
+docker compose up --build
 
-# Start all services with hot reload
+# Subsequent runs
 docker compose up
 
 # Frontend: http://localhost:3000
 # Backend:  http://localhost:3001
 # Database: localhost:5432
+```
+
+**After installing new packages:** Rebuild containers to update dependencies.
+
+```bash
+pnpm install                  # Update lockfile on host
+docker compose up --build     # Rebuild with new dependencies
 ```
 
 ### Option 2: Local Development

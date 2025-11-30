@@ -100,8 +100,10 @@ Create plan file with:
 ### File Location
 
 - **Directory**: `docs/plans/`
-- **File**: `PLAN-{STORY-ID}.md`
-- **Example**: `docs/plans/PLAN-HAIR-1.md`
+- **File**: `PLAN-{STORY-ID}-{kebab-case-title}.md`
+- **Example**: `docs/plans/PLAN-HAIR-1-app-layout-navigation.md`
+
+The title should be a short (2-5 words) kebab-case description derived from the story or feature name.
 
 ### Template Structure
 
@@ -396,7 +398,7 @@ Manually verify each BDD scenario:
 
 ### What Makes a Test Meaningful?
 
-| Meaningful ✅                    | Not Meaningful ❌               |
+| Meaningful                       | Not Meaningful                  |
 | -------------------------------- | ------------------------------- |
 | Tests user can complete quiz     | Tests component renders         |
 | Tests API returns valid products | Tests service method is called  |
@@ -432,6 +434,31 @@ When generating the plan, ensure each phase references the correct subagent:
 | 5     | `backend-phase-5`     | NestJS Services               | Tests first      |
 | 6     | `backend-phase-6`     | NestJS Controllers, Supertest | Tests first      |
 | 7     | `integration-phase-7` | Full stack                    | Manual testing   |
+
+## Adapting the Plan
+
+Not every feature requires all 7 phases. Adapt the plan based on the feature's needs:
+
+### Phase 0: Infrastructure (Optional)
+
+Add Phase 0 when the feature requires infrastructure setup before implementation:
+
+- Docker configuration
+- CI/CD pipeline changes
+- Environment configuration
+- Database setup
+- Third-party service integration
+
+### Skipping Phases
+
+Skip phases that don't apply to the feature:
+
+- **Skip Phase 4 (Repository)**: When the feature doesn't need a repository layer (e.g., simple controller with direct DB query, external API calls only)
+- **Skip Phase 5 (Service)**: When there's no business logic beyond data access (e.g., health check, simple CRUD without validation)
+- **Skip Phases 4-6**: For frontend-only features (e.g., UI components, client-side state)
+- **Skip Phases 1-3**: For backend-only features (e.g., background jobs, API-only endpoints)
+
+When skipping phases, clearly note which phases are skipped and why in the plan.
 
 ## After Plan Creation
 

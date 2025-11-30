@@ -50,7 +50,7 @@ export function MyComponent({ title, items, onSelect }: MyComponentProps) {
 ## File Organization
 
 ```
-apps/web/
+apps/web/src/
 ├── app/
 │   ├── (routes)/
 │   │   └── feature-name/
@@ -153,7 +153,7 @@ const [products, setProducts] = useState([]); // Use TanStack Query
 Create a temporary route to preview components with mock data:
 
 ```tsx
-// apps/web/app/_dev/feature-preview/page.tsx
+// apps/web/src/app/_dev/feature-preview/page.tsx
 import { ComponentA } from '@/components/feature-name';
 
 const mockData = {

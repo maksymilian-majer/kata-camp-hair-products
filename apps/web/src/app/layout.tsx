@@ -1,3 +1,5 @@
+import React from 'react';
+
 import '@hair-product-scanner/ui/styles/globals.css';
 
 export const metadata = {

@@ -96,8 +96,8 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 
 **Output:**
 
-- `apps/web/components/` - Presentational components
-- `apps/web/components/__tests__/` - Component tests
+- `apps/web/src/components/` - Presentational components
+- `apps/web/src/components/__tests__/` - Component tests
 
 ---
 
@@ -115,8 +115,8 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 
 **Output:**
 
-- `apps/web/lib/api/` - TanStack Query hooks
-- `apps/web/lib/msw/` - MSW mock handlers
+- `apps/web/src/lib/api/` - TanStack Query hooks
+- `apps/web/src/mocks/` - MSW mock handlers
 - `libs/shared/src/types/` - API response types
 
 ---
@@ -136,8 +136,8 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 
 **Output:**
 
-- `apps/web/stores/` - Zustand stores
-- `apps/web/app/` - Page components with smart logic
+- `apps/web/src/stores/` - Zustand stores
+- `apps/web/src/app/` - Page components with smart logic
 - Integration tests for complete flows
 
 ---

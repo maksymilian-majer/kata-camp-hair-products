@@ -32,14 +32,14 @@ Connect the frontend to the real backend API. Remove or conditionally disable MS
 ## Step 1: Configure API Base URL
 
 ```typescript
-// apps/web/lib/api/config.ts
+// apps/web/src/lib/api/config.ts
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 ```
 
 ## Step 2: Update API Client
 
 ```typescript
-// apps/web/lib/api/client.ts
+// apps/web/src/lib/api/client.ts
 import { API_BASE_URL } from './config';
 
 export async function apiClient<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -79,7 +79,7 @@ export class ApiError extends Error {
 ## Step 3: Update TanStack Query Hooks
 
 ```typescript
-// apps/web/lib/api/hooks/useHairProfile.ts
+// apps/web/src/lib/api/hooks/useHairProfile.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../client';
 import type { HairProfile, CreateHairProfileRequest } from '@hair-product-scanner/shared';
@@ -130,7 +130,7 @@ This allows you to incrementally integrate endpoints while keeping MSW available
 ### Keep MSW Running
 
 ```typescript
-// apps/web/app/providers.tsx
+// apps/web/src/app/providers.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -164,7 +164,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 When an endpoint is implemented on the real backend, remove its MSW handler:
 
 ```typescript
-// apps/web/mocks/handlers/index.ts
+// apps/web/src/mocks/handlers/index.ts
 import { scanHandlers } from './scan';
 
 export const handlers = [
@@ -300,7 +300,7 @@ Remove or archive development artifacts:
 
 ```typescript
 // Remove dev preview routes
-// apps/web/app/_dev/ → Delete or add to .gitignore
+// apps/web/src/app/_dev/ → Delete or add to .gitignore
 
 // Remove console.logs
 // Search: console.log

@@ -87,7 +87,10 @@ nvm use
 hair-product-scanner/
 ├── apps/
 │   ├── web/                 # Next.js 16 frontend
-│   │   └── app/             # App Router pages
+│   │   └── src/
+│   │       ├── app/         # App Router pages
+│   │       ├── components/  # React components
+│   │       └── hooks/       # Custom hooks
 │   └── api/                 # NestJS 11 backend
 │       └── src/
 │           ├── database/    # Drizzle schema & migrations

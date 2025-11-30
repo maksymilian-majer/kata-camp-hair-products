@@ -167,21 +167,21 @@ pnpm dev
 
 ---
 
-## Phase 1: Presentational UI Components
+## Phase 1: Presentational UI Components ✅ (2025-11-30)
 
 **Subagent**: `frontend-phase-1`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Install Badge component via shadcn CLI: `pnpm dlx shadcn@latest add badge`
-- [ ] Export Badge from `libs/ui/src/index.ts`
-- [ ] Create `HealthBadge` presentational component in `apps/web/components/health-badge.tsx`
+- [x] Install Badge component via shadcn CLI: `pnpm dlx shadcn@latest add badge`
+- [x] Export Badge from `libs/ui/src/index.ts`
+- [x] Create `HealthBadge` presentational component in `apps/web/src/components/health-badge.tsx`
 
 ### Component Structure
 
 ```tsx
-// apps/web/components/health-badge.tsx
+// apps/web/src/components/health-badge.tsx
 import { Badge } from '@hair-product-scanner/ui';
 
 interface HealthBadgeProps {
@@ -202,9 +202,9 @@ export function HealthBadge({ status }: HealthBadgeProps) {
 
 ### Completion Criteria
 
-- [ ] Badge component installed and exported from UI lib
-- [ ] HealthBadge component created with status prop
-- [ ] Component viewable in isolation
+- [x] Badge component installed and exported from UI lib
+- [x] HealthBadge component created with status prop
+- [x] Component viewable in isolation
 
 ---
 
@@ -215,7 +215,7 @@ export function HealthBadge({ status }: HealthBadgeProps) {
 
 ### Tasks
 
-- [ ] Create `apps/web/app/env.ts` for centralized environment configuration
+- [ ] Create `apps/web/src/app/env.ts` for centralized environment configuration
 - [ ] Define health check types in `@hair-product-scanner/shared`
 - [ ] Create `useHealthCheck` TanStack Query hook
 - [ ] Set up MSW handler for `/api/health` endpoint
@@ -224,7 +224,7 @@ export function HealthBadge({ status }: HealthBadgeProps) {
 ### Environment Configuration
 
 ```typescript
-// apps/web/app/env.ts
+// apps/web/src/app/env.ts
 export const env = {
   BACKEND_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
 } as const;
@@ -242,7 +242,7 @@ export interface HealthResponse {
 ### QueryClientProvider Setup
 
 ```tsx
-// apps/web/components/providers.tsx
+// apps/web/src/components/providers.tsx
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -257,7 +257,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 ### useHealthCheck Hook
 
 ```typescript
-// apps/web/hooks/use-health-check.ts
+// apps/web/src/hooks/use-health-check.ts
 import { useQuery } from '@tanstack/react-query';
 import type { HealthResponse } from '@hair-product-scanner/shared';
 import { env } from '../app/env';
@@ -279,7 +279,7 @@ export function useHealthCheck() {
 ### MSW Handler
 
 ```typescript
-// apps/web/mocks/handlers.ts
+// apps/web/src/mocks/handlers.ts
 import { http, HttpResponse } from 'msw';
 
 export const handlers = [
@@ -305,14 +305,14 @@ export const handlers = [
 
 ### Tasks
 
-- [ ] Update `apps/web/app/layout.tsx` to include Providers
-- [ ] Update `apps/web/app/page.tsx` to use HealthBadge with real data
+- [ ] Update `apps/web/src/app/layout.tsx` to include Providers
+- [ ] Update `apps/web/src/app/page.tsx` to use HealthBadge with real data
 - [ ] Connect presentational component to query hook
 
 ### Updated layout.tsx
 
 ```tsx
-// apps/web/app/layout.tsx
+// apps/web/src/app/layout.tsx
 import '@hair-product-scanner/ui/styles/globals.css';
 import { Providers } from '../components/providers';
 
@@ -548,13 +548,13 @@ async function bootstrap() {
 | `libs/shared/src/types/health.types.ts`      | Create health types                          |
 | `libs/ui/src/index.ts`                       | Export Badge component                       |
 | `libs/ui/src/components/badge.tsx`           | Created by shadcn CLI                        |
-| `apps/web/app/env.ts`                        | Create centralized env configuration         |
-| `apps/web/components/providers.tsx`          | Create QueryClientProvider                   |
-| `apps/web/components/health-badge.tsx`       | Create presentational component              |
-| `apps/web/hooks/use-health-check.ts`         | Create query hook                            |
-| `apps/web/mocks/handlers.ts`                 | Create MSW handlers                          |
-| `apps/web/app/layout.tsx`                    | Wrap with Providers                          |
-| `apps/web/app/page.tsx`                      | Add HealthBadge                              |
+| `apps/web/src/app/env.ts`                    | Create centralized env configuration         |
+| `apps/web/src/components/providers.tsx`      | Create QueryClientProvider                   |
+| `apps/web/src/components/health-badge.tsx`   | Create presentational component              |
+| `apps/web/src/hooks/use-health-check.ts`     | Create query hook                            |
+| `apps/web/src/mocks/handlers.ts`             | Create MSW handlers                          |
+| `apps/web/src/app/layout.tsx`                | Wrap with Providers                          |
+| `apps/web/src/app/page.tsx`                  | Add HealthBadge                              |
 
 ---
 

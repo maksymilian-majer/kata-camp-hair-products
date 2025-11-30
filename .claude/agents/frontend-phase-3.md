@@ -57,7 +57,7 @@ function HairProfileCardContainer() {
 ## File Organization
 
 ```
-apps/web/
+apps/web/src/
 ├── app/
 │   └── (routes)/
 │       └── feature/
@@ -77,7 +77,7 @@ apps/web/
 ### Business Logic Hook
 
 ```typescript
-// apps/web/hooks/useQuizFlow.ts
+// apps/web/src/hooks/useQuizFlow.ts
 import { useState, useCallback } from 'react';
 import { useCreateHairProfile } from '@/lib/api/hooks';
 import type { HairType } from '@hair-product-scanner/shared';
@@ -130,7 +130,7 @@ export function useQuizFlow() {
 ## Zustand Store
 
 ```typescript
-// apps/web/stores/quizStore.ts
+// apps/web/src/stores/quizStore.ts
 import { create } from 'zustand';
 import type { HairType } from '@hair-product-scanner/shared';
 
@@ -168,7 +168,7 @@ export const useQuizStore = create<QuizState>((set) => ({
 ## React Hook Form + Zod
 
 ```tsx
-// apps/web/components/profile/ProfileForm.tsx
+// apps/web/src/components/profile/ProfileForm.tsx
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -215,7 +215,7 @@ export function ProfileForm({ onSubmit, isSubmitting }: ProfileFormProps) {
 ## Loading/Error/Empty States
 
 ```tsx
-// apps/web/components/shared/LoadingState.tsx
+// apps/web/src/components/shared/LoadingState.tsx
 export function LoadingState({ message = 'Loading...' }: { message?: string }) {
   return (
     <div className="flex items-center justify-center p-8">
@@ -225,7 +225,7 @@ export function LoadingState({ message = 'Loading...' }: { message?: string }) {
   );
 }
 
-// apps/web/components/shared/ErrorState.tsx
+// apps/web/src/components/shared/ErrorState.tsx
 export function ErrorState({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center">
@@ -239,7 +239,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
   );
 }
 
-// apps/web/components/shared/EmptyState.tsx
+// apps/web/src/components/shared/EmptyState.tsx
 export function EmptyState({ message, action }: { message: string; action?: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center">
@@ -253,7 +253,7 @@ export function EmptyState({ message, action }: { message: string; action?: Reac
 ## Smart Component Pattern
 
 ```tsx
-// apps/web/components/quiz/QuizContainer.tsx
+// apps/web/src/components/quiz/QuizContainer.tsx
 'use client';
 
 import { useQuizFlow } from '@/hooks/useQuizFlow';
@@ -316,7 +316,7 @@ export function QuizContainer() {
 ### Hook Tests
 
 ```typescript
-// apps/web/hooks/useQuizFlow.spec.ts
+// apps/web/src/hooks/useQuizFlow.spec.ts
 import { renderHook, act } from '@testing-library/react';
 import { useQuizFlow } from './useQuizFlow';
 
@@ -342,7 +342,7 @@ describe('useQuizFlow', () => {
 ### Store Tests
 
 ```typescript
-// apps/web/stores/quizStore.spec.ts
+// apps/web/src/stores/quizStore.spec.ts
 import { useQuizStore } from './quizStore';
 
 describe('quizStore', () => {
@@ -367,7 +367,7 @@ describe('quizStore', () => {
 Mock `next/navigation` to test navigation behavior:
 
 ```tsx
-// apps/web/components/quiz/QuizComplete.spec.tsx
+// apps/web/src/components/quiz/QuizComplete.spec.tsx
 import { render, screen, fireEvent } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
 import { QuizComplete } from './QuizComplete';
@@ -417,7 +417,7 @@ describe('QuizComplete', () => {
 ### Smart Component Navigation Test
 
 ```tsx
-// apps/web/components/profile/HairProfileCardContainer.spec.tsx
+// apps/web/src/components/profile/HairProfileCardContainer.spec.tsx
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

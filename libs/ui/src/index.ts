@@ -1,3 +1,4 @@
+export { Badge, badgeVariants } from './components/badge';
 export { Button, buttonVariants } from './components/button';
 export { Toaster } from './components/sonner';
 export { cn } from './lib/utils';

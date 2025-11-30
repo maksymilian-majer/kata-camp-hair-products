@@ -22,12 +22,12 @@ pnpm dev
 
 ### Required Software
 
-| Tool    | Version | Installation                                                      |
-| ------- | ------- | ----------------------------------------------------------------- |
-| Node.js | 24+     | Via nvm (see below)                                               |
-| pnpm    | 10+     | `npm install -g pnpm`                                             |
-| Docker  | Latest  | [Docker Desktop](https://www.docker.com/products/docker-desktop/) |
-| Git     | Latest  | [git-scm.com](https://git-scm.com/)                               |
+| Tool    | Version | Installation                                                                                        |
+| ------- | ------- | --------------------------------------------------------------------------------------------------- |
+| Node.js | 24+     | Via nvm (see below)                                                                                 |
+| pnpm    | 10+     | `npm install -g pnpm@latest-10` or use [corepack](https://pnpm.io/next/installation#using-corepack) |
+| Docker  | Latest  | [Docker Desktop](https://www.docker.com/products/docker-desktop/)                                   |
+| Git     | Latest  | [git-scm.com](https://git-scm.com/)                                                                 |
 
 ### Node.js Setup with nvm
 
@@ -151,16 +151,16 @@ pnpm nx show project web
 
 ## UI Components (shadcn/ui)
 
-Components live in `libs/ui`. To add new shadcn components:
+Components live in `libs/ui`. To add new shadcn components, run from the project root:
 
 ```bash
-# Add a component
+# Add a component (from root directory)
 pnpm dlx shadcn@latest add card
 pnpm dlx shadcn@latest add input
 pnpm dlx shadcn@latest add dialog
 ```
 
-After adding, export from `libs/ui/src/index.ts`:
+Components are automatically placed in `libs/ui/src/components/`. After adding, export from `libs/ui/src/index.ts`:
 
 ```typescript
 export { Card, CardContent, CardHeader } from './components/card';

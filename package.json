@@ -2,6 +2,7 @@
   "name": "@hair-product-scanner/source",
   "version": "0.0.0",
   "license": "MIT",
+  "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a",
   "engines": {
     "node": ">=24.0.0",
     "pnpm": ">=10.0.0"
@@ -111,6 +112,7 @@
     "rxjs": "^7.8.0",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.1.13",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "sonner": "^2.0.7"
   }
 }

@@ -72,7 +72,7 @@ Phase 7 → Task tool with subagent_type: "integration-phase-7"
 After subagent completes, update the plan file:
 
 - Mark completed tasks with `[x]`
-- Add completion timestamp
+- Add ✅ emoji and completion date to the phase heading (e.g., `## Phase 1: Presentational UI ✅ (2025-01-15)`)
 - Note any issues or decisions made
 
 ## Implementation Flow by Phase Type

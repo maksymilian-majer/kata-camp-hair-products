@@ -46,17 +46,18 @@ export function MyComponent() {
 ### UI Library Structure
 
 ```
-libs/ui/
-├── src/
-│   ├── components/     # shadcn components (button.tsx, card.tsx, etc.)
-│   ├── hooks/          # Custom React hooks
-│   ├── lib/
-│   │   └── utils.ts    # cn() utility for classname merging
-│   ├── styles/
-│   │   └── globals.css # Centralized Tailwind CSS + theme variables
-│   └── index.ts        # Barrel exports
-├── components.json     # shadcn CLI config
-└── postcss.config.mjs  # PostCSS/Tailwind config
+hair-product-scanner/
+├── components.json       # shadcn CLI config (at root)
+└── libs/ui/
+    ├── src/
+    │   ├── components/   # shadcn components (button.tsx, card.tsx, etc.)
+    │   ├── hooks/        # Custom React hooks
+    │   ├── lib/
+    │   │   └── utils.ts  # cn() utility for classname merging
+    │   ├── styles/
+    │   │   └── globals.css # Centralized Tailwind CSS + theme variables
+    │   └── index.ts      # Barrel exports
+    └── postcss.config.mjs  # PostCSS/Tailwind config
 ```
 
 ### Theme Customization

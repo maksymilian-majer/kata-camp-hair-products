@@ -18,37 +18,11 @@ services:
     networks:
       - hair-scanner-network
 
-  api:
+  dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    container_name: hair-scanner-api
-    working_dir: /app
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.nx
-    ports:
-      - '3001:3001'
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/hair_scanner
-      - PORT=3001
-      - WATCHPACK_POLLING=true
-      - CHOKIDAR_USEPOLLING=true
-      - NX_TUI=false
-      - CI=true
-    command: pnpm dev:api
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - hair-scanner-network
-
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    container_name: hair-scanner-web
+    container_name: hair-scanner-dev
     working_dir: /app
     volumes:
       - .:/app
@@ -56,15 +30,17 @@ services:
       - /app/.nx
     ports:
       - '3000:3000'
+      - '3001:3001'
     environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/hair_scanner
+      - API_PORT=3001
       - NEXT_PUBLIC_API_URL=http://localhost:3001
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
-      - NX_TUI=false
-      - CI=true
-    command: pnpm dev:web
+    command: pnpm dev
     depends_on:
-      - api
+      postgres:
+        condition: service_healthy
     networks:
       - hair-scanner-network
 

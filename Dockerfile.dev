@@ -15,9 +15,12 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 # Store node_modules in a safe location for the entrypoint to copy
 RUN cp -r /app/node_modules /node_modules_cache
 
-# Entrypoint to restore node_modules if empty
+# Entrypoint to restore node_modules and clean .nx
 COPY <<'EOF' /entrypoint.sh
 #!/bin/sh
+# Clean .nx contents to avoid stale lock files from previous runs
+rm -rf /app/.nx/* 2>/dev/null || true
+
 if [ ! -d "/app/node_modules/nx" ]; then
   echo "Restoring node_modules from cache..."
   cp -rn /node_modules_cache/. /app/node_modules/ 2>/dev/null || true

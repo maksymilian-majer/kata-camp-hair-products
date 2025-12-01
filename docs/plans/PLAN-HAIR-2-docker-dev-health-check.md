@@ -298,16 +298,16 @@ export const handlers = [
 
 ---
 
-## Phase 3: Smart Components + Integration
+## Phase 3: Smart Components + Integration ✅ (2025-12-01)
 
 **Subagent**: `frontend-phase-3`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Update `apps/web/src/app/layout.tsx` to include Providers
-- [ ] Update `apps/web/src/app/page.tsx` to use HealthBadge with real data
-- [ ] Connect presentational component to query hook
+- [x] Update `apps/web/src/app/layout.tsx` to include Providers
+- [x] Update `apps/web/src/app/page.tsx` to use HealthBadge with real data
+- [x] Connect presentational component to query hook
 
 ### Updated layout.tsx
 
@@ -364,13 +364,13 @@ export default function Home() {
 
 ### Completion Criteria
 
-- [ ] Feature works end-to-end with mocked API
-- [ ] Badge displays correct status based on mock response
-- [ ] Tests pass: `pnpm nx test web`
+- [x] Feature works end-to-end with mocked API
+- [x] Badge displays correct status based on mock response
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 
-## Phase 6: HTTP Controller
+## Phase 6: HTTP Controller ✅ (2025-12-01)
 
 **Subagent**: `backend-phase-6`
 **Testing**: Write E2E test FIRST (Supertest)
@@ -379,11 +379,11 @@ export default function Home() {
 
 ### Tasks
 
-- [ ] Write E2E test for health endpoint FIRST
-- [ ] Create `apps/api/src/app/health.controller.ts`
-- [ ] Register controller in AppModule
-- [ ] Enable CORS for frontend requests
-- [ ] Update main.ts to bind to 0.0.0.0
+- [x] Write E2E test for health endpoint FIRST
+- [x] Create `apps/api/src/app/health.controller.ts`
+- [x] Register controller in AppModule
+- [x] Enable CORS for frontend requests
+- [x] Update main.ts to bind to 0.0.0.0
 
 ### Test Scenarios (Write BEFORE Implementation)
 
@@ -480,25 +480,25 @@ async function bootstrap() {
 
 ### Completion Criteria
 
-- [ ] E2E test written and passing
-- [ ] Controller implementation complete
-- [ ] CORS enabled for frontend
-- [ ] All tests pass: `pnpm nx test api`
+- [x] E2E test written and passing
+- [x] Controller implementation complete
+- [x] CORS enabled for frontend
+- [x] All tests pass: `pnpm nx test api`
 
 ---
 
-## Phase 7: Frontend-Backend Integration
+## Phase 7: Frontend-Backend Integration ✅ (2025-12-01)
 
 **Subagent**: `integration-phase-7`
 **Testing**: Manual testing of complete flow
 
 ### Tasks
 
-- [ ] Remove/disable MSW mocks for health endpoint
-- [ ] Configure API URL via environment variable
-- [ ] Test complete flow with Docker
-- [ ] Test complete flow with local development
-- [ ] Fix any integration issues
+- [x] Remove/disable MSW mocks for health endpoint (MSW only runs in tests)
+- [x] Configure API URL via environment variable
+- [x] Test complete flow with Docker
+- [x] Test complete flow with local development
+- [x] Fix any integration issues
 
 ### Verification Checklist
 
@@ -526,11 +526,11 @@ async function bootstrap() {
 
 ### Completion Criteria
 
-- [ ] Frontend connected to real backend
-- [ ] Both development modes work
-- [ ] Hot reload works in Docker
-- [ ] No console errors
-- [ ] Ready for PR
+- [x] Frontend connected to real backend
+- [x] Both development modes work
+- [x] Hot reload works in Docker
+- [x] No console errors
+- [x] Ready for PR
 
 ---
 
@@ -560,8 +560,8 @@ async function bootstrap() {
 
 ## Completion Criteria
 
-- [ ] `docker compose up` starts all services successfully
-- [ ] `pnpm dev` + `docker compose up postgres` works
-- [ ] Hot reload works in Docker for both frontend and backend
-- [ ] Health badge displays correct status
-- [ ] All tests pass: `pnpm check-all`
+- [x] `docker compose up` starts all services successfully
+- [x] `pnpm dev` + `docker compose up postgres` works
+- [x] Hot reload works in Docker for both frontend and backend
+- [x] Health badge displays correct status
+- [x] All tests pass: `pnpm check-all`

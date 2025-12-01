@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { server } from '../mocks/server';
 import { render, screen, waitFor } from '../testing/test-utils';
@@ -7,6 +7,12 @@ import { render, screen, waitFor } from '../testing/test-utils';
 import Home from './page';
 
 describe('Home', () => {
+  beforeEach(() => {
+    server.use(
+      http.get('*/api/health', () => HttpResponse.json({ status: 'ok' }))
+    );
+  });
+
   it('renders the page with title', () => {
     render(<Home />);
     expect(screen.getByText('Hairminator')).toBeInTheDocument();
@@ -37,11 +43,21 @@ describe('Home', () => {
     });
   });
 
-  it('shows disconnected status when API fails', async () => {
+  it('shows disconnected status when API returns error status', async () => {
     server.use(
-      http.get('*/api/health', () => {
-        return new HttpResponse(null, { status: 500 });
-      })
+      http.get('*/api/health', () => HttpResponse.json({ status: 'error' }))
+    );
+
+    render(<Home />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Disconnected')).toBeInTheDocument();
+    });
+  });
+
+  it('shows disconnected status when API fails with 500', async () => {
+    server.use(
+      http.get('*/api/health', () => new HttpResponse(null, { status: 500 }))
     );
 
     render(<Home />);

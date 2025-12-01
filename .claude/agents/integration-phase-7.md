@@ -159,26 +159,86 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-### Remove Handlers for Integrated Endpoints
+### Unregister Handlers for Integrated Endpoints
 
-When an endpoint is implemented on the real backend, remove its MSW handler:
+When an endpoint is implemented on the real backend, **comment out** (don't delete) its MSW handler registration:
 
 ```typescript
 // apps/web/src/mocks/handlers/index.ts
+
+// Health endpoint is integrated with real backend - handler not registered
+// import { healthHandlers } from './health';
+
+// Future endpoints still being developed:
 import { scanHandlers } from './scan';
 
 export const handlers = [
-  // Questionnaires endpoint is now real - handler removed
-  // Future endpoints still being developed:
+  // ...healthHandlers,  // Integrated - uses real API
   ...scanHandlers,
 ];
 ```
+
+**Why comment out instead of delete?**
+
+- Keep handler files as reference for test setup
+- Easy to re-enable for debugging
+- Documents which endpoints have been integrated
 
 **Why this approach?**
 
 - MSW stays available for developing new features
 - Real endpoints work without any env flag changes
 - Easy to add temporary mocks for endpoints not yet implemented
+
+### Update Tests for Integrated Endpoints
+
+When an endpoint is integrated and its handler is unregistered, tests must set up their own handlers:
+
+```tsx
+// apps/web/src/app/page.spec.tsx
+import { http, HttpResponse } from 'msw';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { server } from '../mocks/server';
+
+describe('Home', () => {
+  // Set up default handler for all tests in this describe block
+  beforeEach(() => {
+    server.use(http.get('*/api/health', () => HttpResponse.json({ status: 'ok' })));
+  });
+
+  it('shows connected status when API returns ok', async () => {
+    // Uses beforeEach handler
+    render(<Home />);
+    await waitFor(() => {
+      expect(screen.getByText('Connected')).toBeInTheDocument();
+    });
+  });
+
+  it('shows disconnected status when API returns error status', async () => {
+    // Override with error response
+    server.use(http.get('*/api/health', () => HttpResponse.json({ status: 'error' })));
+    render(<Home />);
+    await waitFor(() => {
+      expect(screen.getByText('Disconnected')).toBeInTheDocument();
+    });
+  });
+
+  it('shows disconnected status when API fails with 500', async () => {
+    // Override with 500 error
+    server.use(http.get('*/api/health', () => new HttpResponse(null, { status: 500 })));
+    render(<Home />);
+    await waitFor(() => {
+      expect(screen.getByText('Disconnected')).toBeInTheDocument();
+    });
+  });
+});
+```
+
+**Test coverage for API responses:**
+
+1. `{ status: 'ok' }` → Shows "Connected"
+2. `{ status: 'error' }` → Shows "Disconnected" (DB issue)
+3. HTTP 500 → Shows "Disconnected" (server error)
 
 ## Step 5: Environment Configuration
 

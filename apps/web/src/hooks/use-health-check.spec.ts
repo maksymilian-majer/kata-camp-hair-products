@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { server } from '../mocks/server';
 import { createQueryWrapper, renderHook, waitFor } from '../testing/test-utils';
@@ -7,6 +7,12 @@ import { createQueryWrapper, renderHook, waitFor } from '../testing/test-utils';
 import { useHealthCheck } from './use-health-check';
 
 describe('useHealthCheck', () => {
+  beforeEach(() => {
+    server.use(
+      http.get('*/api/health', () => HttpResponse.json({ status: 'ok' }))
+    );
+  });
+
   it('returns ok status when API is healthy', async () => {
     const { result } = renderHook(() => useHealthCheck(), {
       wrapper: createQueryWrapper(),

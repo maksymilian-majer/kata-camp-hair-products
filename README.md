@@ -212,6 +212,18 @@ import { Button, Card, cn } from '@hair-product-scanner/ui';
 
 This project includes a structured 7-phase workflow for AI-assisted development using Claude Code.
 
+### Required Plugin
+
+The frontend phases (Phase 1) require the frontend design plugin for high-quality UI generation:
+
+```bash
+# Add the Anthropic marketplace
+/plugin marketplace add anthropics/claude-code
+
+# Install the frontend design plugin
+/plugin install frontend-design@claude-code-plugins
+```
+
 ### Available Commands
 
 | Command              | Purpose                              |

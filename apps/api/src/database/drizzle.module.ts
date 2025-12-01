@@ -1,4 +1,10 @@
-import { Global, Inject, Module, OnModuleDestroy } from '@nestjs/common';
+import {
+  Global,
+  Inject,
+  Logger,
+  Module,
+  OnModuleDestroy,
+} from '@nestjs/common';
 import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 
@@ -15,9 +21,15 @@ export type DrizzleDB = NodePgDatabase<typeof schema>;
     {
       provide: PG_POOL,
       useFactory: () => {
-        return new Pool({
+        const pool = new Pool({
           connectionString: process.env['DATABASE_URL'],
         });
+
+        pool.on('error', (err) => {
+          Logger.error('PostgreSQL pool error', err.message, 'DrizzleModule');
+        });
+
+        return pool;
       },
     },
     {

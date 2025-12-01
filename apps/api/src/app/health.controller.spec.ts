@@ -48,5 +48,15 @@ describe('HealthController (e2e)', () => {
 
       expect(response.body).toEqual({ status: 'ok' });
     });
+
+    it('should return status error when database is disconnected', async () => {
+      await container.stop();
+
+      const response = await request(app.getHttpServer())
+        .get('/api/health')
+        .expect(200);
+
+      expect(response.body).toEqual({ status: 'error' });
+    }, 30000);
   });
 });

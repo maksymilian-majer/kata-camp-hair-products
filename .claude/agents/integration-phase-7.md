@@ -240,6 +240,21 @@ describe('Home', () => {
 2. `{ status: 'error' }` → Shows "Disconnected" (DB issue)
 3. HTTP 500 → Shows "Disconnected" (server error)
 
+### Clear Browser Service Worker Cache
+
+After unregistering MSW handlers, **the browser may still cache the old service worker**.
+
+**Steps to clear (required for testing):**
+
+1. Open DevTools → **Application** tab
+2. Click **Service Workers** in the left sidebar
+3. Check **"Update on reload"** checkbox
+4. Refresh the page
+
+The "Update on reload" option forces the browser to fetch and activate the latest service worker on every page load, picking up your handler changes immediately.
+
+**Note:** No CLI commands needed - the `mockServiceWorker.js` file doesn't need regeneration when handlers change. Handlers are loaded dynamically from your code.
+
 ## Step 5: Environment Configuration
 
 ```bash

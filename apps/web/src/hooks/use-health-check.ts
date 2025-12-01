@@ -14,5 +14,7 @@ export function useHealthCheck() {
     },
     refetchInterval: 10000,
     retry: false,
+    staleTime: 0,
+    gcTime: 0,
   });
 }

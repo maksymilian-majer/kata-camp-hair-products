@@ -160,10 +160,10 @@ pnpm dev
 
 ### Completion Criteria
 
-- [ ] `docker compose up` starts all services successfully
-- [ ] Hot reload works for both frontend and backend in Docker
-- [ ] `pnpm dev` works with `docker compose up postgres`
-- [ ] README documents both approaches
+- [x] `docker compose up` starts all services successfully
+- [x] Hot reload works for both frontend and backend in Docker
+- [x] `pnpm dev` works with `docker compose up postgres`
+- [x] README documents both approaches
 
 ---
 
@@ -504,25 +504,25 @@ async function bootstrap() {
 
 **Docker Development:**
 
-- [ ] Run `docker compose up`
-- [ ] Open http://localhost:3000
-- [ ] Badge shows "Connected" (green)
-- [ ] Stop postgres: `docker compose stop postgres`
-- [ ] Badge shows "Disconnected" (red)
-- [ ] Restart postgres: `docker compose start postgres`
-- [ ] Badge recovers to "Connected"
+- [x] Run `docker compose up`
+- [x] Open http://localhost:3000
+- [x] Badge shows "Connected" (green)
+- [x] Stop postgres: `docker compose stop postgres`
+- [x] Badge shows "Disconnected" (red)
+- [x] Restart postgres: `docker compose start postgres`
+- [x] Badge recovers to "Connected"
 
 **Local Development:**
 
-- [ ] Run `docker compose up postgres`
-- [ ] Run `pnpm dev`
-- [ ] Open http://localhost:3000
-- [ ] Badge shows "Connected" (green)
+- [x] Run `docker compose up postgres`
+- [x] Run `pnpm dev`
+- [x] Open http://localhost:3000
+- [x] Badge shows "Connected" (green)
 
 **Hot Reload:**
 
-- [ ] Edit file in `apps/web` - Next.js reloads
-- [ ] Edit file in `apps/api` - NestJS reloads
+- [x] Edit file in `apps/web` - Next.js reloads
+- [x] Edit file in `apps/api` - NestJS reloads
 
 ### Completion Criteria
 

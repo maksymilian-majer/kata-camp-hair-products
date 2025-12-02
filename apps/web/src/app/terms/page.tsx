@@ -1,8 +1,9 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { Button } from '@hair-product-scanner/ui';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Terms and Conditions - Hairminator',
   description: 'Hairminator terms and conditions',
 };

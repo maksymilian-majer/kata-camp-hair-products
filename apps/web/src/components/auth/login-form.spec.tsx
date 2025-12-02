@@ -1,11 +1,32 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { screen, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { useAuthStore } from '@/web/stores';
+import { setup } from '@/web/testing';
 
 import { LoginForm } from './login-form';
 
+const mockPush = vi.fn();
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+}));
+
 describe('LoginForm', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useAuthStore.getState().clearAuth();
+  });
+
   it('renders email field with label', () => {
-    render(<LoginForm />);
+    setup(<LoginForm />);
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText(/enter your email/i)
@@ -13,7 +34,7 @@ describe('LoginForm', () => {
   });
 
   it('renders password field with label', () => {
-    render(<LoginForm />);
+    setup(<LoginForm />);
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText(/enter your password/i)
@@ -21,43 +42,71 @@ describe('LoginForm', () => {
   });
 
   it('renders Log In button', () => {
-    render(<LoginForm />);
+    setup(<LoginForm />);
     expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
   });
 
   it('renders link to signup page', () => {
-    render(<LoginForm />);
+    setup(<LoginForm />);
     expect(screen.getByRole('link', { name: /sign up/i })).toHaveAttribute(
       'href',
       '/signup'
     );
   });
 
-  it('displays error message when error prop provided', () => {
-    render(<LoginForm error="Invalid credentials" />);
-    expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
+  it('shows validation error for empty email', async () => {
+    const { user } = setup(<LoginForm />);
+    await user.type(screen.getByLabelText('Password'), 'password');
+    await user.click(screen.getByRole('button', { name: /log in/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/email is required/i)).toBeInTheDocument();
+    });
   });
 
-  it('disables form fields when disabled prop is true', () => {
-    render(<LoginForm disabled />);
-    expect(screen.getByLabelText('Email')).toBeDisabled();
-    expect(screen.getByLabelText('Password')).toBeDisabled();
-    expect(screen.getByRole('button', { name: /log in/i })).toBeDisabled();
+  it('shows validation error for empty password', async () => {
+    const { user } = setup(<LoginForm />);
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.click(screen.getByRole('button', { name: /log in/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/password is required/i)).toBeInTheDocument();
+    });
   });
 
-  it('calls onSubmit with FormData when form is submitted', () => {
-    const onSubmit = vi.fn();
-    render(<LoginForm onSubmit={onSubmit} />);
+  it('submits form with valid credentials and redirects', async () => {
+    const { user } = setup(<LoginForm />);
+    await user.type(screen.getByLabelText('Email'), 'alex@example.com');
+    await user.type(screen.getByLabelText('Password'), 'SecurePass1!');
+    await user.click(screen.getByRole('button', { name: /log in/i }));
 
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: 'test@example.com' },
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/dashboard');
     });
-    fireEvent.change(screen.getByLabelText('Password'), {
-      target: { value: 'password123' },
-    });
-    fireEvent.click(screen.getByRole('button', { name: /log in/i }));
+  });
 
-    expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith(expect.any(FormData));
+  it('shows error message for invalid credentials', async () => {
+    const { user } = setup(<LoginForm />);
+    await user.type(screen.getByLabelText('Email'), 'wrong@example.com');
+    await user.type(screen.getByLabelText('Password'), 'wrongpassword');
+    await user.click(screen.getByRole('button', { name: /log in/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/invalid email or password/i)
+      ).toBeInTheDocument();
+    });
+  });
+
+  it('stores auth token on successful login', async () => {
+    const { user } = setup(<LoginForm />);
+    await user.type(screen.getByLabelText('Email'), 'alex@example.com');
+    await user.type(screen.getByLabelText('Password'), 'SecurePass1!');
+    await user.click(screen.getByRole('button', { name: /log in/i }));
+
+    await waitFor(() => {
+      expect(useAuthStore.getState().isAuthenticated).toBe(true);
+      expect(useAuthStore.getState().user?.email).toBe('alex@example.com');
+    });
   });
 });

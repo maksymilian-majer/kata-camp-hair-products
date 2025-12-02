@@ -1,8 +1,10 @@
-import { Providers } from '@/web/components/providers';
+import type { Metadata } from 'next';
+
+import { Providers } from '@/web/components';
 
 import '@hair-product-scanner/ui/styles/globals.css';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Hair Product Scanner',
   description: 'Analyze hair product ingredients',
 };

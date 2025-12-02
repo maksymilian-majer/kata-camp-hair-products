@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { PasswordInput } from './password-input';
@@ -17,17 +18,18 @@ describe('PasswordInput', () => {
     );
   });
 
-  it('toggles password visibility when eye icon clicked', () => {
+  it('toggles password visibility when eye icon clicked', async () => {
+    const user = userEvent.setup();
     render(<PasswordInput placeholder="Enter password" />);
     const input = screen.getByPlaceholderText('Enter password');
     const toggleButton = screen.getByRole('button', { name: /show password/i });
 
     expect(input).toHaveAttribute('type', 'password');
 
-    fireEvent.click(toggleButton);
+    await user.click(toggleButton);
     expect(input).toHaveAttribute('type', 'text');
 
-    fireEvent.click(screen.getByRole('button', { name: /hide password/i }));
+    await user.click(screen.getByRole('button', { name: /hide password/i }));
     expect(input).toHaveAttribute('type', 'password');
   });
 

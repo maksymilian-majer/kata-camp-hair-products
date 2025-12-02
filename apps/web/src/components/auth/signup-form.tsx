@@ -2,102 +2,85 @@
 
 import Link from 'next/link';
 
-import { Button, Checkbox, Input, Label } from '@hair-product-scanner/ui';
+import { Button, Input } from '@hair-product-scanner/ui';
+import { useSignupForm } from '@/web/hooks/use-signup-form';
 
+import { FormField } from './form-field';
 import { PasswordInput } from './password-input';
+import { TermsCheckbox } from './terms-checkbox';
 
-type SignupFormProps = {
-  onSubmit?: (data: FormData) => void;
-  disabled?: boolean;
-  error?: string;
-};
-
-export function SignupForm({ onSubmit, disabled, error }: SignupFormProps) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (onSubmit) {
-      onSubmit(new FormData(e.currentTarget));
-    }
-  };
+export function SignupForm() {
+  const { form, onSubmit, isDisabled, errors } = useSignupForm();
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      {error ? (
+    <form onSubmit={onSubmit} className="flex flex-col gap-5">
+      {errors.root ? (
         <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          {error}
+          {errors.root.message}
         </div>
       ) : null}
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="displayName">
-          Display Name <span className="text-muted-foreground">(Optional)</span>
-        </Label>
+      <FormField
+        id="displayName"
+        label={
+          <>
+            Display Name{' '}
+            <span className="text-muted-foreground">(Optional)</span>
+          </>
+        }
+        error={errors.displayName?.message}
+      >
         <Input
           id="displayName"
-          name="displayName"
-          type="text"
           placeholder="Enter your display name"
           autoComplete="name"
-          disabled={disabled}
+          disabled={isDisabled}
+          {...form.register('displayName')}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="email">Email</Label>
+      </FormField>
+      <FormField id="email" label="Email" error={errors.email?.message}>
         <Input
           id="email"
-          name="email"
           type="email"
           placeholder="Enter your email"
           autoComplete="email"
-          disabled={disabled}
-          required
+          disabled={isDisabled}
+          {...form.register('email')}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="password">Password</Label>
+      </FormField>
+      <FormField
+        id="password"
+        label="Password"
+        error={errors.password?.message}
+      >
         <PasswordInput
           id="password"
-          name="password"
           placeholder="Create a password"
           autoComplete="new-password"
-          disabled={disabled}
-          required
+          disabled={isDisabled}
+          {...form.register('password')}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
+      </FormField>
+      <FormField
+        id="confirmPassword"
+        label="Confirm Password"
+        error={errors.confirmPassword?.message}
+      >
         <PasswordInput
           id="confirmPassword"
-          name="confirmPassword"
           placeholder="Confirm your password"
           autoComplete="new-password"
-          disabled={disabled}
-          required
+          disabled={isDisabled}
+          {...form.register('confirmPassword')}
         />
-      </div>
-
-      <div className="flex items-start gap-2">
-        <Checkbox id="terms" name="terms" required disabled={disabled} />
-        <Label htmlFor="terms" className="text-sm font-normal leading-tight">
-          I accept the{' '}
-          <Link href="/terms" className="text-primary hover:underline">
-            Terms and Conditions
-          </Link>
-        </Label>
-      </div>
-
-      <Button
-        type="submit"
-        disabled={disabled}
-        className="w-full bg-primary hover:bg-primary/90"
-        size="lg"
-      >
-        Create Account
+      </FormField>
+      <TermsCheckbox
+        control={form.control}
+        disabled={isDisabled}
+        error={errors.acceptedTerms?.message}
+      />
+      <Button type="submit" disabled={isDisabled} className="w-full" size="lg">
+        {isDisabled ? 'Creating account...' : 'Create Account'}
       </Button>
-
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{' '}
         <Link href="/login" className="text-primary hover:underline">

@@ -1,100 +1,113 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { screen, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { useAuthStore } from '@/web/stores';
+import { setup } from '@/web/testing';
 
 import { SignupForm } from './signup-form';
 
-describe('SignupForm', () => {
-  it('renders display name field with optional label', () => {
-    render(<SignupForm />);
-    expect(
-      screen.getByPlaceholderText(/enter your display name/i)
-    ).toBeInTheDocument();
-    expect(screen.getByText(/\(optional\)/i)).toBeInTheDocument();
+const mockPush = vi.fn();
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+}));
+
+describe('SignupForm validation', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useAuthStore.getState().clearAuth();
   });
 
-  it('renders email field with label', () => {
-    render(<SignupForm />);
-    expect(screen.getByLabelText('Email')).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText(/enter your email/i)
-    ).toBeInTheDocument();
+  it('shows error for weak password', async () => {
+    const { user } = setup(<SignupForm />);
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.type(screen.getByLabelText('Password'), 'weak');
+    await user.type(screen.getByLabelText('Confirm Password'), 'weak');
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /create account/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/password must be at least 8 characters/i)
+      ).toBeInTheDocument();
+    });
   });
 
-  it('renders password field with label', () => {
-    render(<SignupForm />);
-    expect(screen.getByLabelText('Password')).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText(/create a password/i)
-    ).toBeInTheDocument();
-  });
-
-  it('renders confirm password field with label', () => {
-    render(<SignupForm />);
-    expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText(/confirm your password/i)
-    ).toBeInTheDocument();
-  });
-
-  it('renders terms checkbox with link', () => {
-    render(<SignupForm />);
-    expect(screen.getByRole('checkbox')).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /terms and conditions/i })
-    ).toHaveAttribute('href', '/terms');
-  });
-
-  it('renders Create Account button', () => {
-    render(<SignupForm />);
-    expect(
-      screen.getByRole('button', { name: /create account/i })
-    ).toBeInTheDocument();
-  });
-
-  it('renders link to login page', () => {
-    render(<SignupForm />);
-    expect(screen.getByRole('link', { name: /log in/i })).toHaveAttribute(
-      'href',
-      '/login'
+  it('shows error for mismatched passwords', async () => {
+    const { user } = setup(<SignupForm />);
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.type(screen.getByLabelText('Password'), 'SecurePass1!');
+    await user.type(
+      screen.getByLabelText('Confirm Password'),
+      'DifferentPass1!'
     );
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /create account/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/passwords do not match/i)).toBeInTheDocument();
+    });
   });
 
-  it('displays error message when error prop provided', () => {
-    render(<SignupForm error="Email already exists" />);
-    expect(screen.getByText('Email already exists')).toBeInTheDocument();
+  it('shows error when terms not accepted', async () => {
+    const { user } = setup(<SignupForm />);
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.type(screen.getByLabelText('Password'), 'SecurePass1!');
+    await user.type(screen.getByLabelText('Confirm Password'), 'SecurePass1!');
+    await user.click(screen.getByRole('button', { name: /create account/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/you must accept the terms and conditions/i)
+      ).toBeInTheDocument();
+    });
   });
 
-  it('disables form fields when disabled prop is true', () => {
-    render(<SignupForm disabled />);
-    expect(
-      screen.getByPlaceholderText(/enter your display name/i)
-    ).toBeDisabled();
-    expect(screen.getByLabelText('Email')).toBeDisabled();
-    expect(screen.getByLabelText('Password')).toBeDisabled();
-    expect(screen.getByLabelText('Confirm Password')).toBeDisabled();
-    expect(screen.getByRole('checkbox')).toBeDisabled();
-    expect(
-      screen.getByRole('button', { name: /create account/i })
-    ).toBeDisabled();
+  it('redirects on successful signup', async () => {
+    const { user } = setup(<SignupForm />);
+    await user.type(screen.getByLabelText('Email'), 'newuser@example.com');
+    await user.type(screen.getByLabelText('Password'), 'SecurePass1!');
+    await user.type(screen.getByLabelText('Confirm Password'), 'SecurePass1!');
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /create account/i }));
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/dashboard');
+    });
   });
 
-  it('calls onSubmit with FormData when form is submitted', () => {
-    const onSubmit = vi.fn();
-    render(<SignupForm onSubmit={onSubmit} />);
+  it('shows error for existing email', async () => {
+    const { user } = setup(<SignupForm />);
+    await user.type(screen.getByLabelText('Email'), 'alex@example.com');
+    await user.type(screen.getByLabelText('Password'), 'SecurePass1!');
+    await user.type(screen.getByLabelText('Confirm Password'), 'SecurePass1!');
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /create account/i }));
 
-    fireEvent.change(screen.getByLabelText('Email'), {
-      target: { value: 'test@example.com' },
+    await waitFor(() => {
+      expect(
+        screen.getByText(/an account with this email already exists/i)
+      ).toBeInTheDocument();
     });
-    fireEvent.change(screen.getByLabelText('Password'), {
-      target: { value: 'password123' },
-    });
-    fireEvent.change(screen.getByLabelText('Confirm Password'), {
-      target: { value: 'password123' },
-    });
-    fireEvent.click(screen.getByRole('checkbox'));
-    fireEvent.click(screen.getByRole('button', { name: /create account/i }));
+  });
 
-    expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith(expect.any(FormData));
+  it('stores auth token on success', async () => {
+    const { user } = setup(<SignupForm />);
+    await user.type(screen.getByLabelText('Email'), 'newuser2@example.com');
+    await user.type(screen.getByLabelText('Password'), 'SecurePass1!');
+    await user.type(screen.getByLabelText('Confirm Password'), 'SecurePass1!');
+    await user.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('button', { name: /create account/i }));
+
+    await waitFor(() => {
+      expect(useAuthStore.getState().isAuthenticated).toBe(true);
+    });
   });
 });

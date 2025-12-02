@@ -191,24 +191,24 @@ After implementation, write tests that verify:
 
 ---
 
-## Phase 3: Smart Components + State
+## Phase 3: Smart Components + State ✅ (2025-12-02)
 
 **Subagent**: `frontend-phase-3`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Create Zustand auth store (`stores/auth.store.ts`):
+- [x] Create Zustand auth store (`stores/auth.store.ts`):
   - State: `user`, `accessToken`, `isAuthenticated`
   - Actions: `setAuth`, `clearAuth`
   - Persistence: save/restore token from localStorage
-- [ ] Add `initializeAuth()` function to restore session on app load
-- [ ] Connect LoginForm to `useLogin` mutation with React Hook Form
-- [ ] Connect SignupForm to `useSignup` mutation with React Hook Form
-- [ ] Add form validation with Zod resolver
-- [ ] Create `ProtectedRoute` component for authenticated routes
-- [ ] Add redirect logic (login → dashboard, logout → login)
-- [ ] Update app header to show user display name and logout button
+- [x] Add `initializeAuth()` function to restore session on app load
+- [x] Connect LoginForm to `useLogin` mutation with React Hook Form
+- [x] Connect SignupForm to `useSignup` mutation with React Hook Form
+- [x] Add form validation with Zod resolver
+- [x] Create `ProtectedRoute` component for authenticated routes
+- [x] Add redirect logic (login → dashboard, logout → login)
+- [x] Update app header to show user display name and logout button
 
 **Note**: No separate `AuthProvider` component needed - Zustand handles state. Use `initializeAuth()` in root layout to restore session.
 
@@ -216,21 +216,21 @@ After implementation, write tests that verify:
 
 After implementation, write integration tests that verify:
 
-- [ ] User can complete login flow end-to-end (with mocks)
-- [ ] User can complete signup flow end-to-end (with mocks)
-- [ ] Form validation shows inline errors
-- [ ] Password mismatch shows error on signup
-- [ ] Terms checkbox required for signup
-- [ ] Successful login redirects to dashboard
-- [ ] Logout clears token and redirects to login
+- [x] User can complete login flow end-to-end (with mocks)
+- [x] User can complete signup flow end-to-end (with mocks)
+- [x] Form validation shows inline errors
+- [x] Password mismatch shows error on signup
+- [x] Terms checkbox required for signup
+- [x] Successful login redirects to dashboard
+- [x] Logout clears token and redirects to login
 
 ### Completion Criteria
 
-- [ ] Auth flows work end-to-end with mocked API
-- [ ] Form validation functional with proper error messages
-- [ ] Token persisted and restored on refresh
-- [ ] Protected routes redirect unauthenticated users
-- [ ] Tests pass: `pnpm nx test web`
+- [x] Auth flows work end-to-end with mocked API
+- [x] Form validation functional with proper error messages
+- [x] Token persisted and restored on refresh
+- [x] Protected routes redirect unauthenticated users
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

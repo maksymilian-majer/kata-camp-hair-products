@@ -36,6 +36,8 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/hair_scanner
       - API_PORT=3001
       - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - JWT_SECRET=test-jwt-secret-for-docker-dev-min-32-chars
+      - JWT_EXPIRES_IN=7d
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
     command: pnpm dev

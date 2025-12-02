@@ -298,24 +298,24 @@ describe('UserRepository', () => {
 
 ---
 
-## Phase 5: Service Layer (TDD)
+## Phase 5: Service Layer (TDD) ✅ (2025-12-02)
 
 **Subagent**: `backend-phase-5`
 **Testing**: Write tests FIRST (Unit tests with mocked repository)
 
 ### Tasks
 
-- [ ] Write auth service unit tests FIRST
-- [ ] Define `Authenticator` service interface:
+- [x] Write auth service unit tests FIRST
+- [x] Define `Authenticator` service interface:
   - `register(data: SignupRequest): Promise<AuthResult>`
   - `login(data: LoginRequest): Promise<AuthResult>`
   - `validateUser(email: string, password: string): Promise<User | null>`
   - `generateToken(user: User): string`
-- [ ] Implement `AuthenticatorImpl` service:
+- [x] Implement `AuthenticatorImpl` service:
   - Password hashing with bcrypt
   - Email uniqueness check
   - JWT token generation
-- [ ] Install and configure dependencies:
+- [x] Install and configure dependencies:
   - `bcrypt` for password hashing
   - `@nestjs/jwt` for token generation
   - `@nestjs/passport` and `passport-jwt` for strategy
@@ -383,9 +383,9 @@ describe('Authenticator', () => {
 
 ### Completion Criteria
 
-- [ ] Service tests written and initially failing
-- [ ] Service implementation complete with bcrypt + JWT
-- [ ] All tests pass: `pnpm nx test api`
+- [x] Service tests written and initially failing
+- [x] Service implementation complete with bcrypt + JWT
+- [x] All tests pass: `pnpm nx test api`
 
 ---
 

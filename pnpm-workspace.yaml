@@ -1,1 +1,6 @@
+packages:
+  - 'apps/*'
+  - 'libs/*'
 autoInstallPeers: true
+onlyBuiltDependencies:
+  - bcrypt

@@ -135,29 +135,29 @@ After implementation, write tests that verify:
 
 ---
 
-## Phase 2: API Client + Mocks
+## Phase 2: API Client + Mocks (2025-12-02)
 
 **Subagent**: `frontend-phase-2`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Define auth types in `@hair-product-scanner/shared`:
+- [x] Define auth types in `@hair-product-scanner/shared`:
   - `User` (id, email, displayName, createdAt)
   - `LoginRequest` (email, password)
   - `LoginResponse` (accessToken, user)
   - `SignupRequest` (email, password, displayName?, acceptedTerms)
   - `SignupResponse` (accessToken, user)
-- [ ] Create Zod schemas for validation `@hair-product-scanner/shared`::
+- [x] Create Zod schemas for validation `@hair-product-scanner/shared`::
   - `loginSchema` (email, password)
   - `signupSchema` (email, password with complexity, confirmPassword, displayName?, acceptedTerms)
-- [ ] Create TanStack Query mutations:
+- [x] Create TanStack Query mutations:
   - `useLogin` mutation
   - `useSignup` mutation
   - `useLogout` mutation
   - `useCurrentUser` query
-- [ ] Set up MSW handlers for `/api/auth/*` endpoints
-- [ ] Create auth API client functions
+- [x] Set up MSW handlers for `/api/auth/*` endpoints
+- [x] Create auth API client functions
 
 ### Zod Schema Requirements
 
@@ -176,18 +176,18 @@ const passwordSchema = z
 
 After implementation, write tests that verify:
 
-- [ ] Login mutation returns token and user on success
-- [ ] Login mutation returns error for invalid credentials
-- [ ] Signup mutation validates password complexity
-- [ ] Signup mutation validates password confirmation match
+- [x] Login mutation returns token and user on success
+- [x] Login mutation returns error for invalid credentials
+- [x] Signup mutation validates password complexity
+- [x] Signup mutation validates password confirmation match
 
 ### Completion Criteria
 
-- [ ] Types defined in shared library
-- [ ] Zod schemas with password complexity validation
-- [ ] Query/mutation hooks created
-- [ ] MSW mocks return realistic responses
-- [ ] Tests pass: `pnpm nx test web`
+- [x] Types defined in shared library
+- [x] Zod schemas with password complexity validation
+- [x] Query/mutation hooks created
+- [x] MSW mocks return realistic responses
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

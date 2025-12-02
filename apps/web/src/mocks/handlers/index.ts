@@ -1,4 +1,3 @@
-// Health endpoint is integrated with real backend - handler not registered
-// import { healthHandlers } from './health';
+import { authHandlers } from './auth';
 
-export const handlers: [] = [];
+export const handlers = [...authHandlers];

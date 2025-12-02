@@ -300,7 +300,7 @@ c) How many concerns/goals can users select?
 ## After Story Creation
 
 - Story is created but implementation doesn't start automatically
-- Use `/plan` command to create implementation plan
+- Use `/phased-plan` command to create implementation plan
 - Use `/implement` command to begin development
 - Stories serve as reference during development and testing
 

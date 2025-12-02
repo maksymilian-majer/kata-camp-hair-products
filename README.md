@@ -103,7 +103,7 @@ hair-product-scanner/
 │   └── shared/              # Shared types and Zod schemas
 ├── docs/                    # Documentation
 ├── .claude/                 # AI workflow configuration
-│   ├── commands/            # Slash commands (/story, /plan, etc.)
+│   ├── commands/            # Slash commands (/story, /phased-plan, etc.)
 │   ├── agents/              # Phase subagents
 │   └── skills/              # Reusable knowledge
 └── docker-compose.yml       # Local PostgreSQL
@@ -229,7 +229,7 @@ The frontend phases (Phase 1) require the frontend design plugin for high-qualit
 | Command              | Purpose                              |
 | -------------------- | ------------------------------------ |
 | `/story [ID] [desc]` | Create user story with BDD scenarios |
-| `/plan [ID]`         | Generate 7-phase implementation plan |
+| `/phased-plan [ID]`  | Generate 7-phase implementation plan |
 | `/implement Phase N` | Execute phase with specialized agent |
 | `/commit`            | Create conventional commit           |
 | `/pr`                | Create pull request                  |
@@ -237,7 +237,7 @@ The frontend phases (Phase 1) require the frontend design plugin for high-qualit
 ### Workflow Overview
 
 ```
-Planning:     /story → /plan
+Planning:     /story → /phased-plan
 Implementation: /implement + @plan (autodetects phase)
   Frontend:     Phase 1 (UI) → Phase 2 (API Client) → Phase 3 (Smart Components)
   Backend:      Phase 4 (Repository) → Phase 5 (Service) → Phase 6 (Controller)

@@ -470,7 +470,7 @@ When skipping phases, clearly note which phases are skipped and why in the plan.
 ## Usage Examples
 
 ```
-/plan HAIR-1
+/phased-plan HAIR-1
 
 Create an implementation plan for the Hair Profile Quiz story (HAIR-1).
 
@@ -478,7 +478,7 @@ Create an implementation plan for the Hair Profile Quiz story (HAIR-1).
 ```
 
 ```
-/plan HAIR-2
+/phased-plan HAIR-2
 
 Create an implementation plan for the Product Scanner story.
 Note: This feature requires camera access and OCR integration.

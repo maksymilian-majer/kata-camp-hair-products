@@ -181,7 +181,7 @@ Ensure all template sections are completed:
 - PRD is created but development doesn't start automatically
 - Share with stakeholders for review if applicable
 - Use `/story` command to create detailed user stories
-- Use `/plan` command to create implementation plans
+- Use `/phased-plan` command to create implementation plans
 
 ## Usage Examples
 

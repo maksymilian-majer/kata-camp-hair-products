@@ -7,7 +7,7 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    PLANNING PHASE                                │
-│  /prd → /story → /plan                                          │
+│  /prd → /story → /phased-plan                                          │
 │  Create PRD → Define user story with BDD → Generate 7-phase plan │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -49,7 +49,7 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 # 1. Planning
 /prd HairScanner "AI-powered hair product ingredient scanner"
 /story HAIR-1 "Complete hair profile quiz"
-/plan HAIR-1
+/phased-plan HAIR-1
 
 # 2. Frontend Implementation
 /implement Phase 1    # Presentational UI
@@ -291,7 +291,7 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 ├── commands/                    # Slash commands (user-invoked)
 │   ├── prd.md                  # /prd - Product Requirements Document
 │   ├── story.md                # /story - User story with BDD
-│   ├── plan.md                 # /plan - 7-phase implementation plan
+│   ├── phased-plan.md          # /phased-plan - 7-phase implementation plan
 │   ├── implement.md            # /implement - Phase dispatcher
 │   ├── commit.md               # /commit - Conventional commit
 │   └── pr.md                   # /pr - Pull request
@@ -322,7 +322,7 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 | --------------------------- | --------------------------------------- | ------------------------- |
 | `/prd [name] [description]` | Create Product Requirements Document    | `docs/PRD-{name}.md`      |
 | `/story [ID] [description]` | Create user story with BDD scenarios    | `docs/stories/{ID}.md`    |
-| `/plan [ID]`                | Generate 7-phase implementation plan    | `docs/plans/PLAN-{ID}.md` |
+| `/phased-plan [ID]`         | Generate 7-phase implementation plan    | `docs/plans/PLAN-{ID}.md` |
 | `/implement Phase N`        | Execute phase with specialized subagent | Code + tests              |
 | `/commit`                   | Create conventional commit              | Git commit                |
 | `/pr`                       | Create pull request                     | GitHub PR                 |

@@ -32,7 +32,7 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 ### Required Tools & Accounts
 
 | Tool            | Purpose            | Setup                 |
-|-----------------|--------------------|-----------------------|
+| --------------- | ------------------ | --------------------- |
 | Claude Code Pro | AI-assisted coding | Subscription required |
 | Lovable.dev     | Rapid prototyping  | Free account          |
 | Node.js 22+     | Runtime            | Pre-installed         |
@@ -58,7 +58,7 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 ### Stack Decisions (Final)
 
 | Component        | Choice         | Rationale                                                               |
-|------------------|----------------|-------------------------------------------------------------------------|
+| ---------------- | -------------- | ----------------------------------------------------------------------- |
 | **Monorepo**     | Nx 22          | Intelligent caching, parallel execution, mature ecosystem               |
 | **Frontend**     | Next.js 16     | Better AI knowledge, more documentation, mature Nx plugin               |
 | **Backend**      | NestJS 11      | Structured architecture, matches Go Clean Architecture patterns         |
@@ -72,7 +72,7 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 ### Why Next.js over React Router 7?
 
 | Factor                 | Next.js 16                        | React Router 7     |
-|------------------------|-----------------------------------|--------------------|
+| ---------------------- | --------------------------------- | ------------------ |
 | **AI Knowledge**       | Excellent - tons of training data | Limited - very new |
 | **Documentation**      | Extensive                         | Still evolving     |
 | **Nx Integration**     | Mature plugin                     | Newer plugin       |
@@ -85,8 +85,8 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 ### Why Vitest over Jest?
 
 | Factor        | Vitest                                                              | Jest            |
-|---------------|---------------------------------------------------------------------|-----------------|
-| **Speed**     | 2-3x faster                                                         | Baseline        |.
+| ------------- | ------------------------------------------------------------------- | --------------- | --- |
+| **Speed**     | 2-3x faster                                                         | Baseline        | .   |
 | **ESM**       | Native                                                              | Requires config |
 | **NestJS 11** | [Official recipe](https://docs.nestjs.com/recipes/swc)              | Native          |
 | **Next.js**   | [Official guide](https://nextjs.org/docs/app/guides/testing/vitest) | Needs config    |
@@ -99,14 +99,11 @@ Lovable.dev (Prototype) → Claude Code (Implementation) → Production-Ready Ap
 
 ```typescript
 // Drizzle - SQL-like, similar to Go raw SQL approach
-const drizzleProducts = await db
-  .select()
-  .from(productsTable)
-  .where(eq(productsTable.hairType, 'curly'));
+const drizzleProducts = await db.select().from(productsTable).where(eq(productsTable.hairType, 'curly'));
 
 // vs TypeORM - ORM abstraction
 const typeOrmProducts = await productRepository.find({
-  where: {hairType: 'curly'}
+  where: { hairType: 'curly' },
 });
 ```
 
@@ -226,7 +223,7 @@ export type HairType = 'straight' | 'wavy' | 'curly' | 'coily';
 // ═══════════════════════════════════════════════════════════
 // SHARED SCHEMAS (libs/shared/src/schemas/questionnaire.schemas.ts)
 // ═══════════════════════════════════════════════════════════
-import {z} from 'zod';
+import { z } from 'zod';
 
 export const createQuestionnaireSchema = z.object({
   hairType: z.enum(['straight', 'wavy', 'curly', 'coily']),
@@ -239,12 +236,11 @@ export type CreateQuestionnaireInput = z.infer<typeof createQuestionnaireSchema>
 // ═══════════════════════════════════════════════════════════
 // CONTROLLER (returns shared types)
 // ═══════════════════════════════════════════════════════════
-import {QuestionnaireResponse, CreateQuestionnaireInput} from '@hair-scanner/shared';
+import { QuestionnaireResponse, CreateQuestionnaireInput } from '@hair-scanner/shared';
 
 @Controller('questionnaires')
 export class QuestionnairesController {
-  constructor(private readonly service: QuestionnairesService) {
-  }
+  constructor(private readonly service: QuestionnairesService) {}
 
   @Post()
   async create(@Body() input: CreateQuestionnaireInput): Promise<QuestionnaireResponse> {
@@ -262,8 +258,7 @@ export class QuestionnairesController {
 // ═══════════════════════════════════════════════════════════
 @Injectable()
 export class QuestionnairesService {
-  constructor(private readonly repository: QuestionnairesRepository) {
-  }
+  constructor(private readonly repository: QuestionnairesRepository) {}
 
   async create(input: CreateQuestionnaireInput): Promise<QuestionnaireResponse> {
     const questionnaire = await this.repository.save(input);
@@ -292,22 +287,15 @@ export class QuestionnairesService {
 // ═══════════════════════════════════════════════════════════
 @Injectable()
 export class QuestionnairesRepository {
-  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {
-  }
+  constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {}
 
   async save(input: CreateQuestionnaireInput): Promise<Questionnaire> {
-    const [result] = await this.db
-      .insert(questionnaires)
-      .values(input)
-      .returning();
+    const [result] = await this.db.insert(questionnaires).values(input).returning();
     return result;
   }
 
   async findById(id: string): Promise<Questionnaire | null> {
-    const [result] = await this.db
-      .select()
-      .from(questionnaires)
-      .where(eq(questionnaires.id, id));
+    const [result] = await this.db.select().from(questionnaires).where(eq(questionnaires.id, id));
     return result ?? null;
   }
 }
@@ -329,7 +317,7 @@ export interface Questionnaire {
   hairType: HairType;
   concerns: string[];
   goals: string[];
-  createdAt: Date;  // Date internally, string in API response
+  createdAt: Date; // Date internally, string in API response
 }
 
 // Repository implements interface
@@ -344,8 +332,7 @@ export class QuestionnairesService {
   constructor(
     @Inject('IQuestionnairesRepository')
     private readonly repository: IQuestionnairesRepository
-  ) {
-  }
+  ) {}
 }
 ```
 
@@ -532,7 +519,7 @@ See detailed phase descriptions in the original document. Key changes:
 ### What Makes a Test Meaningful?
 
 | Meaningful                       | Not Meaningful                  |
-|----------------------------------|---------------------------------|
+| -------------------------------- | ------------------------------- |
 | Tests user can complete quiz     | Tests component renders         |
 | Tests API returns valid products | Tests service method is called  |
 | Tests scanned label is analyzed  | Tests mock was called with args |
@@ -545,10 +532,10 @@ See detailed phase descriptions in the original document. Key changes:
 ### Timeline
 
 | Time | Duration | Activity                                                      |
-|------|----------|---------------------------------------------------------------|
+| ---- | -------- | ------------------------------------------------------------- |
 | 0:00 | 10 min   | **Introduction**: Workflow overview, stack intro              |
 | 0:10 | 5 min    | **Phase 0**: Review Lovable prototype, identify target screen |
-| 0:15 | 10 min   | **Demo**: `/story` and `/plan` commands                       |
+| 0:15 | 10 min   | **Demo**: `/story` and `/phased-plan` commands                |
 | 0:25 | 15 min   | **Phases 1-3**: Frontend implementation with `/implement`     |
 | 0:40 | 25 min   | **Phases 4-6**: Backend TDD with testcontainers               |
 | 1:05 | 10 min   | **Phase 7**: Integration + `/commit`                          |
@@ -562,7 +549,7 @@ See detailed phase descriptions in the original document. Key changes:
 /story HAIR-1 "Hair profile quiz"
 
 # 2. Generate implementation plan with BDD scenarios
-/plan HAIR-1
+/phased-plan HAIR-1
 
 # 3. Implement each phase
 /implement Phase 1  # Presentational UI
@@ -707,7 +694,7 @@ hair-product-scanner/
 
 ```typescript
 // drizzle.config.ts
-import {defineConfig} from 'drizzle-kit';
+import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
   schema: './apps/api/src/database/schema.ts',
@@ -736,12 +723,12 @@ pnpm drizzle-kit push
 
 ```typescript
 // apps/api/src/database/schema.ts
-import {pgTable, uuid, varchar, text, timestamp, jsonb} from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, timestamp, jsonb } from 'drizzle-orm/pg-core';
 
 // Quiz responses - user's hair profile
 export const questionnaires = pgTable('questionnaires', {
   id: uuid('id').primaryKey().defaultRandom(),
-  hairType: varchar('hair_type', {length: 50}).notNull(),
+  hairType: varchar('hair_type', { length: 50 }).notNull(),
   concerns: jsonb('concerns').$type<string[]>().notNull(),
   goals: jsonb('goals').$type<string[]>().notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -750,21 +737,27 @@ export const questionnaires = pgTable('questionnaires', {
 // Product label scans - what user scanned in store
 export const scans = pgTable('scans', {
   id: uuid('id').primaryKey().defaultRandom(),
-  questionnaireId: uuid('questionnaire_id').references(() => questionnaires.id).notNull(),
-  productName: varchar('product_name', {length: 255}).notNull(),
-  brand: varchar('brand', {length: 100}),
+  questionnaireId: uuid('questionnaire_id')
+    .references(() => questionnaires.id)
+    .notNull(),
+  productName: varchar('product_name', { length: 255 }).notNull(),
+  brand: varchar('brand', { length: 100 }),
   ingredients: text('ingredients').notNull(),
-  imageUrl: varchar('image_url', {length: 500}),
+  imageUrl: varchar('image_url', { length: 500 }),
   aiAnalysis: jsonb('ai_analysis').$type<AiAnalysis>(),
-  compatibilityScore: varchar('compatibility_score', {length: 10}),
+  compatibilityScore: varchar('compatibility_score', { length: 10 }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
 // Saved scans - user's favorites
 export const favorites = pgTable('favorites', {
   id: uuid('id').primaryKey().defaultRandom(),
-  questionnaireId: uuid('questionnaire_id').references(() => questionnaires.id).notNull(),
-  scanId: uuid('scan_id').references(() => scans.id).notNull(),
+  questionnaireId: uuid('questionnaire_id')
+    .references(() => questionnaires.id)
+    .notNull(),
+  scanId: uuid('scan_id')
+    .references(() => scans.id)
+    .notNull(),
   notes: text('notes'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
@@ -782,10 +775,10 @@ interface AiAnalysis {
 
 ```typescript
 // apps/api/test/setup.ts
-import {PostgreSqlContainer, StartedPostgreSqlContainer} from '@testcontainers/postgresql';
-import {drizzle} from 'drizzle-orm/node-postgres';
-import {migrate} from 'drizzle-orm/node-postgres/migrator';
-import {Pool} from 'pg';
+import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import { Pool } from 'pg';
 
 let container: StartedPostgreSqlContainer;
 let pool: Pool;
@@ -798,9 +791,9 @@ export async function setupTestDatabase() {
   });
 
   const db = drizzle(pool);
-  await migrate(db, {migrationsFolder: './drizzle'});
+  await migrate(db, { migrationsFolder: './drizzle' });
 
-  return {db, pool, connectionUri: container.getConnectionUri()};
+  return { db, pool, connectionUri: container.getConnectionUri() };
 }
 
 export async function teardownTestDatabase() {
@@ -835,7 +828,7 @@ Build Claude Code workflow with subagents and skills:
 
 - [ ] `/prd` - Create Product Requirements Document (high-level features)
 - [ ] `/story` - Create User Story with BDD scenarios (Gherkin)
-- [ ] `/plan` - Generate 7-phase implementation plan
+- [ ] `/phased-plan` - Generate 7-phase implementation plan
 - [ ] `/implement` - Phase-aware implementation with subagent dispatch
 - [ ] `/commit` - Conventional commit with AI attribution
 - [ ] `/pr` - Create pull request
@@ -892,7 +885,7 @@ During the kata, participants will USE the pre-configured commands:
 #    → AI generates BDD scenarios from prototype
 
 # 3. Generate implementation plan
-/plan HAIR-1
+/phased-plan HAIR-1
 #    → 7-phase plan with specific tasks
 
 # 4. Implement all phases

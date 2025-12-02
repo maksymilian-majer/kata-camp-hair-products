@@ -301,7 +301,7 @@ module.exports = {
 ├── commands/                    # Slash commands (user-invoked)
 │   ├── prd.md                  # /prd - Create Product Requirements Document
 │   ├── story.md                # /story - Create user story
-│   ├── plan.md                 # /plan - Create implementation plan
+│   ├── phased-plan.md          # /phased-plan - Create implementation plan
 │   ├── implement.md            # /implement - Dispatch to phase subagent
 │   ├── commit.md               # /commit - Conventional commit
 │   └── pr.md                   # /pr - Create pull request
@@ -354,7 +354,7 @@ Location: Project root `AI-WORKFLOW.md`
 Content:
 
 - Solo workflow diagram (commit per phase)
-- Command flow: `/story` → `/plan` → `/implement Phase N` → `/commit` → `/pr`
+- Command flow: `/story` → `/phased-plan` → `/implement Phase N` → `/commit` → `/pr`
 - Phase overview with subagent mapping
 - Testing requirements per phase (TDD for backend)
 
@@ -409,7 +409,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep
 
 **Output location**: `docs/stories/{STORY-ID}-{description}.md`
 
-#### `/plan` Command (`.claude/commands/plan.md`)
+#### `/phased-plan` Command (`.claude/commands/phased-plan.md`)
 
 ```yaml
 ---
@@ -618,7 +618,7 @@ When user runs `/implement Phase N`:
 - [x] `/commit` - Conventional commits with Claude Code attribution
 - [x] `/prd` - Product requirements document
 - [x] `/story` - User stories with BDD scenarios
-- [x] `/plan` - 7-phase implementation planning
+- [x] `/phased-plan` - 7-phase implementation planning
 - [x] `/implement` - Phase dispatcher
 - [x] `/pr` - Pull request creation (using GitHub CLI)
 

@@ -18,6 +18,14 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+class ResizeObserverMock {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+
+global.ResizeObserver = ResizeObserverMock;
+
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());

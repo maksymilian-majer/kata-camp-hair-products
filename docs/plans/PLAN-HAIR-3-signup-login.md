@@ -89,21 +89,21 @@ And my session should be terminated
 
 ---
 
-## Phase 1: Presentational UI Components
+## Phase 1: Presentational UI Components (2025-12-02)
 
 **Subagent**: `frontend-phase-1`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Create `LoginForm` component (email, password fields, submit button)
-- [ ] Create `SignupForm` component (display name, email, password, confirm password, terms checkbox)
-- [ ] Create `AuthLayout` component (split-screen with illustration)
-- [ ] Create `PasswordInput` component with visibility toggle
-- [ ] Create `/(auth)/login` page using AuthLayout + LoginForm
-- [ ] Create `/(auth)/signup` page using AuthLayout + SignupForm
-- [ ] Create `/(auth)/terms` page with placeholder content
-- [ ] Style with Tailwind following the mockup (split-screen, modern inputs, branded colors)
+- [x] Create `LoginForm` component (email, password fields, submit button)
+- [x] Create `SignupForm` component (display name, email, password, confirm password, terms checkbox)
+- [x] Create `AuthLayout` component (split-screen with illustration)
+- [x] Create `PasswordInput` component with visibility toggle
+- [x] Create `/(auth)/login` page using AuthLayout + LoginForm
+- [x] Create `/(auth)/signup` page using AuthLayout + SignupForm
+- [x] Create `/(auth)/terms` page with placeholder content
+- [x] Style with Tailwind following the mockup (split-screen, modern inputs, branded colors)
 
 ### Visual Requirements
 
@@ -121,17 +121,17 @@ Based on the mockup (`docs/stories/HAIR-3/login.jpg`):
 
 After implementation, write tests that verify:
 
-- [ ] LoginForm renders email and password fields
-- [ ] SignupForm renders all required fields including terms checkbox
-- [ ] PasswordInput toggles visibility when eye icon clicked
-- [ ] AuthLayout shows illustration on desktop, hides on mobile
+- [x] LoginForm renders email and password fields
+- [x] SignupForm renders all required fields including terms checkbox
+- [x] PasswordInput toggles visibility when eye icon clicked
+- [x] AuthLayout shows illustration on desktop, hides on mobile
 
 ### Completion Criteria
 
-- [ ] All components created and styled per mockup
-- [ ] Pages viewable at `/login`, `/signup`, `/terms` (using `(auth)` route group)
-- [ ] Responsive: split-screen on desktop, single column on mobile
-- [ ] Tests pass: `pnpm nx test web`
+- [x] All components created and styled per mockup
+- [x] Pages viewable at `/login`, `/signup`, `/terms` (using `(auth)` route group)
+- [x] Responsive: split-screen on desktop, single column on mobile
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

@@ -549,6 +549,147 @@ apps/api/src/app/
         └── analyze-product.handler.ts
 ```
 
+## Authentication with Passport JWT
+
+### Installation
+
+```bash
+pnpm add @nestjs/passport @nestjs/jwt passport passport-jwt bcrypt
+pnpm add -D @types/passport-jwt @types/bcrypt
+```
+
+### JWT Strategy
+
+```typescript
+// apps/api/src/app/auth/jwt.strategy.ts
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+
+export type JwtPayload = {
+  sub: string; // user ID
+  email: string;
+};
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(configService: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: configService.get<string>('JWT_SECRET'),
+    });
+  }
+
+  async validate(payload: JwtPayload) {
+    // This becomes req.user
+    return { id: payload.sub, email: payload.email };
+  }
+}
+```
+
+### JWT Auth Guard
+
+```typescript
+// apps/api/src/app/auth/jwt-auth.guard.ts
+import { Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {}
+```
+
+### Protecting Routes
+
+```typescript
+// Apply to individual routes
+@UseGuards(JwtAuthGuard)
+@Get('profile')
+getProfile(@Req() req: Request) {
+  return req.user;
+}
+
+// Apply to entire controller
+@UseGuards(JwtAuthGuard)
+@Controller('api/questionnaires')
+export class QuestionnairesController {}
+
+// Apply globally (in main.ts or app.module.ts)
+app.useGlobalGuards(new JwtAuthGuard());
+```
+
+### Auth Module Setup
+
+```typescript
+// apps/api/src/app/auth/auth.module.ts
+import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './jwt.strategy';
+import { JwtAuthGuard } from './jwt-auth.guard';
+
+@Module({
+  imports: [
+    PassportModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: configService.get<string>('JWT_EXPIRES_IN', '7d') },
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+  providers: [JwtStrategy, JwtAuthGuard],
+  exports: [JwtModule, JwtAuthGuard],
+})
+export class AuthModule {}
+```
+
+### Generating Tokens
+
+```typescript
+// In auth service
+import { JwtService } from '@nestjs/jwt';
+
+@Injectable()
+export class AuthenticatorImpl implements Authenticator {
+  constructor(
+    private readonly jwtService: JwtService,
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository
+  ) {}
+
+  generateToken(user: User): string {
+    const payload: JwtPayload = { sub: user.id, email: user.email };
+    return this.jwtService.sign(payload);
+  }
+}
+```
+
+### Request User Type
+
+```typescript
+// Extend Express Request type
+declare global {
+  namespace Express {
+    interface User {
+      id: string;
+      email: string;
+    }
+  }
+}
+
+// Usage in controller
+@Get()
+async getQuestionnaire(@Req() req: Request) {
+  const userId = req.user!.id;  // TypeScript knows the shape
+  // ...
+}
+```
+
 ## Best Practices
 
 ### DO:

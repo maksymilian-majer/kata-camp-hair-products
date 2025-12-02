@@ -50,24 +50,67 @@ apps/api/src/modules/
 
 ## Step 1: Write E2E Tests FIRST
 
-**Authentication for E2E Tests**: Tests should mock authentication by injecting a test user into `req.user`. See boilerplate improvements for Passport setup.
+### Authentication in E2E Tests
+
+For protected routes, E2E tests must use real JWT tokens. Use reusable helpers from `apps/api/src/testing/`:
+
+**For non-auth controllers (fast, isolated tests):**
 
 ```typescript
-// apps/api/src/modules/questionnaires/questionnaires.controller.e2e.spec.ts
+import { generateTestJwt, insertTestUser } from '../../testing';
+
+let authToken: string;
+let userId: string;
+
+beforeEach(async () => {
+  const db = drizzle(pool, { schema });
+  await db.delete(schema.questionnaires);
+  await db.delete(schema.users);
+
+  // Fast: direct DB insert + JWT generation (no bcrypt, no HTTP)
+  const user = await insertTestUser(db, { email: 'test@example.com' });
+  userId = user.id;
+  authToken = generateTestJwt(userId, user.email);
+});
+
+// Make authenticated requests
+const response = await request(app.getHttpServer()).get('/api/questionnaires').set('Authorization', `Bearer ${authToken}`);
+```
+
+**For auth E2E tests (full flow):**
+
+```typescript
+// Auth tests should call real signup/login endpoints
+const response = await request(app.getHttpServer()).post('/api/auth/signup').send({ email: 'new@example.com', password: 'SecurePass1!', acceptedTerms: true });
+const authToken = response.body.accessToken;
+```
+
+**Why two approaches?**
+
+- Non-auth tests: Fast, isolated - if auth breaks, only auth tests fail
+- Auth tests: Full validation of the auth flow itself
+
+### Example E2E Test with Authentication
+
+```typescript
+// apps/api/src/app/questionnaires/questionnaires.controller.e2e.spec.ts
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-import { AppModule } from '../../app.module';
+import { AppModule } from '../app.module';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from '../../database/schema';
+import { generateTestJwt, insertTestUser } from '../../testing';
 
 describe('QuestionnairesController (e2e)', () => {
   let app: INestApplication;
   let container: StartedPostgreSqlContainer;
   let pool: Pool;
+  let authToken: string;
+  let userId: string;
 
   beforeAll(async () => {
     container = await new PostgreSqlContainer().withDatabase('test').start();
@@ -93,11 +136,23 @@ describe('QuestionnairesController (e2e)', () => {
   beforeEach(async () => {
     const db = drizzle(pool, { schema });
     await db.delete(schema.questionnaires);
+    await db.delete(schema.users);
+
+    // Fast: direct DB insert + JWT generation (no HTTP calls, no bcrypt)
+    const user = await insertTestUser(db, { email: 'test@example.com' });
+    userId = user.id;
+    authToken = generateTestJwt(userId, user.email);
   });
 
   describe('GET /api/questionnaires', () => {
-    it('returns 404 when no questionnaire exists', async () => {
+    it('returns 401 without auth token', async () => {
       const response = await request(app.getHttpServer()).get('/api/questionnaires');
+
+      expect(response.status).toBe(401);
+    });
+
+    it('returns 404 when no questionnaire exists', async () => {
+      const response = await request(app.getHttpServer()).get('/api/questionnaires').set('Authorization', `Bearer ${authToken}`);
 
       expect(response.status).toBe(404);
     });
@@ -105,13 +160,14 @@ describe('QuestionnairesController (e2e)', () => {
     it('returns questionnaire when exists', async () => {
       await request(app.getHttpServer())
         .post('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           hairType: 'curly',
           concerns: ['frizz'],
           goals: ['moisturize'],
         });
 
-      const response = await request(app.getHttpServer()).get('/api/questionnaires');
+      const response = await request(app.getHttpServer()).get('/api/questionnaires').set('Authorization', `Bearer ${authToken}`);
 
       expect(response.status).toBe(200);
       expect(response.body.hairType).toBe('curly');
@@ -122,6 +178,7 @@ describe('QuestionnairesController (e2e)', () => {
     it('creates questionnaire successfully', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           hairType: 'curly',
           concerns: ['frizz', 'dryness'],
@@ -137,6 +194,7 @@ describe('QuestionnairesController (e2e)', () => {
     it('returns 400 for invalid hair type', async () => {
       const response = await request(app.getHttpServer())
         .post('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           hairType: 'invalid',
           concerns: ['frizz'],
@@ -149,6 +207,7 @@ describe('QuestionnairesController (e2e)', () => {
     it('returns 409 when questionnaire already exists', async () => {
       await request(app.getHttpServer())
         .post('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           hairType: 'curly',
           concerns: ['frizz'],
@@ -157,6 +216,7 @@ describe('QuestionnairesController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           hairType: 'wavy',
           concerns: ['damage'],
@@ -171,6 +231,7 @@ describe('QuestionnairesController (e2e)', () => {
     it('updates questionnaire successfully', async () => {
       await request(app.getHttpServer())
         .post('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           hairType: 'curly',
           concerns: ['frizz'],
@@ -179,6 +240,7 @@ describe('QuestionnairesController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .patch('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           concerns: ['frizz', 'dryness'],
         });
@@ -190,6 +252,7 @@ describe('QuestionnairesController (e2e)', () => {
     it('returns 404 when questionnaire does not exist', async () => {
       const response = await request(app.getHttpServer())
         .patch('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           concerns: ['frizz'],
         });
@@ -202,23 +265,26 @@ describe('QuestionnairesController (e2e)', () => {
     it('deletes questionnaire successfully', async () => {
       await request(app.getHttpServer())
         .post('/api/questionnaires')
+        .set('Authorization', `Bearer ${authToken}`)
         .send({
           hairType: 'curly',
           concerns: ['frizz'],
           goals: ['moisturize'],
         });
 
-      const deleteResponse = await request(app.getHttpServer()).delete('/api/questionnaires');
+      const deleteResponse = await request(app.getHttpServer()).delete('/api/questionnaires').set('Authorization', `Bearer ${authToken}`);
 
       expect(deleteResponse.status).toBe(204);
 
-      const getResponse = await request(app.getHttpServer()).get('/api/questionnaires');
+      const getResponse = await request(app.getHttpServer()).get('/api/questionnaires').set('Authorization', `Bearer ${authToken}`);
 
       expect(getResponse.status).toBe(404);
     });
   });
 });
 ```
+
+**Note**: JWT_SECRET is set globally via `vitest.setup.ts` - no need to set it in each test file.
 
 ## Step 2: Run Tests (Expect FAIL)
 

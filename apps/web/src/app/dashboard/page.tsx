@@ -29,7 +29,7 @@ export default function DashboardPage() {
 
       <div className="space-y-6">
         <Card>
-          <CardContent className="pt-6">
+          <CardContent>
             <div className="text-center space-y-4">
               <p className="text-muted-foreground">
                 Your scan history will appear here
@@ -39,7 +39,7 @@ export default function DashboardPage() {
         </Card>
 
         <Card>
-          <CardContent className="pt-6">
+          <CardContent>
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center gap-2">
                 <h2 className="text-lg font-semibold">API Status</h2>

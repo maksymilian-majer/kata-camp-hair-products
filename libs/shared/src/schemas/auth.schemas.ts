@@ -32,5 +32,15 @@ export const signupSchema = z
     path: ['confirmPassword'],
   });
 
+export const signupRequestSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+  displayName: z.string().optional(),
+  acceptedTerms: z.literal(true, {
+    error: 'You must accept the Terms and Conditions',
+  }),
+});
+
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type SignupFormData = z.infer<typeof signupSchema>;
+export type SignupRequestData = z.infer<typeof signupRequestSchema>;

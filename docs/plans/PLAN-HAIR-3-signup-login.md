@@ -389,23 +389,23 @@ describe('Authenticator', () => {
 
 ---
 
-## Phase 6: HTTP Controllers (TDD)
+## Phase 6: HTTP Controllers (TDD) ✅ (2025-12-02)
 
 **Subagent**: `backend-phase-6`
 **Testing**: Write E2E tests FIRST (Supertest + Testcontainers)
 
 ### Tasks
 
-- [ ] Create reusable JWT test helpers in `apps/api/src/testing/`
-- [ ] Write E2E tests FIRST using test helpers
-- [ ] Create `AuthController` with endpoints:
+- [x] Create reusable JWT test helpers in `apps/api/src/testing/`
+- [x] Write E2E tests FIRST using test helpers
+- [x] Create `AuthController` with endpoints:
   - `POST /api/auth/signup` - Register new user
   - `POST /api/auth/login` - Login and get token
   - `POST /api/auth/logout` - Logout (client-side token removal)
   - `GET /api/auth/me` - Get current user (protected)
-- [ ] Configure Passport JWT strategy
-- [ ] Create `JwtAuthGuard` for protected routes
-- [ ] Wire up `AuthModule`
+- [x] Configure Passport JWT strategy
+- [x] Create `JwtAuthGuard` for protected routes
+- [x] Wire up `AuthModule`
 
 ### JWT Strategy Configuration
 
@@ -568,11 +568,11 @@ describe('AuthController (e2e)', () => {
 
 ### Completion Criteria
 
-- [ ] E2E tests written and initially failing
-- [ ] Controller implementation complete
-- [ ] JWT strategy configured
-- [ ] All tests pass: `pnpm nx test api`
-- [ ] Manual verification with cURL
+- [x] E2E tests written and initially failing
+- [x] Controller implementation complete
+- [x] JWT strategy configured
+- [x] All tests pass: `pnpm nx test api`
+- [x] Manual verification with cURL
 
 ---
 

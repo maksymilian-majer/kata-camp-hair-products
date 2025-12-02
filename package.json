@@ -51,6 +51,7 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6",
     "@types/node": "20.19.9",
     "@types/passport-jwt": "^4.0.1",
     "@types/pg": "^8.15.6",

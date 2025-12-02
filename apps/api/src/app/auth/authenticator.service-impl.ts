@@ -73,7 +73,8 @@ export class AuthenticatorImpl implements Authenticator {
       return null;
     }
 
-    const { passwordHash: _, ...user } = userWithPassword;
+    const { passwordHash: _unused, ...user } = userWithPassword;
+    void _unused;
     return user;
   }
 

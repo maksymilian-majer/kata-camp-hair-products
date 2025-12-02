@@ -148,7 +148,7 @@ After implementation, write tests that verify:
 
 ---
 
-## Phase 2: API Client + Mocks
+## Phase 2: API Client + Mocks ✅ (2025-12-02)
 
 **Subagent**: `frontend-phase-2`
 **Testing**: Write tests AFTER implementation
@@ -157,49 +157,49 @@ After implementation, write tests that verify:
 
 This phase is **minimal** since auth API already exists. Only need to ensure:
 
-- [ ] Verify existing auth hooks work with new layout (`useAuthStore`, `useLogout`)
-- [ ] No new API endpoints needed for navigation
+- [x] Verify existing auth hooks work with new layout (`useAuthStore`, `useLogout`)
+- [x] No new API endpoints needed for navigation
 
 ### Test Scenarios
 
 After implementation, write tests that verify:
 
-- [ ] `useAuthStore` returns user and authentication state
-- [ ] `useLogout` mutation clears auth and redirects
+- [x] `useAuthStore` returns user and authentication state
+- [x] `useLogout` mutation clears auth and redirects
 
 ### Completion Criteria
 
-- [ ] Existing auth hooks verified working
-- [ ] MSW mocks return expected data
-- [ ] Tests pass: `pnpm nx test web`
+- [x] Existing auth hooks verified working
+- [x] No MSW mocks needed (using real backend)
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 
-## Phase 3: Smart Components + Integration
+## Phase 3: Smart Components + Integration ✅ (2025-12-02)
 
 **Subagent**: `frontend-phase-3`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Wire up `AppSidebar` to auth store
+- [x] Wire up `AppSidebar` to auth store
   - Display user info from `useAuthStore`
   - Wire logout button to `useLogout` mutation
-- [ ] Wire up `MobileBottomNav` to auth store
+- [x] Wire up `MobileBottomNav` to auth store
   - Display user info in profile sheet
   - Wire logout button to `useLogout` mutation
-- [ ] Implement active state detection for `NavItem`
+- [x] Implement active state detection for `NavItem`
   - Use Next.js `usePathname` to determine active route
-- [ ] Implement root redirect logic (`apps/web/src/app/page.tsx`)
+- [x] Implement root redirect logic (`apps/web/src/app/page.tsx`)
   - Check `isAuthenticated` from auth store
   - Redirect to `/login` if not authenticated
   - Redirect to `/dashboard` if authenticated
   - Show loading spinner while auth initializes
-- [ ] Add keyboard navigation support
+- [x] Add keyboard navigation support
   - All nav items focusable
   - Disabled items focusable but not activatable
   - Proper `aria-disabled` and `aria-current` attributes
-- [ ] Add screen reader support
+- [x] Add screen reader support
   - Announce disabled state: "Questionnaire, disabled"
   - Proper landmark roles (`nav`, `main`)
 
@@ -207,23 +207,23 @@ After implementation, write tests that verify:
 
 After implementation, write integration tests that verify:
 
-- [ ] User can navigate to Home page from sidebar
-- [ ] User can navigate to Home page from bottom nav
-- [ ] Disabled tabs do not navigate when clicked
-- [ ] Logout button clears auth and redirects to `/login`
-- [ ] Root URL redirects unauthenticated users to `/login`
-- [ ] Root URL redirects authenticated users to `/dashboard`
-- [ ] Layout switches from sidebar to bottom nav at 768px breakpoint
-- [ ] Keyboard navigation works (Tab through items, Enter to activate)
-- [ ] Screen reader announces disabled state correctly
+- [x] User can navigate to Home page from sidebar
+- [x] User can navigate to Home page from bottom nav
+- [x] Disabled tabs do not navigate when clicked
+- [x] Logout button clears auth and redirects to `/login`
+- [x] Root URL redirects unauthenticated users to `/login`
+- [x] Root URL redirects authenticated users to `/dashboard`
+- [x] Layout switches from sidebar to bottom nav at 768px breakpoint
+- [x] Keyboard navigation works (Tab through items, Enter to activate)
+- [x] Screen reader announces disabled state correctly
 
 ### Completion Criteria
 
-- [ ] Feature works end-to-end with real auth
-- [ ] Navigation functions correctly
-- [ ] Auth-based routing works
-- [ ] Keyboard and screen reader accessible
-- [ ] Tests pass: `pnpm nx test web`
+- [x] Feature works end-to-end with real auth
+- [x] Navigation functions correctly
+- [x] Auth-based routing works
+- [x] Keyboard and screen reader accessible
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

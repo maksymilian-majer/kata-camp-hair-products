@@ -360,6 +360,38 @@ export function cn(...inputs: ClassValue[]) {
 
 ## State Management
 
+### State Management Rules
+
+**DO**: Use Zustand for all client-side state
+**DON'T**: Create React Context providers for state management
+
+Library providers are acceptable (they don't manage app state):
+
+- `QueryClientProvider` (TanStack Query)
+- `ThemeProvider` (next-themes)
+- Toast/notification providers
+
+```tsx
+// BAD - Context Provider for state
+const AuthContext = createContext<AuthState | null>(null);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null); // State in provider = BAD
+  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+}
+
+// GOOD - Zustand Store (with persist for localStorage)
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      login: (user) => set({ user }),
+      logout: () => set({ user: null }),
+    }),
+    { name: 'auth-storage' }
+  )
+);
+```
+
 ### Local UI State
 
 ```tsx

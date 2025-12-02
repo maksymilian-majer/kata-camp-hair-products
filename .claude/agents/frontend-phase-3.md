@@ -27,6 +27,7 @@ Connect presentational components to the mocked API. Add state management and fo
 - No new presentational components (Phase 1)
 - No new API hooks (Phase 2)
 - No real backend connection (Phase 7)
+- No React Context providers for state (use Zustand exclusively)
 
 ## Smart vs Presentational Pattern
 
@@ -164,6 +165,42 @@ export const useQuizStore = create<QuizState>((set) => ({
   reset: () => set({ hairType: null, concerns: [], goals: [] }),
 }));
 ```
+
+## Zustand Store with Persistence (Auth Example)
+
+For state that needs to persist across page refreshes (like auth tokens), use Zustand's `persist` middleware:
+
+```typescript
+// apps/web/src/stores/auth.store.ts
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import type { User } from '@hair-product-scanner/shared';
+
+type AuthState = {
+  token: string | null;
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (token: string, user: User) => void;
+  logout: () => void;
+  setUser: (user: User) => void;
+};
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      token: null,
+      user: null,
+      isAuthenticated: false,
+      login: (token, user) => set({ token, user, isAuthenticated: true }),
+      logout: () => set({ token: null, user: null, isAuthenticated: false }),
+      setUser: (user) => set({ user }),
+    }),
+    { name: 'auth-storage' }
+  )
+);
+```
+
+**Important**: Never create React Context providers for state management. The `persist` middleware handles localStorage automatically - no provider needed.
 
 ## React Hook Form + Zod
 

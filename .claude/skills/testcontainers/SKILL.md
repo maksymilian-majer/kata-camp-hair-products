@@ -2,6 +2,13 @@
 
 Patterns for using @testcontainers/postgresql for backend integration testing with real PostgreSQL databases.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { setupTestDatabase } from './database'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import * as schema from '@/api/database/schema'`)
+- **Shared libs**: Use package imports (e.g., `import type { User } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## Setup
 
 ### Installation
@@ -18,7 +25,7 @@ import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { Pool } from 'pg';
-import * as schema from '../../src/database/schema';
+import * as schema from '@/api/database/schema';
 
 let container: StartedPostgreSqlContainer;
 let pool: Pool;
@@ -120,8 +127,8 @@ afterEach(async () => {
 // scan.repository.spec.ts
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ScanRepository } from './scan.repository';
-import { getTestDatabase } from '../../test/setup/database';
-import { users, scans } from '../database/schema';
+import { getTestDatabase } from '@/api/test/setup/database';
+import { users, scans } from '@/api/database/schema';
 
 describe('ScanRepository Integration', () => {
   let repository: ScanRepository;
@@ -254,8 +261,8 @@ describe('Transaction handling', () => {
 
 ```typescript
 // test/factories/user.factory.ts
-import { getTestDatabase } from '../setup/database';
-import { users, NewUser } from '../../src/database/schema';
+import { getTestDatabase } from '@/api/test/setup/database';
+import { users, NewUser } from '@/api/database/schema';
 
 export async function createTestUser(overrides?: Partial<NewUser>) {
   const db = getTestDatabase();
@@ -289,7 +296,7 @@ export async function createTestUsers(count: number) {
 
 ```typescript
 // user.service.spec.ts
-import { createTestUser, createTestUsers } from '../test/factories/user.factory';
+import { createTestUser, createTestUsers } from '@/api/test/factories/user.factory';
 
 describe('UserService', () => {
   it('finds user by email', async () => {

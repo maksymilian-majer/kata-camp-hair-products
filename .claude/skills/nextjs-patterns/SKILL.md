@@ -2,6 +2,13 @@
 
 Patterns for Next.js 16 with App Router, TypeScript, and Tailwind 4.1.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { Button } from './Button'`)
+- **Parent/other folders**: Use `@/web/` alias (e.g., `import { useQuizStore } from '@/stores/quizStore'`)
+- **Shared libs**: Use package imports (e.g., `import type { HairType } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/web/` alias
+
 ## TypeScript Guidelines
 
 ### Type Usage

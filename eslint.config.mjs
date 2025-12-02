@@ -2,6 +2,7 @@ import nx from '@nx/eslint-plugin';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
+import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
@@ -15,6 +16,7 @@ export default defineConfig([
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     plugins: {
       import: importPlugin,
+      'no-relative-import-paths': noRelativeImportPaths,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
     },
@@ -23,7 +25,12 @@ export default defineConfig([
         'error',
         {
           enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
+          allow: [
+            '^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$',
+            // Allow @/api/* and @/web/* for same-project imports
+            '^@/api/.*$',
+            '^@/web/.*$',
+          ],
           depConstraints: [
             {
               sourceTag: '*',
@@ -57,6 +64,12 @@ export default defineConfig([
       'import/no-self-import': 'error',
       'import/prefer-default-export': 'off',
       'import/order': 'off',
+
+      // Enforce @/ alias for parent imports, allow ./ for same folder
+      'no-relative-import-paths/no-relative-import-paths': [
+        'error',
+        { allowSameFolder: true },
+      ],
 
       // Unused imports cleanup
       'unused-imports/no-unused-imports': 'error',

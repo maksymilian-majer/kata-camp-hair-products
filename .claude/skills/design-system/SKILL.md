@@ -2,6 +2,13 @@
 
 This project uses shadcn/ui components with Tailwind CSS 4.1 in an Nx monorepo setup.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { Button } from './Button'`)
+- **Parent/other folders**: Use `@/web/` alias (e.g., `import { cn } from '@/lib/utils'`)
+- **UI lib**: Use package imports (e.g., `import { Button, Card } from '@hair-product-scanner/ui'`)
+- **NEVER use `../`** - parent imports must use `@/web/` alias
+
 ## shadcn/ui Component Management
 
 Components are managed in `libs/ui`. This library serves as the single source of truth for all UI components and styles.

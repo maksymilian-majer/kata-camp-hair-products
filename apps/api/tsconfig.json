@@ -8,9 +8,6 @@
     }
   ],
   "compilerOptions": {
-    "esModuleInterop": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "esModuleInterop": true
   }
 }

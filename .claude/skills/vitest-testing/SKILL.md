@@ -2,6 +2,13 @@
 
 Patterns for Vitest testing including frontend (React Testing Library) and backend (NestJS) tests, plus MSW for API mocking.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { QuizCard } from './QuizCard'`)
+- **Parent/other folders**: Use `@/web/` alias (e.g., `import { server } from '@/web/mocks/server'`)
+- **Shared libs**: Use package imports (e.g., `import type { Quiz } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/web/` alias
+
 ## Test File Organization
 
 ### File Naming
@@ -360,7 +367,7 @@ afterAll(() => server.close());
 // api.spec.tsx
 import { render, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { server } from '../mocks/server';
+import { server } from '@/web/mocks/server';
 import { describe, it, expect } from 'vitest';
 import { QuizPage } from './QuizPage';
 

@@ -15,6 +15,13 @@ skills:
 
 Build business logic services with test-first development. Write unit tests with mocked repositories BEFORE implementing services.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { Surveyer } from './surveyer.service'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import { ValidationException } from '@/api/shared/exceptions'`)
+- **Shared libs**: Use package imports (e.g., `import type { Questionnaire } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## TDD Flow
 
 ```
@@ -333,7 +340,7 @@ import { QuestionnaireDrizzleRepository } from './questionnaire.drizzle-reposito
 import { SurveyerImpl } from './surveyer.service-impl';
 import { QUESTIONNAIRE_REPOSITORY } from './questionnaire.repository';
 import { SURVEYER } from './surveyer.service';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '@/api/database/database.module';
 
 @Module({
   imports: [DatabaseModule],

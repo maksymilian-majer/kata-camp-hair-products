@@ -1,7 +1,7 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { sql } from 'drizzle-orm';
 
-import { DRIZZLE, DrizzleDB } from '../database';
+import { DRIZZLE, DrizzleDB } from '@/api/database';
 
 @Controller('health')
 export class HealthController {

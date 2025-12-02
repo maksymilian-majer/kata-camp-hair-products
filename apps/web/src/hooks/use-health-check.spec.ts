@@ -1,8 +1,12 @@
 import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { server } from '../mocks/server';
-import { createQueryWrapper, renderHook, waitFor } from '../testing/test-utils';
+import { server } from '@/web/mocks/server';
+import {
+  createQueryWrapper,
+  renderHook,
+  waitFor,
+} from '@/web/testing/test-utils';
 
 import { useHealthCheck } from './use-health-check';
 

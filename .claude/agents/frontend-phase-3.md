@@ -14,6 +14,13 @@ skills:
 
 Connect presentational components to the mocked API. Add state management and forms.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { HairTypeSelector } from './HairTypeSelector'`)
+- **Parent/other folders**: Use `@/web/` alias (e.g., `import { useQuizStore } from '@/web/stores/quizStore'`)
+- **Shared libs**: Use package imports (e.g., `import type { HairType } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/web/` alias
+
 ## What You Build
 
 - Smart wrapper components that fetch data
@@ -80,7 +87,7 @@ apps/web/src/
 ```typescript
 // apps/web/src/hooks/useQuizFlow.ts
 import { useState, useCallback } from 'react';
-import { useCreateHairProfile } from '@/lib/api/hooks';
+import { useCreateHairProfile } from '@/web/lib/api/hooks';
 import type { HairType } from '@hair-product-scanner/shared';
 
 type QuizStep = 'hair-type' | 'concerns' | 'goals' | 'complete';
@@ -464,11 +471,11 @@ vi.mock('next/navigation', () => ({
   useRouter: vi.fn(),
 }));
 
-vi.mock('@/lib/api/hooks', () => ({
+vi.mock('@/web/lib/api/hooks', () => ({
   useHairProfile: vi.fn(),
 }));
 
-import { useHairProfile } from '@/lib/api/hooks';
+import { useHairProfile } from '@/web/lib/api/hooks';
 
 describe('HairProfileCardContainer', () => {
   const mockPush = vi.fn();

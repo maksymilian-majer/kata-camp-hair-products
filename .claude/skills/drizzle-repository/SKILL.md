@@ -2,6 +2,13 @@
 
 Patterns for Drizzle ORM with PostgreSQL, including schema definition, query builder, and migrations.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { scans } from './schema'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import { db } from '@/api/database/connection'`)
+- **Shared libs**: Use package imports (e.g., `import type { Scan } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## Schema Definition
 
 ### Table Definition with pgTable
@@ -112,8 +119,8 @@ export interface IScanRepository {
 // scan.repository.ts
 import { Injectable } from '@nestjs/common';
 import { eq, desc, and } from 'drizzle-orm';
-import { db } from '../database/connection';
-import { scans, type Scan, type NewScan } from '../database/schema';
+import { db } from '@/api/database/connection';
+import { scans, type Scan, type NewScan } from '@/api/database/schema';
 import { IScanRepository } from './interfaces/scan-repository.interface';
 
 @Injectable()
@@ -489,7 +496,7 @@ async getScan(id: string): Promise<Scan> {
 ### Transaction Handling
 
 ```typescript
-import { db } from '../database/connection';
+import { db } from '@/api/database/connection';
 
 async createScanWithProfile(
   scanData: NewScan,

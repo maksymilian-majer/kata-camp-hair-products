@@ -2,6 +2,13 @@
 
 Patterns for NestJS 11 with Clean Architecture, dependency injection, and TypeScript.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { AppService } from './app.service'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import { DRIZZLE } from '@/api/database'`)
+- **Shared libs**: Use package imports (e.g., `import type { User } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## Architecture Principles
 
 ### Layer Structure
@@ -77,7 +84,7 @@ import { SurveyerImpl } from './surveyer.service-impl';
 import { QuestionnaireDrizzleRepository } from './questionnaire.drizzle-repository';
 import { SURVEYER } from './surveyer.service';
 import { QUESTIONNAIRE_REPOSITORY } from './questionnaire.repository';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '@/api/database/database.module';
 
 @Module({
   imports: [DatabaseModule],
@@ -468,7 +475,7 @@ export class AnalyzeProductCommand {
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import { AnalyzeProductCommand } from './analyze-product.command';
-import { ProductScanAnalyzer, PRODUCT_SCAN_ANALYZER } from '../services/scan-analyzer.service';
+import { ProductScanAnalyzer, PRODUCT_SCAN_ANALYZER } from '@/services/scan-analyzer.service';
 
 @CommandHandler(AnalyzeProductCommand)
 export class AnalyzeProductHandler implements ICommandHandler<AnalyzeProductCommand> {

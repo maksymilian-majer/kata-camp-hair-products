@@ -16,6 +16,13 @@ skills:
 
 Build the data access layer using Drizzle ORM with test-first development. Write integration tests with Testcontainers BEFORE implementing repositories.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { QuestionnaireRepository } from './questionnaire.repository'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import { DRIZZLE } from '@/api/database'`)
+- **Shared libs**: Use package imports (e.g., `import type { Questionnaire } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## TDD Flow
 
 ```
@@ -80,7 +87,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import { Pool } from 'pg';
 import { QuestionnaireDrizzleRepository } from './questionnaire.drizzle-repository';
-import * as schema from '../../database/schema';
+import * as schema from '@/api/database/schema';
 
 describe('QuestionnaireDrizzleRepository', () => {
   let container: StartedPostgreSqlContainer;
@@ -244,8 +251,8 @@ import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import type { Questionnaire, CreateQuestionnaireRequest } from '@hair-product-scanner/shared';
 import { QuestionnaireRepository } from './questionnaire.repository';
-import * as schema from '../../database/schema';
-import { DRIZZLE } from '../../database/drizzle.provider';
+import * as schema from '@/api/database/schema';
+import { DRIZZLE } from '@/api/database/drizzle.provider';
 
 @Injectable()
 export class QuestionnaireDrizzleRepository implements QuestionnaireRepository {
@@ -325,7 +332,7 @@ All tests should now pass.
 import { Module } from '@nestjs/common';
 import { QuestionnaireDrizzleRepository } from './questionnaire.drizzle-repository';
 import { QUESTIONNAIRE_REPOSITORY } from './questionnaire.repository';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '@/api/database/database.module';
 
 @Module({
   imports: [DatabaseModule],

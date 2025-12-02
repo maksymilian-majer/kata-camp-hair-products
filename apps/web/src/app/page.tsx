@@ -1,9 +1,8 @@
 'use client';
 
 import { Button, toast, Toaster } from '@hair-product-scanner/ui';
-
-import { HealthBadge } from '../components/health-badge';
-import { useHealthCheck } from '../hooks';
+import { HealthBadge } from '@/web/components/health-badge';
+import { useHealthCheck } from '@/web/hooks';
 
 export default function Home() {
   const { data, isLoading } = useHealthCheck();

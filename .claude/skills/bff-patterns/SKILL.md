@@ -2,6 +2,13 @@
 
 Patterns for BFF layer implementation with NestJS, focusing on read-optimized response shapes for frontend needs.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { GetDashboardQuery } from './queries/get-dashboard.query'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import { DRIZZLE } from '@/api/database/drizzle.provider'`)
+- **Shared libs**: Use package imports (e.g., `import type { DashboardResponse } from '@hair-product-scanner/shared/bff'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## What is BFF?
 
 The Backend for Frontend (BFF) pattern is an **anti-corruption layer** that shields the frontend from backend complexity. It translates between what the backend provides and what the frontend needs for display.
@@ -137,8 +144,8 @@ export class GetDashboardQuery {
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import { eq, count, avg, desc } from 'drizzle-orm';
-import { DRIZZLE } from '../../../database/drizzle.provider';
-import { scans, favorites, comparisons, products } from '../../../database/schema';
+import { DRIZZLE } from '@/api/database/drizzle.provider';
+import { scans, favorites, comparisons, products } from '@/api/database/schema';
 import { GetDashboardQuery } from './get-dashboard.query';
 import type { DashboardResponse } from '@hair-product-scanner/shared/bff';
 
@@ -243,7 +250,7 @@ export class DashboardController {
 // bff/dashboard/dashboard.module.ts
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '@/api/database/database.module';
 import { DashboardController } from './dashboard.controller';
 import { GetDashboardHandler } from './queries/get-dashboard.handler';
 

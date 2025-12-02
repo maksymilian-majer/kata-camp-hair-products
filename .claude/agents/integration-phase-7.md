@@ -15,6 +15,13 @@ skills:
 
 Connect the frontend to the real backend API. Remove or conditionally disable MSW mocks. Perform manual testing.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { apiClient } from './client'`)
+- **Parent/other folders**: Use `@/web/` alias (e.g., `import { server } from '@/web/mocks/server'`)
+- **Shared libs**: Use package imports (e.g., `import type { HairProfile } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/web/` alias
+
 ## What You Do
 
 - Remove or disable MSW mocks for integrated endpoints
@@ -81,7 +88,7 @@ export class ApiError extends Error {
 ```typescript
 // apps/web/src/lib/api/hooks/useHairProfile.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '../client';
+import { apiClient } from '@/web/lib/api/client';
 import type { HairProfile, CreateHairProfileRequest } from '@hair-product-scanner/shared';
 
 const QUERY_KEY = ['hair-profile'] as const;
@@ -141,7 +148,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function enableMocking() {
       if (process.env.NODE_ENV === 'development') {
-        const { worker } = await import('@/mocks/browser');
+        const { worker } = await import('@/web/mocks/browser');
         await worker.start({
           onUnhandledRequest: 'bypass',
         });
@@ -198,7 +205,7 @@ When an endpoint is integrated and its handler is unregistered, tests must set u
 // apps/web/src/app/page.spec.tsx
 import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { server } from '../mocks/server';
+import { server } from '@/web/mocks/server';
 
 describe('Home', () => {
   // Set up default handler for all tests in this describe block

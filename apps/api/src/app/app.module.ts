@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
-import { DrizzleModule } from '../database';
+import { DrizzleModule } from '@/api/database';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthController } from './health.controller';

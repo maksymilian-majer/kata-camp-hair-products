@@ -6,7 +6,9 @@ export default [
   ...nx.configs['flat/react'],
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    // Override or add rules here
-    rules: {},
+    rules: {
+      // Allow relative imports in UI library (self-contained package)
+      'no-relative-import-paths/no-relative-import-paths': 'off',
+    },
   },
 ];

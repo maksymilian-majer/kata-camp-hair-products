@@ -1,4 +1,4 @@
-import { Providers } from '../components/providers';
+import { Providers } from '@/web/components/providers';
 
 import '@hair-product-scanner/ui/styles/globals.css';
 

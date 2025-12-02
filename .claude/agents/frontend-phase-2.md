@@ -14,6 +14,13 @@ skills:
 
 Build the data fetching layer with TanStack Query hooks and MSW mocks. Define shared types. No component connections yet.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { hairProfileHandlers } from './hair-profile'`)
+- **Parent/other folders**: Use `@/web/` alias (e.g., `import { apiClient } from '@/web/lib/api/client'`)
+- **Shared libs**: Use package imports (e.g., `import type { HairProfile } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/web/` alias
+
 ## What You Build
 
 - Shared types in `@hair-product-scanner/shared`

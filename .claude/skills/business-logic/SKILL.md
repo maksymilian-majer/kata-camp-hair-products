@@ -2,6 +2,13 @@
 
 Patterns for implementing business logic in the NestJS service layer following an anemic domain model.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { Surveyer } from './surveyer.interface'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import { ValidationException } from '@/api/shared/exceptions'`)
+- **Shared libs**: Use package imports (e.g., `import type { User } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## Architecture Philosophy
 
 This project uses **Anemic Domain Model** (not DDD):
@@ -241,7 +248,7 @@ async getQuestionnaire(userId: string): Promise<Questionnaire> {
 import { Injectable, Inject } from '@nestjs/common';
 import { Surveyer } from './surveyer.interface';
 import { QuestionnaireRepository, QUESTIONNAIRE_REPOSITORY } from './questionnaire.repository';
-import { ValidationException } from '../common/exceptions';
+import { ValidationException } from '@/api/shared/exceptions';
 import type { Questionnaire, CreateQuestionnaireDto } from '@hair-product-scanner/shared';
 
 @Injectable()
@@ -303,7 +310,7 @@ export class SurveyerService implements Surveyer {
 ```typescript
 // questionnaires.controller.ts
 import { Controller, Get, Post, Body, Req, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
-import { ValidationException } from '../common/exceptions';
+import { ValidationException } from '@/api/shared/exceptions';
 
 @Controller('api/questionnaires')
 export class QuestionnairesController {
@@ -341,7 +348,7 @@ export class QuestionnairesController {
 // surveyer.service.spec.ts
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { SurveyerService } from './surveyer.service';
-import { ValidationException } from '../common/exceptions';
+import { ValidationException } from '@/api/shared/exceptions';
 
 describe('SurveyerService', () => {
   let service: SurveyerService;

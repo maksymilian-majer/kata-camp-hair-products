@@ -16,6 +16,13 @@ skills:
 
 Build pure visual components that receive all data through props. No business logic, no API calls, no global state.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { Button } from './Button'`)
+- **Parent/other folders**: Use `@/web/` alias (e.g., `import { cn } from '@/web/lib/utils'`)
+- **Shared libs**: Use package imports (e.g., `import type { HairType } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/web/` alias
+
 ## What You Build
 
 - React components with TypeScript props

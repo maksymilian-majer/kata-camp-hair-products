@@ -16,6 +16,13 @@ skills:
 
 Build NestJS controllers with test-first development. Write E2E tests with Supertest and Testcontainers BEFORE implementing controllers.
 
+## Import Conventions
+
+- **Same folder**: Use relative `./` imports (e.g., `import { Surveyer, SURVEYER } from './surveyer.service'`)
+- **Parent/other folders**: Use `@/api/` alias (e.g., `import { ValidationException } from '@/api/shared/exceptions'`)
+- **Shared libs**: Use package imports (e.g., `import type { CreateQuestionnaireRequest } from '@hair-product-scanner/shared'`)
+- **NEVER use `../`** - parent imports must use `@/api/` alias
+
 ## TDD Flow
 
 ```
@@ -57,7 +64,7 @@ For protected routes, E2E tests must use real JWT tokens. Use reusable helpers f
 **For non-auth controllers (fast, isolated tests):**
 
 ```typescript
-import { generateTestJwt, insertTestUser } from '../../testing';
+import { generateTestJwt, insertTestUser } from '@/api/testing';
 
 let authToken: string;
 let userId: string;
@@ -99,11 +106,11 @@ import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { PostgreSqlContainer, StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-import { AppModule } from '../app.module';
+import { AppModule } from '@/api/app/app.module';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
-import * as schema from '../../database/schema';
-import { generateTestJwt, insertTestUser } from '../../testing';
+import * as schema from '@/api/database/schema';
+import { generateTestJwt, insertTestUser } from '@/api/testing';
 
 describe('QuestionnairesController (e2e)', () => {
   let app: INestApplication;
@@ -381,7 +388,7 @@ import { QuestionnaireDrizzleRepository } from './questionnaire.drizzle-reposito
 import { SurveyerImpl } from './surveyer.service-impl';
 import { QUESTIONNAIRE_REPOSITORY } from './questionnaire.repository';
 import { SURVEYER } from './surveyer.service';
-import { DatabaseModule } from '../../database/database.module';
+import { DatabaseModule } from '@/api/database/database.module';
 
 @Module({
   imports: [DatabaseModule],

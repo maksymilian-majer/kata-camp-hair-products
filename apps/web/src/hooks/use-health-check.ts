@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import type { HealthResponse } from '@hair-product-scanner/shared';
-
-import { env } from '../app/env';
+import { env } from '@/web/app/env';
 
 export function useHealthCheck() {
   return useQuery<HealthResponse>({

@@ -7,6 +7,13 @@ import type {
 } from '@hair-product-scanner/shared';
 import { env } from '@/web/app/env';
 
+const ACCESS_TOKEN_KEY = 'auth_access_token';
+
+function getStoredToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
+
 export class AuthApiError extends Error {
   constructor(
     message: string,
@@ -51,9 +58,15 @@ export async function signup(data: SignupRequest): Promise<SignupResponse> {
 }
 
 export async function logout(): Promise<void> {
+  const token = getStoredToken();
+  const headers: HeadersInit = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   const response = await fetch(`${env.BACKEND_URL}/api/auth/logout`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
   });
   if (!response.ok) {
     throw new AuthApiError(
@@ -65,7 +78,16 @@ export async function logout(): Promise<void> {
 }
 
 export async function getCurrentUser(): Promise<User | null> {
-  const response = await fetch(`${env.BACKEND_URL}/api/auth/me`);
+  const token = getStoredToken();
+  if (!token) {
+    return null;
+  }
+
+  const response = await fetch(`${env.BACKEND_URL}/api/auth/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   if (response.status === 401) {
     return null;
   }

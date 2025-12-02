@@ -164,6 +164,8 @@ describe('useCurrentUser', () => {
   });
 
   it('returns user when authenticated', async () => {
+    localStorage.setItem('auth_access_token', 'mock-token');
+
     const mockUser = {
       id: '1',
       email: 'alex@example.com',
@@ -179,6 +181,8 @@ describe('useCurrentUser', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data).toEqual(mockUser);
+
+    localStorage.removeItem('auth_access_token');
   });
 });
 

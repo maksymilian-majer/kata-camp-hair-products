@@ -1,12 +1,16 @@
 import { screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { SignupRequest } from '@hair-product-scanner/shared';
+import { server } from '@/web/mocks/server';
 import { useAuthStore } from '@/web/stores';
 import { setup } from '@/web/testing';
 
 import { SignupForm } from './signup-form';
 
 const mockPush = vi.fn();
+const registeredEmails = new Set(['alex@example.com']);
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
@@ -19,10 +23,40 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-describe('SignupForm validation', () => {
+function setupSignupHandler() {
+  server.use(
+    http.post('*/api/auth/signup', async ({ request }) => {
+      const body = (await request.json()) as SignupRequest;
+      if (registeredEmails.has(body.email)) {
+        return HttpResponse.json(
+          {
+            message: 'An account with this email already exists',
+            code: 'EMAIL_EXISTS',
+          },
+          { status: 409 }
+        );
+      }
+      return HttpResponse.json(
+        {
+          accessToken: 'mock-token-new',
+          user: {
+            id: crypto.randomUUID(),
+            email: body.email,
+            displayName: body.displayName || null,
+            createdAt: new Date().toISOString(),
+          },
+        },
+        { status: 201 }
+      );
+    })
+  );
+}
+
+describe('SignupForm client-side validation', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useAuthStore.getState().clearAuth();
+    setupSignupHandler();
   });
 
   it('shows error for weak password', async () => {
@@ -68,6 +102,14 @@ describe('SignupForm validation', () => {
         screen.getByText(/you must accept the terms and conditions/i)
       ).toBeInTheDocument();
     });
+  });
+});
+
+describe('SignupForm submission', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useAuthStore.getState().clearAuth();
+    setupSignupHandler();
   });
 
   it('redirects on successful signup', async () => {

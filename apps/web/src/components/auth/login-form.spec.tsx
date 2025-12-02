@@ -1,6 +1,8 @@
 import { screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { server } from '@/web/mocks/server';
 import { useAuthStore } from '@/web/stores';
 import { setup } from '@/web/testing';
 
@@ -19,10 +21,40 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-describe('LoginForm', () => {
+function setupLoginHandler() {
+  server.use(
+    http.post('*/api/auth/login', async ({ request }) => {
+      const body = (await request.json()) as {
+        email: string;
+        password: string;
+      };
+      if (
+        body.email === 'alex@example.com' &&
+        body.password === 'SecurePass1!'
+      ) {
+        return HttpResponse.json({
+          accessToken: 'mock-token-1',
+          user: {
+            id: '1',
+            email: 'alex@example.com',
+            displayName: 'Alex',
+            createdAt: '2024-01-15T10:00:00Z',
+          },
+        });
+      }
+      return HttpResponse.json(
+        { message: 'Invalid email or password', code: 'INVALID_CREDENTIALS' },
+        { status: 401 }
+      );
+    })
+  );
+}
+
+describe('LoginForm rendering', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useAuthStore.getState().clearAuth();
+    setupLoginHandler();
   });
 
   it('renders email field with label', () => {
@@ -53,6 +85,14 @@ describe('LoginForm', () => {
       '/signup'
     );
   });
+});
+
+describe('LoginForm validation', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useAuthStore.getState().clearAuth();
+    setupLoginHandler();
+  });
 
   it('shows validation error for empty email', async () => {
     const { user } = setup(<LoginForm />);
@@ -72,6 +112,14 @@ describe('LoginForm', () => {
     await waitFor(() => {
       expect(screen.getByText(/password is required/i)).toBeInTheDocument();
     });
+  });
+});
+
+describe('LoginForm submission', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useAuthStore.getState().clearAuth();
+    setupLoginHandler();
   });
 
   it('submits form with valid credentials and redirects', async () => {

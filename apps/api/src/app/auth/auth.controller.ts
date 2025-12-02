@@ -34,7 +34,7 @@ declare module 'express' {
   }
 }
 
-@Controller('api/auth')
+@Controller('auth')
 export class AuthController {
   constructor(
     @Inject(AUTHENTICATOR)

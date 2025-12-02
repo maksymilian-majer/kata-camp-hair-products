@@ -102,6 +102,13 @@ export default defineConfig([
       'import/namespace': 'off',
     },
   },
+  // Test files - allow longer functions
+  {
+    files: ['**/*.spec.ts', '**/*.test.ts'],
+    rules: {
+      'max-lines-per-function': 'off',
+    },
+  },
   // Prettier configuration - MUST be last
   eslintConfigPrettier,
   eslintPluginPrettierRecommended,

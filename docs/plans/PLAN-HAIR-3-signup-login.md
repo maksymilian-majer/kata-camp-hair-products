@@ -234,24 +234,24 @@ After implementation, write integration tests that verify:
 
 ---
 
-## Phase 4: Repository Layer (TDD)
+## Phase 4: Repository Layer (TDD) ✅ (2025-12-02)
 
 **Subagent**: `backend-phase-4`
 **Testing**: Write tests FIRST (Testcontainers)
 
 ### Tasks
 
-- [ ] Write user repository integration tests FIRST
-- [ ] Create `users` table schema in Drizzle:
+- [x] Write user repository integration tests FIRST
+- [x] Create `users` table schema in Drizzle:
   - `id` (uuid, primary key)
   - `email` (varchar, unique)
   - `passwordHash` (varchar)
   - `displayName` (varchar, nullable)
   - `createdAt` (timestamp)
   - `updatedAt` (timestamp)
-- [ ] Generate and run migration
-- [ ] Define `UserRepository` interface
-- [ ] Implement `UserDrizzleRepository`
+- [x] Generate and run migration
+- [x] Define `UserRepository` interface
+- [x] Implement `UserDrizzleRepository`
 
 ### Test Scenarios (Write BEFORE Implementation)
 
@@ -291,10 +291,10 @@ describe('UserRepository', () => {
 
 ### Completion Criteria
 
-- [ ] Repository tests written and initially failing
-- [ ] Database migration created and applied
-- [ ] Repository implementation complete
-- [ ] All tests pass: `pnpm nx test api`
+- [x] Repository tests written and initially failing
+- [x] Database migration created and applied
+- [x] Repository implementation complete
+- [x] All tests pass: `pnpm nx test api`
 
 ---
 

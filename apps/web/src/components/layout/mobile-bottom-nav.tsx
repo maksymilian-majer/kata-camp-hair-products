@@ -15,6 +15,8 @@ import {
   SheetTrigger,
 } from '@hair-product-scanner/ui';
 
+import { ThemeToggle } from './theme-toggle';
+
 const NAV_ITEMS = [
   { title: 'Home', icon: Home, href: '/dashboard', disabled: false },
   {
@@ -110,6 +112,7 @@ export function MobileBottomNav({
                   </p>
                 </div>
               </div>
+              <ThemeToggle />
               <Button
                 variant="destructive"
                 className="w-full"

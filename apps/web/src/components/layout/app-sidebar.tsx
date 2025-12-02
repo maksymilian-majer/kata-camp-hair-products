@@ -18,6 +18,8 @@ import {
   SidebarMenuItem,
 } from '@hair-product-scanner/ui';
 
+import { ThemeToggle } from './theme-toggle';
+
 const navItems = [
   { title: 'Home', icon: Home, href: '/dashboard', disabled: false },
   {
@@ -122,6 +124,7 @@ export function AppSidebar({
               ) : null}
             </div>
           </div>
+          <ThemeToggle />
           <Button
             variant="ghost"
             className="w-full justify-start"

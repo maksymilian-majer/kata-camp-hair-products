@@ -6,3 +6,4 @@ export {
   type MobileBottomNavProps,
 } from './mobile-bottom-nav';
 export { NavItem, type NavItemProps } from './nav-item';
+export { ThemeToggle } from './theme-toggle';

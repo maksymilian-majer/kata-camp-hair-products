@@ -70,42 +70,42 @@ Then I should be redirected to "/dashboard"
 
 ---
 
-## Phase 1: Presentational UI Components
+## Phase 1: Presentational UI Components ✅ (2025-12-02)
 
 **Subagent**: `frontend-phase-1`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Delete existing `/` route (`apps/web/src/app/page.tsx`)
-- [ ] Create root redirect page (`apps/web/src/app/page.tsx`) that redirects to `/login` or `/dashboard` based on auth state
-- [ ] Create `AppSidebar` component (`apps/web/src/components/layout/app-sidebar.tsx`)
+- [x] Delete existing `/` route (`apps/web/src/app/page.tsx`)
+- [x] Create root redirect page (`apps/web/src/app/page.tsx`) that redirects to `/login` or `/dashboard` based on auth state
+- [x] Create `AppSidebar` component (`apps/web/src/components/layout/app-sidebar.tsx`)
   - Logo section at top
   - Navigation items: Home, Questionnaire (disabled), Scan (disabled)
   - User info + logout button at bottom
   - Uses Shadcn Sidebar components
-- [ ] Create `MobileBottomNav` component (`apps/web/src/components/layout/mobile-bottom-nav.tsx`)
+- [x] Create `MobileBottomNav` component (`apps/web/src/components/layout/mobile-bottom-nav.tsx`)
   - Fixed position bottom navigation bar
   - Three tabs: Home, Questionnaire (disabled), Scan (disabled)
   - Profile button that opens a sheet with user info + logout
   - Touch-friendly sizing (min 44px targets)
-- [ ] Create `AppLayout` component (`apps/web/src/components/layout/app-layout.tsx`)
+- [x] Create `AppLayout` component (`apps/web/src/components/layout/app-layout.tsx`)
   - Wraps protected pages
   - Shows sidebar on desktop (hidden on mobile: `hidden md:block`)
   - Shows bottom nav on mobile (hidden on desktop: `md:hidden`)
   - Main content area with proper padding
-- [ ] Create `NavItem` component (`apps/web/src/components/layout/nav-item.tsx`)
+- [x] Create `NavItem` component (`apps/web/src/components/layout/nav-item.tsx`)
   - Reusable navigation item with icon, label, href, disabled state
   - Active state styling
   - Disabled state styling (grayed out, not clickable)
   - Keyboard accessible (focusable but not activatable when disabled)
-- [ ] Update dashboard page (`apps/web/src/app/dashboard/page.tsx`)
+- [x] Update dashboard page (`apps/web/src/app/dashboard/page.tsx`)
   - Keep existing healthcheck functionality unchanged
   - Add placeholder content: "Your scan history will appear here"
-- [ ] Update dashboard layout (`apps/web/src/app/dashboard/layout.tsx`)
+- [x] Update dashboard layout (`apps/web/src/app/dashboard/layout.tsx`)
   - Replace `AppHeader` with new `AppLayout`
   - Keep `ProtectedRoute` wrapper
-- [ ] Export new components from `apps/web/src/components/layout/index.ts`
+- [x] Export new components from `apps/web/src/components/layout/index.ts`
 
 ### Component Props Interfaces
 
@@ -129,22 +129,22 @@ interface AppLayoutProps {
 
 After implementation, write tests that verify:
 
-- [ ] `AppSidebar` renders logo, navigation items, and user section
-- [ ] `AppSidebar` shows disabled items with reduced opacity
-- [ ] `MobileBottomNav` renders all three tabs with icons and labels
-- [ ] `MobileBottomNav` disabled tabs are not clickable
-- [ ] `NavItem` renders active state correctly
-- [ ] `NavItem` renders disabled state correctly
-- [ ] `AppLayout` conditionally renders sidebar or bottom nav based on viewport
+- [x] `AppSidebar` renders logo, navigation items, and user section
+- [x] `AppSidebar` shows disabled items with reduced opacity
+- [x] `MobileBottomNav` renders all three tabs with icons and labels
+- [x] `MobileBottomNav` disabled tabs are not clickable
+- [x] `NavItem` renders active state correctly
+- [x] `NavItem` renders disabled state correctly
+- [x] `AppLayout` conditionally renders sidebar or bottom nav based on viewport
 
 ### Completion Criteria
 
-- [ ] All components created and styled
-- [ ] Props interfaces defined
-- [ ] Root route redirects based on auth state
-- [ ] Dashboard page shows placeholder + healthcheck
-- [ ] Components viewable at `/dashboard`
-- [ ] Tests pass: `pnpm nx test web`
+- [x] All components created and styled
+- [x] Props interfaces defined
+- [x] Root route redirects based on auth state
+- [x] Dashboard page shows placeholder + healthcheck
+- [x] Components viewable at `/dashboard`
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

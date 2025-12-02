@@ -1,33 +1,36 @@
 'use client';
 
-import { Button, toast, Toaster } from '@hair-product-scanner/ui';
-import { HealthBadge } from '@/web/components/health-badge';
-import { useHealthCheck } from '@/web/hooks';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function Home() {
-  const { data, isLoading } = useHealthCheck();
+import { useAuthStore } from '@/web/stores';
 
-  const status = isLoading
-    ? 'loading'
-    : data?.status === 'ok'
-      ? 'connected'
-      : 'disconnected';
+export default function RootPage() {
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
+
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    if (isAuthenticated) {
+      router.replace('/dashboard');
+    } else {
+      router.replace('/login');
+    }
+  }, [isAuthenticated, isInitialized, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <div className="flex items-center justify-center gap-2">
-          <h1 className="text-2xl font-bold">Hairminator</h1>
-          <HealthBadge status={status} />
-        </div>
-        <p className="text-muted-foreground">
-          Analyze hair product ingredients for your hair type
-        </p>
-        <Button onClick={() => toast.success('shadcn/ui is working!')}>
-          Test Toast
-        </Button>
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <p className="text-muted-foreground">Loading...</p>
       </div>
-      <Toaster />
     </div>
   );
 }

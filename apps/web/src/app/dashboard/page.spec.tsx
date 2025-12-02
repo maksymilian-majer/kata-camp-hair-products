@@ -13,9 +13,18 @@ describe('Home', () => {
     );
   });
 
-  it('renders the page with title', () => {
+  it('renders the page with welcome message', () => {
     render(<Home />);
-    expect(screen.getByText('Hairminator')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Welcome'
+    );
+  });
+
+  it('renders scan history placeholder', () => {
+    render(<Home />);
+    expect(
+      screen.getByText('Your scan history will appear here')
+    ).toBeInTheDocument();
   });
 
   it('renders description text', () => {

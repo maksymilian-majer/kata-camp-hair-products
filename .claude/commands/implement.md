@@ -112,62 +112,31 @@ After subagent completes, update the plan file:
 
 ## Subagent Prompt Template
 
-When dispatching to a subagent, provide this context:
+Keep the prompt **minimal** - the subagent's skills and agent definition already contain detailed guidance. Only provide:
+
+1. **Plan file path** - so the agent can read it
+2. **Phase number** - so the agent knows which section to implement
+3. **Brief context** - any specific decisions or constraints from earlier phases
 
 ```markdown
-# Phase [N] Implementation
+Implement Phase [N] from the plan at `docs/plans/PLAN-[STORY-ID].md`.
 
-## Plan Reference
+Read the plan file to understand:
 
-[Include relevant section from plan file]
+- Tasks for this phase
+- BDD scenarios to satisfy
+- Testing requirements
 
-## Tasks
+[Optional: Any specific context from previous phases]
 
-[List specific tasks from plan]
-
-## BDD Scenarios to Satisfy
-
-[Include Gherkin scenarios this phase should support]
-
-## Testing Requirements
-
-- Frontend: Write tests AFTER implementation
-- Backend: Write tests FIRST, then implement
-
-## Commands
-
-- Dev server: pnpm dev
-- Validate all: pnpm check-all (lint, test, build)
-- Test only: pnpm nx test [web|api]
-
-## Success Criteria
-
-- All tasks completed
-- pnpm check-all passes (no lint errors, tests passing, build succeeds)
+Run `pnpm check-all` when complete to validate.
 ```
 
-## Code Quality Guidelines
+**Why minimal prompts?**
 
-### All Phases
-
-- Follow patterns in CLAUDE.md
-- Use `@hair-product-scanner/shared` for shared types
-- No comments unless explicitly requested
-- Keep components under 80 lines
-
-### Frontend (Next.js)
-
-- Use Server Components by default
-- Add `'use client'` only when needed
-- Style with Tailwind 4.1
-- Forms: React Hook Form + Zod schemas
-
-### Backend (NestJS)
-
-- Repository pattern for data access
-- Services contain business logic
-- Controllers are thin
-- Use Drizzle query builder
+- The agent's skills (design-system, vitest-testing, etc.) contain detailed patterns
+- The plan file contains the specific tasks and requirements
+- Overly detailed prompts can conflict with or override skill guidance
 
 ## Nx Commands Reference
 

@@ -72,6 +72,25 @@ apps/web/src/
         └── index.ts              # Re-exports
 ```
 
+## Adding UI Components
+
+**Always use shadcn CLI** for standard form/UI components:
+
+```bash
+# From project root
+pnpm dlx shadcn@latest add <component-name>
+
+# Examples:
+pnpm dlx shadcn@latest add input
+pnpm dlx shadcn@latest add checkbox
+pnpm dlx shadcn@latest add dialog
+pnpm dlx shadcn@latest add select
+```
+
+After adding, export from `libs/ui/src/index.ts` and import via `@hair-product-scanner/ui`.
+
+**NEVER manually create** Input, Label, Checkbox, Dialog, Select, or other standard UI primitives - always use shadcn CLI.
+
 ## Styling Rules
 
 - Use Tailwind 4.1 utility classes

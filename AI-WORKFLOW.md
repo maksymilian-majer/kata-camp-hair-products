@@ -333,4 +333,4 @@ This document describes the 7-phase delivery workflow for AI-assisted developmen
 
 - [CLAUDE.md](./CLAUDE.md) - Project guidelines and conventions
 - [TRAINING-REQUIREMENTS.md](./docs/TRAINING-REQUIREMENTS.md) - Full training context
-- [001-KATA-CAMP-PLAN.md](./docs/001-KATA-CAMP-PLAN.md) - Implementation plan
+- [001-KATA-CAMP-PLAN.md](docs/PLAN-HAIR-0-kata-camp-starter.md) - Implementation plan

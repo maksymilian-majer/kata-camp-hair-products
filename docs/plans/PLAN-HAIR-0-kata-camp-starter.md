@@ -633,16 +633,16 @@ When user runs `/implement Phase N`:
 - [x] integration-phase-7: Frontend-Backend Integration
 - [x] Ensure that the /implement command explicitly calls out the right agent to use for a given plan phase
 
-5. ⬜ Create skills
+5. ✅ Create skills
 
-- [ ] nextjs-patterns/SKILL.md
-- [ ] nestjs-architecture/SKILL.md
-- [ ] drizzle-repository/SKILL.md
-- [ ] vitest-testing/SKILL.md
-- [ ] testcontainers/SKILL.md
-- [ ] bff-patterns/SKILL.md
-- [ ] business-logic/SKILL.md (validation patterns, complex business logic, domain model guidelines)
-- [ ] Ensure that each subagent has the right skills autoloaded
+- [z] nextjs-patterns/SKILL.md
+- [z] nestjs-architecture/SKILL.md
+- [z] drizzle-repository/SKILL.md
+- [z] vitest-testing/SKILL.md
+- [z] testcontainers/SKILL.md
+- [z] bff-patterns/SKILL.md
+- [z] business-logic/SKILL.md (validation patterns, complex business logic, domain model guidelines)
+- [z] Ensure that each subagent has the right skills autoloaded
 
 6. ⬜ Test workflow end-to-end
 

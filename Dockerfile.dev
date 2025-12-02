@@ -16,18 +16,19 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN cp -r /app/node_modules /node_modules_cache
 
 # Entrypoint to restore node_modules and clean .nx
-COPY <<'EOF' /entrypoint.sh
-#!/bin/sh
-# Clean .nx contents to avoid stale lock files from previous runs
-rm -rf /app/.nx/* 2>/dev/null || true
+RUN printf '%s\n' \
+"#!/bin/sh" \
+"rm -rf /app/.nx/* 2>/dev/null || true" \
+"" \
+"if [ ! -d \"/app/node_modules/nx\" ]; then" \
+"  echo \"Restoring node_modules from cache...\"" \
+"  cp -rn /node_modules_cache/. /app/node_modules/ 2>/dev/null || true" \
+"  echo \"Done!\"" \
+"fi" \
+"" \
+"exec \"\$@\"" \
+> /entrypoint.sh
 
-if [ ! -d "/app/node_modules/nx" ]; then
-  echo "Restoring node_modules from cache..."
-  cp -rn /node_modules_cache/. /app/node_modules/ 2>/dev/null || true
-  echo "Done!"
-fi
-exec "$@"
-EOF
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

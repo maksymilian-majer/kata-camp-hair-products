@@ -15,16 +15,25 @@ Components are managed in `libs/ui`. This library serves as the single source of
 
 ### Adding New shadcn Components
 
+**CRITICAL**: Always use the shadcn CLI to add components. NEVER manually create shadcn components.
+
 ```bash
-# From project root (components.json is configured)
+# Run from project root - components.json handles all paths
 pnpm dlx shadcn@latest add <component-name>
 
 # Examples:
 pnpm dlx shadcn@latest add card
-pnpm dlx shadcn@latest add input
+pnpm dlx shadcn@latest add input label checkbox
 pnpm dlx shadcn@latest add dialog
 pnpm dlx shadcn@latest add dropdown-menu
 ```
+
+**Important CLI notes:**
+
+- Run from project root (where `components.json` is located)
+- Do NOT add `--path` or other flags - the CLI reads config from `components.json`
+- Multiple components can be added in one command (space-separated)
+- After CLI runs, fix lint issues: single quotes, semicolons, relative imports (`../lib/utils` not `@hair-product-scanner/ui/lib/utils`)
 
 After adding a component, export it from `libs/ui/src/index.ts`:
 

@@ -138,6 +138,26 @@ Run `pnpm check-all` when complete to validate.
 - The plan file contains the specific tasks and requirements
 - Overly detailed prompts can conflict with or override skill guidance
 
+## shadcn/ui Components
+
+When adding new UI components, use the shadcn CLI from project root:
+
+```bash
+# CORRECT - run from root, no extra flags
+pnpm dlx shadcn@latest add input label checkbox
+
+# WRONG - do not use --path or other flags
+pnpm dlx shadcn@latest add input --path libs/ui/src/components  # DON'T DO THIS
+```
+
+After running the CLI, fix lint issues in generated files:
+
+- Change double quotes to single quotes
+- Add semicolons
+- Change `@hair-product-scanner/ui/lib/utils` to `../lib/utils`
+
+Then export new components from `libs/ui/src/index.ts`.
+
 ## Nx Commands Reference
 
 ```bash

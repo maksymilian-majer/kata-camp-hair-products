@@ -20,11 +20,11 @@ docker compose up
 # Database: localhost:5432
 ```
 
-**After installing new packages:** Rebuild containers to update dependencies.
+**After installing new packages:** Just restart - dependencies auto-update when lockfile changes.
 
 ```bash
-pnpm install                  # Update lockfile on host
-docker compose up --build     # Rebuild with new dependencies
+pnpm install              # Update lockfile on host
+docker compose restart    # Detects lockfile change, reinstalls deps
 ```
 
 ### Option 2: Local Development

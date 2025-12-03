@@ -6,26 +6,9 @@ RUN corepack enable pnpm
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-
-# Install dependencies with BuildKit cache mount
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-
-# Store node_modules in a safe location for the entrypoint to copy
-RUN cp -r /app/node_modules /node_modules_cache
-
-# Entrypoint to restore node_modules and clean .nx
 COPY <<'EOF' /entrypoint.sh
 #!/bin/sh
-# Clean .nx contents to avoid stale lock files from previous runs
-rm -rf /app/.nx/* 2>/dev/null || true
-
-if [ ! -d "/app/node_modules/nx" ]; then
-  echo "Restoring node_modules from cache..."
-  cp -rn /node_modules_cache/. /app/node_modules/ 2>/dev/null || true
-  echo "Done!"
-fi
+pnpm install --frozen-lockfile
 exec "$@"
 EOF
 RUN chmod +x /entrypoint.sh

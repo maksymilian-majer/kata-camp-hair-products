@@ -8,6 +8,9 @@ WORKDIR /app
 
 COPY <<'EOF' /entrypoint.sh
 #!/bin/sh
+# Clean .nx contents to avoid stale lock files from previous runs
+rm -rf /app/.nx/* 2>/dev/null || true
+
 pnpm install --frozen-lockfile
 exec "$@"
 EOF

@@ -10,7 +10,8 @@ Dev servers run in containers with hot reload.
 
 ```bash
 # First time setup
-docker compose up --build
+docker compose up -d
+docker compose exec dev pnpm db:migrate   # Run database migrations
 
 # Subsequent runs
 docker compose up
@@ -42,9 +43,12 @@ nvm use
 pnpm install
 
 # Start database only
-docker compose up postgres
+docker compose up postgres -d
 
-# Start development servers (in separate terminal)
+# Run database migrations
+pnpm db:migrate
+
+# Start development servers
 pnpm dev
 
 # Frontend: http://localhost:3000

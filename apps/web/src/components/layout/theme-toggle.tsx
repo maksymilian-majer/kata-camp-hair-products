@@ -16,7 +16,10 @@ const themeConfig = {
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
-  const currentTheme = (theme ?? 'system') as (typeof themes)[number];
+  const currentTheme =
+    theme && theme in themeConfig
+      ? (theme as (typeof themes)[number])
+      : 'system';
   const config = themeConfig[currentTheme];
   const Icon = config.icon;
 

@@ -10,6 +10,7 @@ import {
   HttpStatus,
   Inject,
   InternalServerErrorException,
+  Logger,
   Post,
   Req,
   UnauthorizedException,
@@ -101,6 +102,7 @@ export class AuthController {
         }
       }
     }
+    Logger.error(error);
     return new InternalServerErrorException('An unexpected error occurred');
   }
 }

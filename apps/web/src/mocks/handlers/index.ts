@@ -1,5 +1,15 @@
-// Auth handlers are integrated with real backend - handlers are only used in tests
-import { authHandlers } from './auth';
-import { healthHandlers } from './health';
+// MSW handlers for development mocking
+// Comment out handlers for endpoints integrated with real backend
+// Keep imports for reference and test setup
 
-export const handlers = [...authHandlers, ...healthHandlers];
+// Integrated endpoints (using real backend):
+// import { authHandlers } from './auth';
+// import { healthHandlers } from './health';
+
+// Endpoints still being mocked:
+// (none currently - all endpoints integrated)
+
+export const handlers = [
+  // ...authHandlers,   // Integrated - uses real API
+  // ...healthHandlers, // Integrated - uses real API
+];

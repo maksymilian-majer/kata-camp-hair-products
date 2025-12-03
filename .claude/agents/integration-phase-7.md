@@ -24,7 +24,7 @@ Connect the frontend to the real backend API. Remove or conditionally disable MS
 
 ## What You Do
 
-- Remove or disable MSW mocks for integrated endpoints
+- Comment out handler registrations in `apps/web/src/mocks/handlers/index.ts` for integrated endpoints
 - Update API client to use real backend URLs
 - Test all BDD scenarios manually
 - Fix any integration issues
@@ -35,6 +35,26 @@ Connect the frontend to the real backend API. Remove or conditionally disable MS
 - No new features (Phases 1-6)
 - No new tests (existing tests should still pass)
 - No major refactoring
+
+## CRITICAL: Never Remove MSW Browser Integration
+
+**NEVER remove or modify the MSW initialization in `apps/web/src/components/providers.tsx`.**
+
+The MSW browser worker MUST always run in development mode. It uses `onUnhandledRequest: 'bypass'` which means:
+
+- Requests WITH registered handlers → mocked by MSW
+- Requests WITHOUT handlers → pass through to real backend
+
+When integrating an endpoint with the real backend:
+
+- **DO**: Comment out the handler registration in `apps/web/src/mocks/handlers/index.ts`
+- **DON'T**: Remove the MSW initialization from providers.tsx
+
+This allows MSW to remain available for:
+
+- Developing new features that aren't yet implemented on the backend
+- Debugging and testing
+- Future feature development
 
 ## Step 1: Configure API Base URL
 

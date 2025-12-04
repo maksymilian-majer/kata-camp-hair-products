@@ -160,8 +160,8 @@ Hairminator empowers users to make their own informed decisions. Even when worki
 
 ### Internationalization
 
-- Support for Polish (primary market) and English
-- UI text externalized for translation
+- Support for English only for MVP
+- No i18n & translations setup
 - Ingredient names displayed in original INCI format
 
 ## 7. Constraints

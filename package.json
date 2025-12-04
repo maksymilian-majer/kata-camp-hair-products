@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "nx run-many --target=dev,serve --projects=api,web",
     "check-all": "nx run-many --target=lint,test,build --all",
+    "check:affected": "nx affected --target=lint,test,build",
     "dev:web": "nx dev web",
     "dev:api": "nx serve api",
     "build": "nx run-many --target=build --all",

@@ -12,6 +12,7 @@ export {
 export { Checkbox } from './components/checkbox';
 export { Input } from './components/input';
 export { Label } from './components/label';
+export { RadioGroup, RadioGroupItem } from './components/radio-group';
 export { Separator } from './components/separator';
 export {
   Sheet,

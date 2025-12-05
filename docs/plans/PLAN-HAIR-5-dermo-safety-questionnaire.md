@@ -75,25 +75,25 @@ And I should be able to navigate to the scanner
 
 ---
 
-## Phase 1: Presentational UI Components
+## Phase 1: Presentational UI Components ✅ (2025-12-05)
 
 **Subagent**: `frontend-phase-1`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Add missing shadcn/ui components: RadioGroup, Form (if needed)
-- [ ] Create `QuestionCard` component for wrapping each question section
-- [ ] Create `ScalpConditionQuestion` component with radio options
-- [ ] Create `SebumLevelQuestion` component with radio options
-- [ ] Create `ActiveSymptomsQuestion` component with checkbox options
-- [ ] Create `HairStrandConditionQuestion` component with radio options
-- [ ] Create `IngredientToleranceQuestion` component with radio options
-- [ ] Create `QuestionnaireForm` presentational component combining all questions
-- [ ] Create `QuestionnairePageHeader` component with title and description
-- [ ] Create `ProfilePromptCard` component for dashboard CTA ("Complete Your Profile")
-- [ ] Style all components with Tailwind following the prototype screenshots
-- [ ] Add loading state button variant with spinner icon
+- [x] Add missing shadcn/ui components: RadioGroup, Form (if needed)
+- [x] Create `QuestionCard` component for wrapping each question section
+- [x] Create `ScalpConditionQuestion` component with radio options
+- [x] Create `SebumLevelQuestion` component with radio options
+- [x] Create `ActiveSymptomsQuestion` component with checkbox options
+- [x] Create `HairStrandConditionQuestion` component with radio options
+- [x] Create `IngredientToleranceQuestion` component with radio options
+- [x] Create `QuestionnaireForm` presentational component combining all questions
+- [x] Create `QuestionnairePageHeader` component with title and description
+- [x] Create `ProfilePromptCard` component for dashboard CTA ("Complete Your Profile")
+- [x] Style all components with Tailwind following the prototype screenshots
+- [x] Add loading state button variant with spinner icon
 
 ### Question Options Reference
 
@@ -135,19 +135,19 @@ And I should be able to navigate to the scanner
 
 After implementation, write tests that verify:
 
-- [ ] QuestionCard renders title, description, and children
-- [ ] Each question component renders all options correctly
-- [ ] RadioGroup components show selected state
-- [ ] Checkbox components show checked state for multi-select
-- [ ] ProfilePromptCard renders with correct CTA text
-- [ ] QuestionnaireForm renders all 5 questions in order
+- [x] QuestionCard renders title, description, and children
+- [x] Each question component renders all options correctly
+- [x] RadioGroup components show selected state
+- [x] Checkbox components show checked state for multi-select
+- [x] ProfilePromptCard renders with correct CTA text
+- [x] QuestionnaireForm renders all 5 questions in order
 
 ### Completion Criteria
 
-- [ ] All components created in `apps/web/src/components/questionnaire/`
-- [ ] Components viewable at temporary route `/dashboard/questionnaire` (static)
-- [ ] Components match prototype screenshots visually
-- [ ] Tests pass: `pnpm nx test web`
+- [x] All components created in `apps/web/src/components/questionnaire/`
+- [x] Components viewable at temporary route `/dashboard/questionnaire` (static)
+- [x] Components match prototype screenshots visually
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

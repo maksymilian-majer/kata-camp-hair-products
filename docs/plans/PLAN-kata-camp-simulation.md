@@ -104,7 +104,7 @@ docker compose exec dev pnpm db:migrate
 **Prompt to paste in Claude Code:**
 
 ```
-/story HAIR-1 Dermo-Safety Questionnaire
+/story HAIR-5 Dermo-Safety Questionnaire
 
 Build a single-page questionnaire form for users with scalp conditions (Seborrheic Dermatitis, Psoriasis, etc.) to create their dermo-safety profile.
 
@@ -120,7 +120,7 @@ Single form layout (not multi-step wizard). Submit saves profile and navigates t
 
 **When Claude asks clarifying questions:** Answer them based on the context.
 
-**Checkpoint:** File created at `docs/stories/HAIR-1-*.md`
+**Checkpoint:** File created at `docs/stories/HAIR-5-*.md`
 
 ---
 
@@ -129,26 +129,8 @@ Single form layout (not multi-step wizard). Submit saves profile and navigates t
 **Prompt to paste in Lovable chat:**
 
 ```
-Add a new questionnaire page at /questionnaire with a single-page form for dermo-safety profiling.
-
-The form should have these 5 questions:
-
-1. "Do you have a specific scalp condition?" (single select, required)
-   Options: Seborrheic Dermatitis, Psoriasis, Atopic Dermatitis (Eczema), Severe Dandruff, Just Sensitive/Itchy
-
-2. "How oily is your scalp?" (single select, required)
-   Options: Excessive Sebum (Oily within 24h), Moderate/Normal, Dry/Tight Skin
-
-3. "What symptoms are bothering you right now?" (multi-select, at least 1 required)
-   Options: Itching, Redness/Inflammation, Yellow/Greasy Scales, White/Dry Flakes, Pain/Burning
-
-4. "What is the state of your hair?" (single select, required)
-   Options: Natural/Virgin, Dyed/Color-Treated, Bleached/High Porosity
-
-5. "How sensitive is your skin to additives?" (single select, required)
-   Options: Resilient, Moderate, Hypoallergenic
-
-Use a card-based layout for each question. Include a submit button at the bottom that says "Save Profile".
+Implement this story:
+<paste the story from docs/stories/HAIR-5-*.md>
 
 Design system colors (OKLCH):
 - Primary: oklch(0.55 0.15 250) - deep blue/purple
@@ -168,10 +150,10 @@ Design system colors (OKLCH):
 **Prompt to paste in Claude Code:**
 
 ```
-/phased-plan HAIR-1
+/phased-plan HAIR-5
 ```
 
-**Checkpoint:** File created at `docs/plans/PLAN-HAIR-1-*.md`
+**Checkpoint:** File created at `docs/plans/PLAN-HAIR-5-*.md`
 
 ---
 
@@ -180,7 +162,7 @@ Design system colors (OKLCH):
 **Prompt to paste in Claude Code:**
 
 ```
-/implement Phase 1 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 1 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 **After completion, verify app works:**
@@ -198,7 +180,7 @@ Open http://localhost:3000 - app should still work (no new routes yet)
 **Prompt to paste in Claude Code:**
 
 ```
-/implement Phase 2 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 2 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 **After completion, verify app works:**
@@ -214,7 +196,7 @@ docker compose exec dev pnpm check:affected
 **Prompt to paste in Claude Code:**
 
 ```
-/implement Phase 3 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 3 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 **After completion, verify app works:**
@@ -310,20 +292,20 @@ The `/commit` command creates commits automatically. Create branches from those 
 ```bash
 # After simulation, create branches from commit history:
 kata/start              # Clean starting point (before /story)
-kata/story-complete     # After /story (for Lovable reference)
-kata/lovable-complete   # After Lovable (includes /phased-plan prompt context)
-kata/plan-complete      # After /phased-plan
+kata/1-story-complete   # After /story (for Lovable reference)
+kata/2-lovable-complete # After Lovable (includes /phased-plan prompt context)
+kata/3-plan-complete    # After /phased-plan
 
 # Implementation branches (workshop covers 1-3)
-kata/phase-1-complete   # After Phase 1
-kata/phase-2-complete   # After Phase 2
-kata/phase-3-complete   # After Phase 3
+kata/4-phase-1-complete   # After Phase 1
+kata/5-phase-2-complete   # After Phase 2
+kata/6-phase-3-complete   # After Phase 3
 
 # Home continuation branches (phases 4-7)
-kata/phase-4-complete   # After Phase 4 (Repository TDD)
-kata/phase-5-complete   # After Phase 5 (Service TDD)
-kata/phase-6-complete   # After Phase 6 (Controller TDD)
-kata/phase-7-complete   # After Phase 7 (Integration)
+kata/7-phase-4-complete   # After Phase 4 (Repository TDD)
+kata/8-phase-5-complete   # After Phase 5 (Service TDD)
+kata/9-phase-6-complete   # After Phase 6 (Controller TDD)
+kata/10-phase-7-complete   # After Phase 7 (Integration)
 ```
 
 ---
@@ -394,7 +376,7 @@ docker compose exec dev pnpm check-all
 ### 1. Story Creation
 
 ```
-/story HAIR-1 Dermo-Safety Questionnaire
+/story HAIR-5 Dermo-Safety Questionnaire
 
 Build a single-page questionnaire form for users with scalp conditions to create their dermo-safety profile.
 
@@ -439,7 +421,7 @@ Use the Lovable prompt from Step 2 above.
 ### 3. Plan Creation
 
 ```
-/phased-plan HAIR-1
+/phased-plan HAIR-5
 ```
 
 **Commit:**
@@ -455,7 +437,7 @@ Use the Lovable prompt from Step 2 above.
 ### 4. Phase 1 Implementation
 
 ```
-/implement Phase 1 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 1 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 **Verify:**
@@ -477,7 +459,7 @@ docker compose exec dev pnpm check:affected
 ### 5. Phase 2 Implementation
 
 ```
-/implement Phase 2 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 2 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 **Verify:**
@@ -499,7 +481,7 @@ docker compose exec dev pnpm check:affected
 ### 6. Phase 3 Implementation
 
 ```
-/implement Phase 3 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 3 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 **Verify:**
@@ -534,7 +516,7 @@ docker compose exec dev pnpm check:affected
 Continue with phases 4-7 for full implementation:
 
 ```
-/implement Phase 4 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 4 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 ```bash
@@ -548,7 +530,7 @@ docker compose exec dev pnpm check:affected
 ---
 
 ```
-/implement Phase 5 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 5 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 ```bash
@@ -562,7 +544,7 @@ docker compose exec dev pnpm check:affected
 ---
 
 ```
-/implement Phase 6 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 6 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 ```bash
@@ -576,7 +558,7 @@ docker compose exec dev pnpm check:affected
 ---
 
 ```
-/implement Phase 7 @docs/plans/PLAN-HAIR-1-dermo-safety-questionnaire.md
+/implement Phase 7 @docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md
 ```
 
 ```bash
@@ -626,3 +608,115 @@ If simulation exceeds 85 minutes:
 - [ ] Pre-create story (start from kata/story-complete)
 - [ ] Pre-create plan (start from kata/plan-complete)
 - [ ] Simplify to 3 questions instead of 5
+
+---
+
+# SIMULATION RUN NOTES
+
+## Actual Timing Results
+
+| Step              | Target     | Actual  | Notes                                   |
+| ----------------- | ---------- | ------- | --------------------------------------- |
+| Story creation    | 5 min      | 11 min  | Clarifying questions took extra time    |
+| Lovable prototype | 10 min     | 10 min  | On target                               |
+| Plan creation     | 5 min      | 14 min  | Used Opus thinking, iterated on details |
+| Phase 1           | 15 min     | 15 min  | On target                               |
+| Phase 2           | 15 min     | pending |                                         |
+| Phase 3           | 20 min     | pending |                                         |
+| Demo + commit     | 5 min      | pending |                                         |
+| Wrap-up           | 10 min     | pending |                                         |
+| **TOTAL**         | **85 min** | 50+ min | In progress                             |
+
+## Clarifying Question Answers (for reference)
+
+When Claude asks clarifying questions during /story, use these answers:
+
+- **Q1 (Where does profile data come from)**: Option A2 - GET /me returns profile or 404
+- **Q2 (What happens on 404)**: Option B1 - Redirect to /questionnaire
+- **Q3 (What if user tries to skip)**: Option C1 - Require completion before proceeding
+- **Q4 (Can user edit profile later)**: Option D1 - Yes, from settings
+
+## Plan Refinements Applied
+
+During /phased-plan, the following details were clarified:
+
+1. **Database enum columns**: Use text enum columns (not varchar) for scalp_condition, sebum_level, hair_strand_condition, ingredient_tolerance
+2. **GET /me behavior**: Returns 404 if no profile exists (not empty object)
+3. **User scoping**: Profile is automatically scoped to authenticated user via auth context
+
+## Issues Discovered
+
+### 1. shadcn CLI fails in Docker - FIXED ✅
+
+Subagents try to run `pnpm dlx shadcn@latest add radio-group` which fails inside Docker.
+
+**Workaround**: Pre-install needed shadcn components or run outside docker.
+
+**TODO**: Fix shadcn command execution in docker environment on main branch.
+
+### 2. Route path mismatch
+
+Plan created route at `apps/web/src/app/dashboard/questionnaire/page.tsx` which creates URL `/dashboard/questionnaire` instead of `/questionnaire`.
+
+**Decision needed**: Should it be `/questionnaire` (top-level) or `/dashboard/questionnaire` (nested)?
+
+### 3. Implementation time variance
+
+Each phase takes 8-14 minutes depending on complexity and any issues encountered.
+
+## Optimization Ideas
+
+### Parallel Implementation
+
+Consider running Phase 1, 2, and 4 in parallel since:
+
+- Phase 1: FE presentational components (no dependencies)
+- Phase 2: API types + MSW mocks (no dependencies)
+- Phase 4: Repository layer (no FE dependencies)
+
+Then Phase 3, 5, 6 sequentially, and Phase 7 for integration.
+
+### Workshop Flow Options
+
+1. **Full live** (current): All phases run live - highest risk, best learning
+2. **Pre-baked**: Start from kata/phase-2-complete, only run Phase 3 live
+3. **Hybrid**: Run story + plan live, then demo pre-recorded phases
+
+## Branch Checkpoints Created
+
+```
+kata/1-story-complete     # After story creation
+kata/2-lovable-complete   # After Lovable screenshots added
+kata/3-plan-complete-v2   # After phased-plan (with refinements)
+kata/4-phase-1-complete   # After Phase 1 implementation
+```
+
+## Files Created So Far
+
+### Story
+
+- `docs/stories/HAIR-5-dermo-safety-questionnaire.md`
+
+### Lovable Screenshots
+
+- `docs/stories/HAIR-5/dashboard_questionnaire.png`
+- `docs/stories/HAIR-5/questionnaire_part1.png`
+- `docs/stories/HAIR-5/questionnaire_part2.png`
+
+### Plan
+
+- `docs/plans/PLAN-HAIR-5-dermo-safety-questionnaire.md`
+
+### Phase 1 Components
+
+- `apps/web/src/components/questionnaire/QuestionCard.tsx`
+- `apps/web/src/components/questionnaire/ScalpConditionQuestion.tsx`
+- `apps/web/src/components/questionnaire/SebumLevelQuestion.tsx`
+- `apps/web/src/components/questionnaire/ActiveSymptomsQuestion.tsx`
+- `apps/web/src/components/questionnaire/HairStrandConditionQuestion.tsx`
+- `apps/web/src/components/questionnaire/IngredientToleranceQuestion.tsx`
+- `apps/web/src/components/questionnaire/QuestionnaireForm.tsx`
+- `apps/web/src/components/questionnaire/QuestionnairePageHeader.tsx`
+- `apps/web/src/components/questionnaire/ProfilePromptCard.tsx`
+- `apps/web/src/components/questionnaire/index.ts`
+- Plus corresponding `.spec.tsx` test files

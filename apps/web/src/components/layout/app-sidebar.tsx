@@ -2,47 +2,48 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Camera, ClipboardList, Home, LogOut, User } from 'lucide-react';
 
 import {
   Button,
-  cn,
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from '@hair-product-scanner/ui';
 
+import type { NavItemData } from './sidebar-nav-items';
+import { SidebarNavItems } from './sidebar-nav-items';
 import { ThemeToggle } from './theme-toggle';
-
-const navItems = [
-  { title: 'Home', icon: Home, href: '/dashboard', disabled: false },
-  {
-    title: 'Questionnaire',
-    icon: ClipboardList,
-    href: '/questionnaire',
-    disabled: true,
-  },
-  { title: 'Scan', icon: Camera, href: '/scan', disabled: true },
-];
 
 export type AppSidebarProps = {
   user?: { displayName?: string | null; email: string } | null;
   onLogout?: () => void;
   isLoggingOut?: boolean;
+  hasProfile?: boolean;
 };
+
+function getNavItems(hasProfile: boolean): NavItemData[] {
+  return [
+    { title: 'Home', icon: Home, href: '/dashboard', disabled: false },
+    {
+      title: 'Questionnaire',
+      icon: ClipboardList,
+      href: '/dashboard/questionnaire',
+      disabled: false,
+    },
+    { title: 'Scan', icon: Camera, href: '/scan', disabled: !hasProfile },
+  ];
+}
 
 export function AppSidebar({
   user,
   onLogout,
   isLoggingOut = false,
+  hasProfile = false,
 }: AppSidebarProps) {
-  const pathname = usePathname();
+  const navItems = getNavItems(hasProfile);
 
   return (
     <Sidebar
@@ -62,47 +63,7 @@ export function AppSidebar({
             </Link>
           </div>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-
-                if (item.disabled) {
-                  return (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton
-                        disabled
-                        aria-disabled="true"
-                        aria-label={`${item.title}, disabled`}
-                        className="opacity-40 cursor-not-allowed"
-                      >
-                        <Icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                }
-
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={isActive}>
-                      <Link
-                        href={item.href}
-                        aria-current={isActive ? 'page' : undefined}
-                        className={cn(
-                          'hover:bg-accent hover:text-accent-foreground',
-                          isActive &&
-                            'bg-accent text-accent-foreground font-medium'
-                        )}
-                      >
-                        <Icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
-            </SidebarMenu>
+            <SidebarNavItems items={navItems} />
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

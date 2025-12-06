@@ -62,4 +62,30 @@ describe('AppLayout', () => {
 
     expect(onLogout).toHaveBeenCalled();
   });
+
+  it('enables Scan when hasProfile is true', () => {
+    render(
+      <AppLayout user={mockUser} hasProfile={true}>
+        <div>Content</div>
+      </AppLayout>
+    );
+
+    const scanLinks = screen.getAllByText('Scan');
+    expect(scanLinks[0].closest('a')).toHaveAttribute('href', '/scan');
+    expect(scanLinks[1].closest('a')).toHaveAttribute('href', '/scan');
+  });
+
+  it('disables Scan when hasProfile is false', () => {
+    render(
+      <AppLayout user={mockUser} hasProfile={false}>
+        <div>Content</div>
+      </AppLayout>
+    );
+
+    const scanButtons = screen.getAllByLabelText('Scan, disabled');
+    expect(scanButtons).toHaveLength(2);
+    scanButtons.forEach((button) => {
+      expect(button).toHaveAttribute('aria-disabled', 'true');
+    });
+  });
 });

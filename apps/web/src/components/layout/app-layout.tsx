@@ -12,6 +12,7 @@ export type AppLayoutProps = {
   user?: AppSidebarProps['user'];
   onLogout?: () => void;
   isLoggingOut?: boolean;
+  hasProfile?: boolean;
 };
 
 export function AppLayout({
@@ -19,10 +20,16 @@ export function AppLayout({
   user,
   onLogout,
   isLoggingOut,
+  hasProfile,
 }: AppLayoutProps) {
   return (
     <SidebarProvider>
-      <AppSidebar user={user} onLogout={onLogout} isLoggingOut={isLoggingOut} />
+      <AppSidebar
+        user={user}
+        onLogout={onLogout}
+        isLoggingOut={isLoggingOut}
+        hasProfile={hasProfile}
+      />
 
       <main className="flex-1 pb-16 md:pb-0">{children}</main>
 
@@ -30,6 +37,7 @@ export function AppLayout({
         user={user}
         onLogout={onLogout}
         isLoggingOut={isLoggingOut}
+        hasProfile={hasProfile}
       />
     </SidebarProvider>
   );

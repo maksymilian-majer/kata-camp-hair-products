@@ -37,18 +37,23 @@ describe('AppSidebar', () => {
     expect(screen.getByText('Scan')).toBeInTheDocument();
   });
 
-  it('shows disabled items with reduced opacity', () => {
-    renderWithProvider(<AppSidebar user={mockUser} />);
-
-    const questionnaireButton = screen
-      .getByText('Questionnaire')
-      .closest('button');
-    expect(questionnaireButton).toHaveClass('opacity-40');
-    expect(questionnaireButton).toHaveAttribute('aria-disabled', 'true');
+  it('shows Scan disabled when hasProfile is false', () => {
+    renderWithProvider(<AppSidebar user={mockUser} hasProfile={false} />);
 
     const scanButton = screen.getByText('Scan').closest('button');
     expect(scanButton).toHaveClass('opacity-40');
     expect(scanButton).toHaveAttribute('aria-disabled', 'true');
+
+    const questionnaireLink = screen.getByText('Questionnaire').closest('a');
+    expect(questionnaireLink).toBeInTheDocument();
+  });
+
+  it('enables Scan when hasProfile is true', () => {
+    renderWithProvider(<AppSidebar user={mockUser} hasProfile={true} />);
+
+    const scanLink = screen.getByText('Scan').closest('a');
+    expect(scanLink).toBeInTheDocument();
+    expect(scanLink).toHaveAttribute('href', '/scan');
   });
 
   it('renders user info section', () => {

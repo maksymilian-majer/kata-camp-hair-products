@@ -26,32 +26,34 @@ export function ScalpConditionQuestion({
   error,
 }: ScalpConditionQuestionProps) {
   return (
-    <QuestionCard
-      number={1}
-      title="Scalp Condition"
-      description="Select the condition that best describes your scalp"
-      error={error}
-    >
-      <RadioGroup
-        value={value}
-        onValueChange={onChange as (value: string) => void}
+    <div data-field="scalpCondition">
+      <QuestionCard
+        number={1}
+        title="Scalp Condition"
+        description="Select the condition that best describes your scalp"
+        error={error}
       >
-        {SCALP_CONDITIONS.map((condition) => (
-          <div key={condition.value} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={condition.value}
-              id={`scalp-${condition.value}`}
-            />
-            <Label
-              htmlFor={`scalp-${condition.value}`}
-              className="cursor-pointer font-normal"
-            >
-              {condition.label}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-    </QuestionCard>
+        <RadioGroup
+          value={value}
+          onValueChange={onChange as (value: string) => void}
+        >
+          {SCALP_CONDITIONS.map((condition) => (
+            <div key={condition.value} className="flex items-center gap-3">
+              <RadioGroupItem
+                value={condition.value}
+                id={`scalp-${condition.value}`}
+              />
+              <Label
+                htmlFor={`scalp-${condition.value}`}
+                className="cursor-pointer font-normal"
+              >
+                {condition.label}
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </QuestionCard>
+    </div>
   );
 }
 

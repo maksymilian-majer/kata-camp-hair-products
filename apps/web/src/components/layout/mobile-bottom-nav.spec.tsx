@@ -30,22 +30,24 @@ describe('MobileBottomNav', () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it('shows disabled tabs as not clickable', () => {
-    render(<MobileBottomNav user={mockUser} />);
-
-    const questionnaireButton = screen
-      .getByText('Questionnaire')
-      .closest('button');
-    expect(questionnaireButton).toBeDisabled();
-    expect(questionnaireButton).toHaveAttribute('aria-disabled', 'true');
-    expect(questionnaireButton).toHaveAttribute(
-      'aria-label',
-      'Questionnaire, disabled'
-    );
+  it('shows Scan disabled when hasProfile is false', () => {
+    render(<MobileBottomNav user={mockUser} hasProfile={false} />);
 
     const scanButton = screen.getByText('Scan').closest('button');
     expect(scanButton).toBeDisabled();
     expect(scanButton).toHaveAttribute('aria-disabled', 'true');
+    expect(scanButton).toHaveAttribute('aria-label', 'Scan, disabled');
+
+    const questionnaireLink = screen.getByText('Questionnaire').closest('a');
+    expect(questionnaireLink).toBeInTheDocument();
+  });
+
+  it('enables Scan when hasProfile is true', () => {
+    render(<MobileBottomNav user={mockUser} hasProfile={true} />);
+
+    const scanLink = screen.getByText('Scan').closest('a');
+    expect(scanLink).toBeInTheDocument();
+    expect(scanLink).toHaveAttribute('href', '/scan');
   });
 
   it('shows active tab with primary color', () => {

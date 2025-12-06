@@ -204,15 +204,15 @@ After implementation, write tests that verify:
 
 ---
 
-## Phase 3: Smart Components + State
+## Phase 3: Smart Components + State ✅ (2025-12-06)
 
 **Subagent**: `frontend-phase-3`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Create `/questionnaire` page route at `apps/web/src/app/dashboard/questionnaire/page.tsx`
-- [ ] Create `QuestionnaireContainer` smart component that:
+- [x] Create `/questionnaire` page route at `apps/web/src/app/dashboard/questionnaire/page.tsx`
+- [x] Create `QuestionnaireContainer` smart component that:
   - Uses React Hook Form with Zod resolver
   - Fetches existing profile with `useQuestionnaire()` hook
   - Pre-fills form when editing existing profile
@@ -220,40 +220,40 @@ After implementation, write tests that verify:
   - Shows loading state during save
   - Redirects to dashboard on success
   - Displays validation errors inline
-- [ ] Create `useQuestionnaireForm()` custom hook encapsulating form logic
-- [ ] Update `AppSidebar` and mobile nav to:
+- [x] Create `useQuestionnaireForm()` custom hook encapsulating form logic
+- [x] Update `AppSidebar` and mobile nav to:
   - Enable Questionnaire menu item (currently disabled)
   - Conditionally enable/disable Scanner based on whether `useQuestionnaire()` returns data
-- [ ] Update Dashboard page to:
+- [x] Update Dashboard page to:
   - Show `ProfilePromptCard` when `useQuestionnaire()` returns null (no profile)
   - Hide prompt when profile exists
-- [ ] Add toast notification on successful save
-- [ ] Implement proper focus management for validation errors
+- [x] Add toast notification on successful save
+- [x] Implement proper focus management for validation errors
 
 ### Test Scenarios
 
 After implementation, write integration tests that verify:
 
-- [ ] User can fill out all 5 questions and submit successfully
-- [ ] Form shows validation errors when submitting incomplete form
-- [ ] Form shows error when no symptoms selected
-- [ ] Existing profile values pre-fill the form when editing
-- [ ] Dashboard shows "Complete Your Profile" CTA when no profile
-- [ ] Dashboard hides CTA after profile completion
-- [ ] Navigation enables Scanner after profile completion
-- [ ] Save button shows loading state during submission
-- [ ] User is redirected to dashboard after successful save
-- [ ] Toast appears on successful save
+- [x] User can fill out all 5 questions and submit successfully
+- [x] Form shows validation errors when submitting incomplete form
+- [x] Form shows error when no symptoms selected
+- [x] Existing profile values pre-fill the form when editing
+- [x] Dashboard shows "Complete Your Profile" CTA when no profile
+- [x] Dashboard hides CTA after profile completion
+- [x] Navigation enables Scanner after profile completion
+- [x] Save button shows loading state during submission
+- [x] User is redirected to dashboard after successful save
+- [x] Toast appears on successful save
 
 ### Completion Criteria
 
-- [ ] Questionnaire page accessible at `/dashboard/questionnaire`
-- [ ] Form validation works correctly with error messages
-- [ ] Pre-fill works for editing existing profiles
-- [ ] Navigation gating works (Scanner disabled until profile complete)
-- [ ] Dashboard CTA appears/disappears based on profile status
-- [ ] Feature works end-to-end with mocked API
-- [ ] Tests pass: `pnpm nx test web`
+- [x] Questionnaire page accessible at `/dashboard/questionnaire`
+- [x] Form validation works correctly with error messages
+- [x] Pre-fill works for editing existing profiles
+- [x] Navigation gating works (Scanner disabled until profile complete)
+- [x] Dashboard CTA appears/disappears based on profile status
+- [x] Feature works end-to-end with mocked API
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

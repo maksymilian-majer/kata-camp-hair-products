@@ -24,29 +24,31 @@ export function SebumLevelQuestion({
   error,
 }: SebumLevelQuestionProps) {
   return (
-    <QuestionCard
-      number={2}
-      title="Sebum Level"
-      description="How would you describe your scalp's oil production?"
-      error={error}
-    >
-      <RadioGroup
-        value={value}
-        onValueChange={onChange as (value: string) => void}
+    <div data-field="sebumLevel">
+      <QuestionCard
+        number={2}
+        title="Sebum Level"
+        description="How would you describe your scalp's oil production?"
+        error={error}
       >
-        {SEBUM_LEVELS.map((level) => (
-          <div key={level.value} className="flex items-center gap-3">
-            <RadioGroupItem value={level.value} id={`sebum-${level.value}`} />
-            <Label
-              htmlFor={`sebum-${level.value}`}
-              className="cursor-pointer font-normal"
-            >
-              {level.label}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-    </QuestionCard>
+        <RadioGroup
+          value={value}
+          onValueChange={onChange as (value: string) => void}
+        >
+          {SEBUM_LEVELS.map((level) => (
+            <div key={level.value} className="flex items-center gap-3">
+              <RadioGroupItem value={level.value} id={`sebum-${level.value}`} />
+              <Label
+                htmlFor={`sebum-${level.value}`}
+                className="cursor-pointer font-normal"
+              >
+                {level.label}
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </QuestionCard>
+    </div>
   );
 }
 

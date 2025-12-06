@@ -7,9 +7,10 @@
 // import { healthHandlers } from './health';
 
 // Endpoints still being mocked:
-// (none currently - all endpoints integrated)
+import { questionnaireHandlers } from './questionnaire';
 
 export const handlers = [
   // ...authHandlers,   // Integrated - uses real API
   // ...healthHandlers, // Integrated - uses real API
+  ...questionnaireHandlers,
 ];

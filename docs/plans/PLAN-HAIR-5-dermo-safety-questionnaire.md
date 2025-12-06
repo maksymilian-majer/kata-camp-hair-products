@@ -151,14 +151,14 @@ After implementation, write tests that verify:
 
 ---
 
-## Phase 2: API Client + Mocks
+## Phase 2: API Client + Mocks ✅ (2025-12-06)
 
 **Subagent**: `frontend-phase-2`
 **Testing**: Write tests AFTER implementation
 
 ### Tasks
 
-- [ ] Define questionnaire types in `@hair-product-scanner/shared`:
+- [x] Define questionnaire types in `@hair-product-scanner/shared`:
   - `ScalpCondition` enum/union type
   - `SebumLevel` enum/union type
   - `ActiveSymptom` enum/union type
@@ -168,39 +168,39 @@ After implementation, write tests that verify:
   - `QuestionnaireFormData` type (form submission data)
   - `SaveQuestionnaireRequest` / `SaveQuestionnaireResponse` types
   - `GetQuestionnaireResponse` type
-- [ ] Create Zod schemas in `@hair-product-scanner/shared`:
+- [x] Create Zod schemas in `@hair-product-scanner/shared`:
   - `questionnaireFormSchema` with all 5 fields validated
   - Export inferred types
-- [ ] Create API client functions in `apps/web/src/lib/api/questionnaire.ts`:
+- [x] Create API client functions in `apps/web/src/lib/api/questionnaire.ts`:
   - `saveQuestionnaire(data)` - POST /api/questionnaires
   - `getQuestionnaire()` - GET /api/questionnaires/me (returns profile or throws 404)
-- [ ] Create TanStack Query hooks in `apps/web/src/hooks/`:
+- [x] Create TanStack Query hooks in `apps/web/src/hooks/`:
   - `useSaveQuestionnaire()` mutation hook
   - `useQuestionnaire()` query hook for fetching existing profile (returns null on 404)
-- [ ] Set up MSW handlers in `apps/web/src/mocks/handlers/`:
+- [x] Set up MSW handlers in `apps/web/src/mocks/handlers/`:
   - `POST /api/questionnaires` - save new/update profile
   - `GET /api/questionnaires/me` - return current user's profile (or 404 if none)
-- [ ] Add mock data for questionnaire responses
+- [x] Add mock data for questionnaire responses
 
 ### Test Scenarios
 
 After implementation, write tests that verify:
 
-- [ ] `useSaveQuestionnaire` mutation calls correct endpoint with form data
-- [ ] `useQuestionnaire` returns existing profile data from mock
-- [ ] `useQuestionnaire` returns null when API returns 404 (no profile)
-- [ ] Zod schema validates all required fields
-- [ ] Zod schema requires at least one active symptom
-- [ ] Zod schema rejects empty/invalid values
+- [x] `useSaveQuestionnaire` mutation calls correct endpoint with form data
+- [x] `useQuestionnaire` returns existing profile data from mock
+- [x] `useQuestionnaire` returns null when API returns 404 (no profile)
+- [x] Zod schema validates all required fields
+- [x] Zod schema requires at least one active symptom
+- [x] Zod schema rejects empty/invalid values
 
 ### Completion Criteria
 
-- [ ] Types defined and exported from shared library
-- [ ] Zod schemas validate questionnaire data correctly
-- [ ] API client functions created
-- [ ] TanStack Query hooks created
-- [ ] MSW mocks return realistic data
-- [ ] Tests pass: `pnpm nx test web`
+- [x] Types defined and exported from shared library
+- [x] Zod schemas validate questionnaire data correctly
+- [x] API client functions created
+- [x] TanStack Query hooks created
+- [x] MSW mocks return realistic data
+- [x] Tests pass: `pnpm nx test web`
 
 ---
 

@@ -615,17 +615,34 @@ If simulation exceeds 85 minutes:
 
 ## Actual Timing Results
 
-| Step              | Target     | Actual  | Notes                                   |
-| ----------------- | ---------- | ------- | --------------------------------------- |
-| Story creation    | 5 min      | 11 min  | Clarifying questions took extra time    |
-| Lovable prototype | 10 min     | 10 min  | On target                               |
-| Plan creation     | 5 min      | 14 min  | Used Opus thinking, iterated on details |
-| Phase 1           | 15 min     | 15 min  | On target                               |
-| Phase 2           | 15 min     | pending |                                         |
-| Phase 3           | 20 min     | pending |                                         |
-| Demo + commit     | 5 min      | pending |                                         |
-| Wrap-up           | 10 min     | pending |                                         |
-| **TOTAL**         | **85 min** | 50+ min | In progress                             |
+| Step              | Target     | Actual      | Notes                                   |
+| ----------------- | ---------- | ----------- | --------------------------------------- |
+| Story creation    | 5 min      | 11 min      | Clarifying questions took extra time    |
+| Lovable prototype | 10 min     | 10 min      | On target                               |
+| Plan creation     | 5 min      | 14 min      | Used Opus thinking, iterated on details |
+| Phase 1           | 15 min     | 15 min      | On target                               |
+| Phase 2           | 15 min     | 7 min       | Fast - types and mocks only             |
+| Phase 3           | 20 min     | 19 min      | On target - smart components            |
+| Phase 4           | -          | 8 min       | Repository TDD                          |
+| Phase 5           | -          | 4 min       | Service TDD - fastest phase             |
+| Phase 6           | -          | 8.5 min     | Controller TDD + cURL testing           |
+| Phase 7           | -          | 8 min       | Integration (3 min prompt + 5 min UI)   |
+| **TOTAL**         | **85 min** | **105 min** | Full 7-phase implementation             |
+
+### Frontend Only (Workshop Target: 90 min)
+
+| Step              | Target     | Actual     |
+| ----------------- | ---------- | ---------- |
+| Story creation    | 5 min      | 11 min     |
+| Lovable prototype | 10 min     | 10 min     |
+| Plan creation     | 5 min      | 14 min     |
+| Phase 1           | 15 min     | 15 min     |
+| Phase 2           | 15 min     | 7 min      |
+| Phase 3           | 20 min     | 19 min     |
+| Demo + commit     | 5 min      | ~2 min     |
+| **FE TOTAL**      | **75 min** | **78 min** |
+
+**Conclusion**: Frontend phases (1-3) fit within 90 min workshop with buffer for Q&A.
 
 ## Clarifying Question Answers (for reference)
 
@@ -685,10 +702,16 @@ Then Phase 3, 5, 6 sequentially, and Phase 7 for integration.
 ## Branch Checkpoints Created
 
 ```
-kata/1-story-complete     # After story creation
-kata/2-lovable-complete   # After Lovable screenshots added
-kata/3-plan-complete-v2   # After phased-plan (with refinements)
-kata/4-phase-1-complete   # After Phase 1 implementation
+kata/1-story-complete      # After story creation
+kata/2-lovable-complete    # After Lovable screenshots added
+kata/3-plan-complete       # After phased-plan
+kata/4-phase-1-complete    # After Phase 1 implementation
+kata/5-phase-2-complete    # After Phase 2 (API client + mocks)
+kata/6-phase-3-complete    # After Phase 3 (smart components)
+kata/7-phase-4-complete    # After Phase 4 (repository TDD)
+kata/8-phase-5-complete    # After Phase 5 (service TDD)
+kata/9-phase-6-complete    # After Phase 6 (controller TDD)
+kata/10-phase-7-complete   # After Phase 7 (integration) - COMPLETE
 ```
 
 ## Files Created So Far
@@ -720,3 +743,29 @@ kata/4-phase-1-complete   # After Phase 1 implementation
 - `apps/web/src/components/questionnaire/ProfilePromptCard.tsx`
 - `apps/web/src/components/questionnaire/index.ts`
 - Plus corresponding `.spec.tsx` test files
+
+### Phase 2 (API Client + Mocks)
+
+- `libs/shared/src/types/questionnaire.types.ts`
+- `libs/shared/src/schemas/questionnaire.schemas.ts`
+- `apps/web/src/hooks/use-questionnaire.ts`
+- `apps/web/src/mocks/handlers/questionnaire.ts`
+
+### Phase 3 (Smart Components)
+
+- `apps/web/src/app/questionnaire/page.tsx`
+- Updated navigation in sidebar and mobile nav
+
+### Phase 4-6 (Backend TDD)
+
+- `apps/api/src/modules/questionnaire/questionnaire.repository.ts`
+- `apps/api/src/modules/questionnaire/questionnaire.service.ts`
+- `apps/api/src/modules/questionnaire/questionnaire.controller.ts`
+- `apps/api/src/modules/questionnaire/questionnaire.module.ts`
+- Drizzle schema and migration for `dermo_profiles` table
+- Corresponding `.spec.ts` test files
+
+### Phase 7 (Integration)
+
+- MSW mocks disabled for real API
+- Full E2E flow working

@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 
 import { DrizzleModule } from '@/api/database';
 import { AuthModule } from '@/api/modules/auth';
+import { QuestionnairesModule } from '@/api/modules/questionnaires';
 import { LoggingMiddleware } from '@/api/shared/middleware';
 
 import { AppController } from './app.controller';
@@ -10,7 +11,7 @@ import { AppService } from './app.service';
 import { HealthController } from './health.controller';
 
 @Module({
-  imports: [DrizzleModule, AuthModule],
+  imports: [DrizzleModule, AuthModule, QuestionnairesModule],
   controllers: [AppController, HealthController],
   providers: [AppService],
 })

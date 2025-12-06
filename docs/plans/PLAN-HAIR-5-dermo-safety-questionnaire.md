@@ -343,23 +343,23 @@ describe('QuestionnaireDrizzleRepository', () => {
 
 ---
 
-## Phase 5: Service Layer (TDD)
+## Phase 5: Service Layer (TDD) ✅ (2025-12-06)
 
 **Subagent**: `backend-phase-5`
 **Testing**: Write tests FIRST (Unit tests with mocked repository)
 
 ### Tasks
 
-- [ ] Write service unit tests FIRST
-- [ ] Define `QuestionnaireService` interface:
-  - `getProfile(userId: string): Promise<QuestionnaireResponse | null>`
-  - `saveProfile(userId: string, data: SaveQuestionnaireInput): Promise<QuestionnaireResponse>`
-- [ ] Implement `QuestionnaireServiceImpl` with:
+- [x] Write service unit tests FIRST
+- [x] Define `ProfileCurator` interface:
+  - `getProfile(userId: string): Promise<QuestionnaireProfile | null>`
+  - `saveProfile(userId: string, data: QuestionnaireFormData): Promise<QuestionnaireProfile>`
+- [x] Implement `ProfileCuratorImpl` with:
   - Create new profile if none exists
   - Update existing profile if one exists (upsert behavior)
   - Transform domain model to response DTO
-- [ ] Add validation for input data
-- [ ] Create DTOs for request/response transformation
+- [x] Add validation for input data
+- [x] Reused existing types from shared library (no separate DTOs needed)
 
 ### Test Scenarios (Write BEFORE Implementation)
 
@@ -407,10 +407,10 @@ describe('QuestionnaireServiceImpl', () => {
 
 ### Completion Criteria
 
-- [ ] Service tests written and initially failing (RED)
-- [ ] Service implementation complete
-- [ ] DTOs created for response transformation
-- [ ] All tests pass: `pnpm nx test api` (GREEN)
+- [x] Service tests written and initially failing (RED)
+- [x] Service implementation complete
+- [x] Types reused from shared library (QuestionnaireProfile, QuestionnaireFormData)
+- [x] All tests pass: `pnpm nx test api` (GREEN)
 
 ---
 

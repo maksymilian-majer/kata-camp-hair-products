@@ -414,26 +414,26 @@ describe('QuestionnaireServiceImpl', () => {
 
 ---
 
-## Phase 6: HTTP Controllers (TDD)
+## Phase 6: HTTP Controllers (TDD) ✅ (2025-12-06)
 
 **Subagent**: `backend-phase-6`
 **Testing**: Write E2E tests FIRST (Supertest + Testcontainers)
 
 ### Tasks
 
-- [ ] Write E2E tests FIRST
-- [ ] Create `QuestionnairesModule` with:
+- [x] Write E2E tests FIRST
+- [x] Create `QuestionnairesModule` with:
   - `QuestionnairesController`
   - Service and repository providers
   - Module exports
-- [ ] Implement controller endpoints:
+- [x] Implement controller endpoints:
   - `GET /api/questionnaires/me` - get current user's profile (404 if none)
   - `POST /api/questionnaires` - save/update current user's profile
-- [ ] Add JWT authentication guard to all endpoints
-- [ ] Extract `userId` from authenticated user (JWT payload) - NOT from request params
-- [ ] Ensure users can only read/write their own questionnaire (no userId in URL or body)
-- [ ] Add Zod validation pipe for request body
-- [ ] Register module in AppModule
+- [x] Add JWT authentication guard to all endpoints
+- [x] Extract `userId` from authenticated user (JWT payload) - NOT from request params
+- [x] Ensure users can only read/write their own questionnaire (no userId in URL or body)
+- [x] Add Zod validation pipe for request body
+- [x] Register module in AppModule
 
 ### Test Scenarios (Write BEFORE Implementation)
 
@@ -503,11 +503,11 @@ The controller MUST extract `userId` from the authenticated user's JWT token (vi
 
 ### Completion Criteria
 
-- [ ] E2E tests written and initially failing (RED)
-- [ ] Controller implementation complete
-- [ ] All endpoints protected with JWT guard
-- [ ] Validation working correctly
-- [ ] All tests pass: `pnpm nx test api` (GREEN)
+- [x] E2E tests written and initially failing (RED)
+- [x] Controller implementation complete
+- [x] All endpoints protected with JWT guard
+- [x] Validation working correctly
+- [x] All tests pass: `pnpm nx test api` (GREEN)
 - [ ] Manual verification with cURL/Postman
 
 ---

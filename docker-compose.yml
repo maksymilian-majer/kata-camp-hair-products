@@ -28,10 +28,12 @@ services:
       - .:/app
       - node_modules:/app/node_modules
       - nx_cache:/app/.nx
+      - /var/run/docker.sock.raw:/var/run/docker.sock
     ports:
       - '3000:3000'
       - '3001:3001'
     environment:
+      - TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
       - CI=true
       - NODE_ENV=development
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/hair_scanner

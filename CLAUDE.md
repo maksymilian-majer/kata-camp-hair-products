@@ -78,6 +78,41 @@ libs/
   - Phase 5: Service tests with mocked repositories
   - Phase 6: Controller E2E tests with Supertest
 
+Tests with Testcontainers work both locally and inside Docker. The docker-compose.yml mounts the Docker socket to enable sibling containers for testcontainers.
+
+## Running Commands
+
+### Local Development (Node.js installed)
+
+If you have Node.js and pnpm installed locally:
+
+```bash
+pnpm nx test api
+pnpm dlx shadcn@latest add button
+```
+
+### Docker-Only Development (No local Node.js)
+
+If pnpm commands fail or you don't have Node.js installed locally, prefix commands with `docker compose exec dev`:
+
+```bash
+# Start the dev container first (if not running)
+docker compose up -d
+
+# Then run commands inside the container
+docker compose exec dev pnpm nx test api
+docker compose exec dev pnpm dlx shadcn@latest add button
+docker compose exec dev pnpm check-all
+```
+
+This works for all pnpm/nx commands including:
+
+- `pnpm nx test <project>`
+- `pnpm nx build <project>`
+- `pnpm nx lint <project>`
+- `pnpm dlx shadcn@latest add <component>`
+- `pnpm db:migrate`
+
 ## Git Conventions
 
 Use conventional commits:

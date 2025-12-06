@@ -30,8 +30,8 @@ describe('IngredientToleranceQuestion', () => {
       <IngredientToleranceQuestion value="moderate" />
     );
 
-    const radio = getByRole('radio', { name: 'Moderate' });
-    expect(radio).toBeChecked();
+    const button = getByRole('button', { name: 'Moderate' });
+    expect(button).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('calls onChange when option is selected', async () => {
@@ -40,7 +40,7 @@ describe('IngredientToleranceQuestion', () => {
       <IngredientToleranceQuestion onChange={onChange} />
     );
 
-    await user.click(getByRole('radio', { name: 'Hypoallergenic' }));
+    await user.click(getByRole('button', { name: 'Hypoallergenic' }));
 
     expect(onChange).toHaveBeenCalledWith('hypoallergenic');
   });

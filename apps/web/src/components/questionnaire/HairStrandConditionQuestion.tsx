@@ -1,13 +1,25 @@
 'use client';
 
-import { Label, RadioGroup, RadioGroupItem } from '@hair-product-scanner/ui';
-
+import { AnswerCard } from './AnswerCard';
+import { AnswerCardGrid } from './AnswerCardGrid';
 import { QuestionCard } from './QuestionCard';
 
 const HAIR_STRAND_CONDITIONS = [
-  { value: 'natural', label: 'Natural/Virgin' },
-  { value: 'dyed', label: 'Dyed/Color-Treated' },
-  { value: 'bleached', label: 'Bleached/High Porosity' },
+  {
+    value: 'natural',
+    label: 'Natural/Virgin',
+    icon: '/answer-icons/natural.png',
+  },
+  {
+    value: 'dyed',
+    label: 'Dyed/Color-Treated',
+    icon: '/answer-icons/dyed.png',
+  },
+  {
+    value: 'bleached',
+    label: 'Bleached/High Porosity',
+    icon: '/answer-icons/bleached.png',
+  },
 ] as const;
 
 export type HairStrandCondition =
@@ -24,6 +36,10 @@ export function HairStrandConditionQuestion({
   onChange,
   error,
 }: HairStrandConditionQuestionProps) {
+  const handleSelect = (selectedValue: string) => {
+    onChange?.(selectedValue as HairStrandCondition);
+  };
+
   return (
     <div data-field="hairStrandCondition">
       <QuestionCard
@@ -32,25 +48,18 @@ export function HairStrandConditionQuestion({
         description="What's the current state of your hair?"
         error={error}
       >
-        <RadioGroup
-          value={value}
-          onValueChange={onChange as (value: string) => void}
-        >
+        <AnswerCardGrid>
           {HAIR_STRAND_CONDITIONS.map((condition) => (
-            <div key={condition.value} className="flex items-center gap-3">
-              <RadioGroupItem
-                value={condition.value}
-                id={`hair-${condition.value}`}
-              />
-              <Label
-                htmlFor={`hair-${condition.value}`}
-                className="cursor-pointer font-normal"
-              >
-                {condition.label}
-              </Label>
-            </div>
+            <AnswerCard
+              key={condition.value}
+              value={condition.value}
+              label={condition.label}
+              iconPath={condition.icon}
+              isSelected={value === condition.value}
+              onSelect={handleSelect}
+            />
           ))}
-        </RadioGroup>
+        </AnswerCardGrid>
       </QuestionCard>
     </div>
   );

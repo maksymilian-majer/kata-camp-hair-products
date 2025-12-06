@@ -63,11 +63,13 @@ function setupWithProfile() {
 }
 
 async function fillForm(user: ReturnType<typeof setup>['user']) {
-  await user.click(screen.getByLabelText('Seborrheic Dermatitis'));
-  await user.click(screen.getByLabelText('Excessive Sebum'));
-  await user.click(screen.getByLabelText('Itching'));
-  await user.click(screen.getByLabelText('Natural/Virgin'));
-  await user.click(screen.getByLabelText('Moderate'));
+  await user.click(
+    screen.getByRole('button', { name: 'Seborrheic Dermatitis' })
+  );
+  await user.click(screen.getByRole('button', { name: 'Excessive Sebum' }));
+  await user.click(screen.getByRole('button', { name: 'Itching' }));
+  await user.click(screen.getByRole('button', { name: 'Natural/Virgin' }));
+  await user.click(screen.getByRole('button', { name: 'Moderate' }));
 }
 
 beforeEach(() => {
@@ -123,10 +125,12 @@ describe('QuestionnaireContainer - form validation', () => {
       expect(screen.getByText('Complete Your Profile')).toBeInTheDocument();
     });
 
-    await user.click(screen.getByLabelText('Seborrheic Dermatitis'));
-    await user.click(screen.getByLabelText('Excessive Sebum'));
-    await user.click(screen.getByLabelText('Natural/Virgin'));
-    await user.click(screen.getByLabelText('Moderate'));
+    await user.click(
+      screen.getByRole('button', { name: 'Seborrheic Dermatitis' })
+    );
+    await user.click(screen.getByRole('button', { name: 'Excessive Sebum' }));
+    await user.click(screen.getByRole('button', { name: 'Natural/Virgin' }));
+    await user.click(screen.getByRole('button', { name: 'Moderate' }));
     await user.click(screen.getByRole('button', { name: 'Save Profile' }));
 
     await waitFor(() => {
@@ -194,12 +198,26 @@ describe('QuestionnaireContainer - editing existing profile', () => {
       expect(screen.getByText('Edit Your Profile')).toBeInTheDocument();
     });
 
-    expect(screen.getByLabelText('Seborrheic Dermatitis')).toBeChecked();
-    expect(screen.getByLabelText('Excessive Sebum')).toBeChecked();
-    expect(screen.getByLabelText('Itching')).toBeChecked();
-    expect(screen.getByLabelText('Redness/Inflammation')).toBeChecked();
-    expect(screen.getByLabelText('Natural/Virgin')).toBeChecked();
-    expect(screen.getByLabelText('Moderate')).toBeChecked();
+    expect(
+      screen.getByRole('button', { name: 'Seborrheic Dermatitis' })
+    ).toHaveAttribute('aria-pressed', 'true');
+    expect(
+      screen.getByRole('button', { name: 'Excessive Sebum' })
+    ).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Itching' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    expect(
+      screen.getByRole('button', { name: 'Redness/Inflammation' })
+    ).toHaveAttribute('aria-pressed', 'true');
+    expect(
+      screen.getByRole('button', { name: 'Natural/Virgin' })
+    ).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Moderate' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
   });
 
   it('shows Update Profile button when editing', async () => {

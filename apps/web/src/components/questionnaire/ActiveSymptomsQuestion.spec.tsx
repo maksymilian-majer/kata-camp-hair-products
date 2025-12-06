@@ -30,27 +30,30 @@ describe('ActiveSymptomsQuestion', () => {
       <ActiveSymptomsQuestion value={['itching', 'redness']} />
     );
 
-    expect(getByRole('checkbox', { name: 'Itching' })).toBeChecked();
+    expect(getByRole('button', { name: 'Itching' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
     expect(
-      getByRole('checkbox', { name: 'Redness/Inflammation' })
-    ).toBeChecked();
+      getByRole('button', { name: 'Redness/Inflammation' })
+    ).toHaveAttribute('aria-pressed', 'true');
     expect(
-      getByRole('checkbox', { name: 'Yellow/Greasy Scales' })
-    ).not.toBeChecked();
+      getByRole('button', { name: 'Yellow/Greasy Scales' })
+    ).toHaveAttribute('aria-pressed', 'false');
   });
 
-  it('calls onChange with added symptom when checkbox is checked', async () => {
+  it('calls onChange with added symptom when card is clicked', async () => {
     const onChange = vi.fn();
     const { user, getByRole } = setup(
       <ActiveSymptomsQuestion value={['itching']} onChange={onChange} />
     );
 
-    await user.click(getByRole('checkbox', { name: 'Redness/Inflammation' }));
+    await user.click(getByRole('button', { name: 'Redness/Inflammation' }));
 
     expect(onChange).toHaveBeenCalledWith(['itching', 'redness']);
   });
 
-  it('calls onChange with removed symptom when checkbox is unchecked', async () => {
+  it('calls onChange with removed symptom when selected card is clicked', async () => {
     const onChange = vi.fn();
     const { user, getByRole } = setup(
       <ActiveSymptomsQuestion
@@ -59,7 +62,7 @@ describe('ActiveSymptomsQuestion', () => {
       />
     );
 
-    await user.click(getByRole('checkbox', { name: 'Itching' }));
+    await user.click(getByRole('button', { name: 'Itching' }));
 
     expect(onChange).toHaveBeenCalledWith(['redness']);
   });

@@ -3,6 +3,9 @@ export {
   type ActiveSymptom,
   ActiveSymptomsQuestion,
 } from './ActiveSymptomsQuestion';
+export { AnswerCard } from './AnswerCard';
+export { AnswerCardGrid } from './AnswerCardGrid';
+export { AnswerCardMulti } from './AnswerCardMulti';
 export {
   HAIR_STRAND_CONDITIONS,
   type HairStrandCondition,

@@ -25,8 +25,8 @@ describe('SebumLevelQuestion', () => {
   it('shows selected state when value is provided', () => {
     const { getByRole } = setup(<SebumLevelQuestion value="excessive" />);
 
-    const radio = getByRole('radio', { name: 'Excessive Sebum' });
-    expect(radio).toBeChecked();
+    const button = getByRole('button', { name: 'Excessive Sebum' });
+    expect(button).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('calls onChange when option is selected', async () => {
@@ -35,7 +35,7 @@ describe('SebumLevelQuestion', () => {
       <SebumLevelQuestion onChange={onChange} />
     );
 
-    await user.click(getByRole('radio', { name: 'Dry/Tight Skin' }));
+    await user.click(getByRole('button', { name: 'Dry/Tight Skin' }));
 
     expect(onChange).toHaveBeenCalledWith('dry');
   });

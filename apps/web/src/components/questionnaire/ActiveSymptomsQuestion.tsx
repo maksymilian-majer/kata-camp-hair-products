@@ -1,15 +1,35 @@
 'use client';
 
-import { Checkbox, Label } from '@hair-product-scanner/ui';
-
+import { AnswerCardGrid } from './AnswerCardGrid';
+import { AnswerCardMulti } from './AnswerCardMulti';
 import { QuestionCard } from './QuestionCard';
 
 const ACTIVE_SYMPTOMS = [
-  { value: 'itching', label: 'Itching' },
-  { value: 'redness', label: 'Redness/Inflammation' },
-  { value: 'yellow_scales', label: 'Yellow/Greasy Scales' },
-  { value: 'white_flakes', label: 'White/Dry Flakes' },
-  { value: 'pain_burning', label: 'Pain/Burning' },
+  {
+    value: 'itching',
+    label: 'Itching',
+    icon: '/answer-icons/itching.png',
+  },
+  {
+    value: 'redness',
+    label: 'Redness/Inflammation',
+    icon: '/answer-icons/redness.png',
+  },
+  {
+    value: 'yellow_scales',
+    label: 'Yellow/Greasy Scales',
+    icon: '/answer-icons/yellow_scales.png',
+  },
+  {
+    value: 'white_flakes',
+    label: 'White/Dry Flakes',
+    icon: '/answer-icons/white_flakes.png',
+  },
+  {
+    value: 'pain_burning',
+    label: 'Pain/Burning',
+    icon: '/answer-icons/pain_burning.png',
+  },
 ] as const;
 
 export type ActiveSymptom = (typeof ACTIVE_SYMPTOMS)[number]['value'];
@@ -27,10 +47,11 @@ export function ActiveSymptomsQuestion({
   onChange,
   error,
 }: ActiveSymptomsQuestionProps) {
-  const handleCheckedChange = (symptom: ActiveSymptom, checked: boolean) => {
+  const handleToggle = (symptomValue: string, selected: boolean) => {
     if (!onChange) return;
 
-    if (checked) {
+    const symptom = symptomValue as ActiveSymptom;
+    if (selected) {
       onChange([...value, symptom]);
     } else {
       onChange(value.filter((v) => v !== symptom));
@@ -45,25 +66,18 @@ export function ActiveSymptomsQuestion({
         description="Select all symptoms you're currently experiencing"
         error={error}
       >
-        <div className="flex flex-col gap-3">
+        <AnswerCardGrid>
           {ACTIVE_SYMPTOMS.map((symptom) => (
-            <div key={symptom.value} className="flex items-center gap-3">
-              <Checkbox
-                id={`symptom-${symptom.value}`}
-                checked={value.includes(symptom.value)}
-                onCheckedChange={(checked) =>
-                  handleCheckedChange(symptom.value, checked === true)
-                }
-              />
-              <Label
-                htmlFor={`symptom-${symptom.value}`}
-                className="cursor-pointer font-normal"
-              >
-                {symptom.label}
-              </Label>
-            </div>
+            <AnswerCardMulti
+              key={symptom.value}
+              value={symptom.value}
+              label={symptom.label}
+              iconPath={symptom.icon}
+              isSelected={value.includes(symptom.value)}
+              onToggle={handleToggle}
+            />
           ))}
-        </div>
+        </AnswerCardGrid>
       </QuestionCard>
     </div>
   );

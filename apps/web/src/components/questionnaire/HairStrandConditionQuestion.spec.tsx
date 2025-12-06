@@ -28,8 +28,8 @@ describe('HairStrandConditionQuestion', () => {
   it('shows selected state when value is provided', () => {
     const { getByRole } = setup(<HairStrandConditionQuestion value="dyed" />);
 
-    const radio = getByRole('radio', { name: 'Dyed/Color-Treated' });
-    expect(radio).toBeChecked();
+    const button = getByRole('button', { name: 'Dyed/Color-Treated' });
+    expect(button).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('calls onChange when option is selected', async () => {
@@ -38,7 +38,7 @@ describe('HairStrandConditionQuestion', () => {
       <HairStrandConditionQuestion onChange={onChange} />
     );
 
-    await user.click(getByRole('radio', { name: 'Bleached/High Porosity' }));
+    await user.click(getByRole('button', { name: 'Bleached/High Porosity' }));
 
     expect(onChange).toHaveBeenCalledWith('bleached');
   });

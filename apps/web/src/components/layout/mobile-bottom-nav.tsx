@@ -17,16 +17,12 @@ import {
 
 import { ThemeToggle } from './theme-toggle';
 
-const NAV_ITEMS = [
-  { title: 'Home', icon: Home, href: '/dashboard', disabled: false },
-  {
-    title: 'Questionnaire',
-    icon: ClipboardList,
-    href: '/questionnaire',
-    disabled: true,
-  },
-  { title: 'Scan', icon: Camera, href: '/scan', disabled: true },
-];
+type NavItem = {
+  title: string;
+  icon: typeof Home;
+  href: string;
+  disabled: boolean;
+};
 
 const navButtonClass = cn(
   'flex min-w-[44px] flex-col items-center justify-center gap-1 px-3 py-2',
@@ -38,15 +34,28 @@ export type MobileBottomNavProps = {
   user?: { displayName?: string | null; email: string } | null;
   onLogout?: () => void;
   isLoggingOut?: boolean;
+  hasProfile?: boolean;
 };
 
 export function MobileBottomNav({
   user,
   onLogout,
   isLoggingOut = false,
+  hasProfile = false,
 }: MobileBottomNavProps) {
   const pathname = usePathname();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const navItems: NavItem[] = [
+    { title: 'Home', icon: Home, href: '/dashboard', disabled: false },
+    {
+      title: 'Questionnaire',
+      icon: ClipboardList,
+      href: '/dashboard/questionnaire',
+      disabled: false,
+    },
+    { title: 'Scan', icon: Camera, href: '/scan', disabled: !hasProfile },
+  ];
 
   return (
     <nav
@@ -55,7 +64,7 @@ export function MobileBottomNav({
       aria-label="Main navigation"
     >
       <div className="flex h-16 items-center justify-around px-2">
-        {NAV_ITEMS.map((item) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
 

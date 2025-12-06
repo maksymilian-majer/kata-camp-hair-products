@@ -38,32 +38,34 @@ export function ActiveSymptomsQuestion({
   };
 
   return (
-    <QuestionCard
-      number={3}
-      title="Active Symptoms"
-      description="Select all symptoms you're currently experiencing"
-      error={error}
-    >
-      <div className="flex flex-col gap-3">
-        {ACTIVE_SYMPTOMS.map((symptom) => (
-          <div key={symptom.value} className="flex items-center gap-3">
-            <Checkbox
-              id={`symptom-${symptom.value}`}
-              checked={value.includes(symptom.value)}
-              onCheckedChange={(checked) =>
-                handleCheckedChange(symptom.value, checked === true)
-              }
-            />
-            <Label
-              htmlFor={`symptom-${symptom.value}`}
-              className="cursor-pointer font-normal"
-            >
-              {symptom.label}
-            </Label>
-          </div>
-        ))}
-      </div>
-    </QuestionCard>
+    <div data-field="activeSymptoms">
+      <QuestionCard
+        number={3}
+        title="Active Symptoms"
+        description="Select all symptoms you're currently experiencing"
+        error={error}
+      >
+        <div className="flex flex-col gap-3">
+          {ACTIVE_SYMPTOMS.map((symptom) => (
+            <div key={symptom.value} className="flex items-center gap-3">
+              <Checkbox
+                id={`symptom-${symptom.value}`}
+                checked={value.includes(symptom.value)}
+                onCheckedChange={(checked) =>
+                  handleCheckedChange(symptom.value, checked === true)
+                }
+              />
+              <Label
+                htmlFor={`symptom-${symptom.value}`}
+                className="cursor-pointer font-normal"
+              >
+                {symptom.label}
+              </Label>
+            </div>
+          ))}
+        </div>
+      </QuestionCard>
+    </div>
   );
 }
 

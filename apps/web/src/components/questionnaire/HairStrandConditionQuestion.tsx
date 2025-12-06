@@ -25,32 +25,34 @@ export function HairStrandConditionQuestion({
   error,
 }: HairStrandConditionQuestionProps) {
   return (
-    <QuestionCard
-      number={4}
-      title="Hair Strand Condition"
-      description="What's the current state of your hair?"
-      error={error}
-    >
-      <RadioGroup
-        value={value}
-        onValueChange={onChange as (value: string) => void}
+    <div data-field="hairStrandCondition">
+      <QuestionCard
+        number={4}
+        title="Hair Strand Condition"
+        description="What's the current state of your hair?"
+        error={error}
       >
-        {HAIR_STRAND_CONDITIONS.map((condition) => (
-          <div key={condition.value} className="flex items-center gap-3">
-            <RadioGroupItem
-              value={condition.value}
-              id={`hair-${condition.value}`}
-            />
-            <Label
-              htmlFor={`hair-${condition.value}`}
-              className="cursor-pointer font-normal"
-            >
-              {condition.label}
-            </Label>
-          </div>
-        ))}
-      </RadioGroup>
-    </QuestionCard>
+        <RadioGroup
+          value={value}
+          onValueChange={onChange as (value: string) => void}
+        >
+          {HAIR_STRAND_CONDITIONS.map((condition) => (
+            <div key={condition.value} className="flex items-center gap-3">
+              <RadioGroupItem
+                value={condition.value}
+                id={`hair-${condition.value}`}
+              />
+              <Label
+                htmlFor={`hair-${condition.value}`}
+                className="cursor-pointer font-normal"
+              >
+                {condition.label}
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </QuestionCard>
+    </div>
   );
 }
 

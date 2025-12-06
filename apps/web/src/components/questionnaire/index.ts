@@ -15,6 +15,7 @@ export {
 } from './IngredientToleranceQuestion';
 export { ProfilePromptCard } from './ProfilePromptCard';
 export { QuestionCard } from './QuestionCard';
+export { QuestionnaireContainer } from './QuestionnaireContainer';
 export {
   QuestionnaireForm,
   type QuestionnaireFormData,

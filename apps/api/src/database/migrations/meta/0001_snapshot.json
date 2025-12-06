@@ -1,0 +1,206 @@
+{
+  "id": "774b3ad5-2360-4439-9184-4ada33d5350e",
+  "prevId": "df414780-53ed-464e-828c-9d60c1f27011",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.questionnaires": {
+      "name": "questionnaires",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scalp_condition": {
+          "name": "scalp_condition",
+          "type": "scalp_condition",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sebum_level": {
+          "name": "sebum_level",
+          "type": "sebum_level",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "active_symptoms": {
+          "name": "active_symptoms",
+          "type": "active_symptom[]",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hair_strand_condition": {
+          "name": "hair_strand_condition",
+          "type": "hair_strand_condition",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ingredient_tolerance": {
+          "name": "ingredient_tolerance",
+          "type": "ingredient_tolerance",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "questionnaires_user_id_users_id_fk": {
+          "name": "questionnaires_user_id_users_id_fk",
+          "tableFrom": "questionnaires",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "questionnaires_user_id_unique": {
+          "name": "questionnaires_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": ["user_id"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": ["email"]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.active_symptom": {
+      "name": "active_symptom",
+      "schema": "public",
+      "values": [
+        "itching",
+        "redness",
+        "yellow_scales",
+        "white_flakes",
+        "pain_burning"
+      ]
+    },
+    "public.hair_strand_condition": {
+      "name": "hair_strand_condition",
+      "schema": "public",
+      "values": ["natural", "dyed", "bleached"]
+    },
+    "public.ingredient_tolerance": {
+      "name": "ingredient_tolerance",
+      "schema": "public",
+      "values": ["resilient", "moderate", "hypoallergenic"]
+    },
+    "public.scalp_condition": {
+      "name": "scalp_condition",
+      "schema": "public",
+      "values": [
+        "seborrheic_dermatitis",
+        "psoriasis",
+        "atopic_dermatitis",
+        "severe_dandruff",
+        "sensitive_itchy"
+      ]
+    },
+    "public.sebum_level": {
+      "name": "sebum_level",
+      "schema": "public",
+      "values": ["excessive", "moderate", "dry"]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

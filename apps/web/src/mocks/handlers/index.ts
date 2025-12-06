@@ -5,12 +5,13 @@
 // Integrated endpoints (using real backend):
 // import { authHandlers } from './auth';
 // import { healthHandlers } from './health';
+// import { questionnaireHandlers } from './questionnaire';
 
 // Endpoints still being mocked:
-import { questionnaireHandlers } from './questionnaire';
+// (none currently - all endpoints integrated with real backend)
 
 export const handlers = [
-  // ...authHandlers,   // Integrated - uses real API
-  // ...healthHandlers, // Integrated - uses real API
-  ...questionnaireHandlers,
+  // ...authHandlers,          // Integrated - uses real API
+  // ...healthHandlers,        // Integrated - uses real API
+  // ...questionnaireHandlers, // Integrated - uses real API
 ];

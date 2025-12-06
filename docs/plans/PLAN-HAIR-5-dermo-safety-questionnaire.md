@@ -257,21 +257,21 @@ After implementation, write integration tests that verify:
 
 ---
 
-## Phase 4: Repository Layer (TDD)
+## Phase 4: Repository Layer (TDD) ✅ (2025-12-06)
 
 **Subagent**: `backend-phase-4`
 **Testing**: Write tests FIRST (Testcontainers)
 
 ### Tasks
 
-- [ ] Write repository integration tests FIRST
-- [ ] Define PostgreSQL enums using Drizzle's `pgEnum` (generates `CREATE TYPE ... AS ENUM`):
+- [x] Write repository integration tests FIRST
+- [x] Define PostgreSQL enums using Drizzle's `pgEnum` (generates `CREATE TYPE ... AS ENUM`):
   - `scalp_condition` enum
   - `sebum_level` enum
   - `active_symptom` enum
   - `hair_strand_condition` enum
   - `ingredient_tolerance` enum
-- [ ] Define Drizzle schema for `questionnaires` table:
+- [x] Define Drizzle schema for `questionnaires` table:
   - `id` - UUID primary key
   - `userId` - UUID foreign key to users
   - `scalpCondition` - scalp_condition enum
@@ -282,12 +282,12 @@ After implementation, write integration tests that verify:
   - `createdAt` - timestamp with default
   - `updatedAt` - timestamp
   - Unique constraint on `userId` (one profile per user)
-- [ ] Create database migration
-- [ ] Define `QuestionnaireRepository` interface:
+- [x] Create database migration
+- [x] Define `QuestionnaireRepository` interface:
   - `findByUserId(userId: string): Promise<Questionnaire | null>`
   - `save(questionnaire: NewQuestionnaire): Promise<Questionnaire>`
   - `update(userId: string, data: UpdateQuestionnaire): Promise<Questionnaire>`
-- [ ] Implement `QuestionnaireDrizzleRepository`
+- [x] Implement `QuestionnaireDrizzleRepository`
 
 ### Test Scenarios (Write BEFORE Implementation)
 
@@ -335,11 +335,11 @@ describe('QuestionnaireDrizzleRepository', () => {
 
 ### Completion Criteria
 
-- [ ] Repository tests written and initially failing (RED)
-- [ ] Drizzle schema created for questionnaires table
-- [ ] Migration generated and tested
-- [ ] Repository implementation complete
-- [ ] All tests pass: `pnpm nx test api` (GREEN)
+- [x] Repository tests written and initially failing (RED)
+- [x] Drizzle schema created for questionnaires table
+- [x] Migration generated and tested
+- [x] Repository implementation complete
+- [x] All tests pass: `pnpm nx test api` (GREEN)
 
 ---
 

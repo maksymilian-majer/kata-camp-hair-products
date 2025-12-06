@@ -65,8 +65,8 @@ describe('QuestionnaireForm', () => {
       />
     );
 
-    const button = getByRole('button');
-    expect(button).toBeDisabled();
+    const submitButton = getByRole('button', { name: /saving/i });
+    expect(submitButton).toBeDisabled();
     expect(getByText('Saving...')).toBeInTheDocument();
   });
 
@@ -95,7 +95,7 @@ describe('QuestionnaireForm', () => {
       />
     );
 
-    await user.click(getByRole('radio', { name: 'Psoriasis' }));
+    await user.click(getByRole('button', { name: 'Psoriasis' }));
 
     expect(onValueChange).toHaveBeenCalledWith('scalpCondition', 'psoriasis');
   });

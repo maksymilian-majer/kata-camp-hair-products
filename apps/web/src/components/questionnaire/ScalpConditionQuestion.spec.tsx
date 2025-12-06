@@ -28,8 +28,8 @@ describe('ScalpConditionQuestion', () => {
   it('shows selected state when value is provided', () => {
     const { getByRole } = setup(<ScalpConditionQuestion value="psoriasis" />);
 
-    const radio = getByRole('radio', { name: 'Psoriasis' });
-    expect(radio).toBeChecked();
+    const button = getByRole('button', { name: 'Psoriasis' });
+    expect(button).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('calls onChange when option is selected', async () => {
@@ -38,7 +38,7 @@ describe('ScalpConditionQuestion', () => {
       <ScalpConditionQuestion onChange={onChange} />
     );
 
-    await user.click(getByRole('radio', { name: 'Seborrheic Dermatitis' }));
+    await user.click(getByRole('button', { name: 'Seborrheic Dermatitis' }));
 
     expect(onChange).toHaveBeenCalledWith('seborrheic_dermatitis');
   });

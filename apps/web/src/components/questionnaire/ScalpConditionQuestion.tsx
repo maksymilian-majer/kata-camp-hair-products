@@ -1,15 +1,35 @@
 'use client';
 
-import { Label, RadioGroup, RadioGroupItem } from '@hair-product-scanner/ui';
-
+import { AnswerCard } from './AnswerCard';
+import { AnswerCardGrid } from './AnswerCardGrid';
 import { QuestionCard } from './QuestionCard';
 
 const SCALP_CONDITIONS = [
-  { value: 'seborrheic_dermatitis', label: 'Seborrheic Dermatitis' },
-  { value: 'psoriasis', label: 'Psoriasis' },
-  { value: 'atopic_dermatitis', label: 'Atopic Dermatitis (Eczema)' },
-  { value: 'severe_dandruff', label: 'Severe Dandruff' },
-  { value: 'sensitive_itchy', label: 'Just Sensitive/Itchy' },
+  {
+    value: 'seborrheic_dermatitis',
+    label: 'Seborrheic Dermatitis',
+    icon: '/answer-icons/seborrheic_dermatitis.png',
+  },
+  {
+    value: 'psoriasis',
+    label: 'Psoriasis',
+    icon: '/answer-icons/psoriasis.png',
+  },
+  {
+    value: 'atopic_dermatitis',
+    label: 'Atopic Dermatitis (Eczema)',
+    icon: '/answer-icons/atopic_dermatitis.png',
+  },
+  {
+    value: 'severe_dandruff',
+    label: 'Severe Dandruff',
+    icon: '/answer-icons/severe_dandruff.png',
+  },
+  {
+    value: 'sensitive_itchy',
+    label: 'Just Sensitive/Itchy',
+    icon: '/answer-icons/sensitive_itchy.png',
+  },
 ] as const;
 
 export type ScalpCondition = (typeof SCALP_CONDITIONS)[number]['value'];
@@ -25,6 +45,10 @@ export function ScalpConditionQuestion({
   onChange,
   error,
 }: ScalpConditionQuestionProps) {
+  const handleSelect = (selectedValue: string) => {
+    onChange?.(selectedValue as ScalpCondition);
+  };
+
   return (
     <div data-field="scalpCondition">
       <QuestionCard
@@ -33,25 +57,18 @@ export function ScalpConditionQuestion({
         description="Select the condition that best describes your scalp"
         error={error}
       >
-        <RadioGroup
-          value={value}
-          onValueChange={onChange as (value: string) => void}
-        >
+        <AnswerCardGrid>
           {SCALP_CONDITIONS.map((condition) => (
-            <div key={condition.value} className="flex items-center gap-3">
-              <RadioGroupItem
-                value={condition.value}
-                id={`scalp-${condition.value}`}
-              />
-              <Label
-                htmlFor={`scalp-${condition.value}`}
-                className="cursor-pointer font-normal"
-              >
-                {condition.label}
-              </Label>
-            </div>
+            <AnswerCard
+              key={condition.value}
+              value={condition.value}
+              label={condition.label}
+              iconPath={condition.icon}
+              isSelected={value === condition.value}
+              onSelect={handleSelect}
+            />
           ))}
-        </RadioGroup>
+        </AnswerCardGrid>
       </QuestionCard>
     </div>
   );

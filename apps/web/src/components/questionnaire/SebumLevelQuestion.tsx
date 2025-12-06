@@ -1,13 +1,25 @@
 'use client';
 
-import { Label, RadioGroup, RadioGroupItem } from '@hair-product-scanner/ui';
-
+import { AnswerCard } from './AnswerCard';
+import { AnswerCardGrid } from './AnswerCardGrid';
 import { QuestionCard } from './QuestionCard';
 
 const SEBUM_LEVELS = [
-  { value: 'excessive', label: 'Excessive Sebum' },
-  { value: 'moderate', label: 'Moderate/Normal' },
-  { value: 'dry', label: 'Dry/Tight Skin' },
+  {
+    value: 'excessive',
+    label: 'Excessive Sebum',
+    icon: '/answer-icons/excessive.png',
+  },
+  {
+    value: 'moderate',
+    label: 'Moderate/Normal',
+    icon: '/answer-icons/moderate.png',
+  },
+  {
+    value: 'dry',
+    label: 'Dry/Tight Skin',
+    icon: '/answer-icons/dry.png',
+  },
 ] as const;
 
 export type SebumLevel = (typeof SEBUM_LEVELS)[number]['value'];
@@ -23,6 +35,10 @@ export function SebumLevelQuestion({
   onChange,
   error,
 }: SebumLevelQuestionProps) {
+  const handleSelect = (selectedValue: string) => {
+    onChange?.(selectedValue as SebumLevel);
+  };
+
   return (
     <div data-field="sebumLevel">
       <QuestionCard
@@ -31,22 +47,18 @@ export function SebumLevelQuestion({
         description="How would you describe your scalp's oil production?"
         error={error}
       >
-        <RadioGroup
-          value={value}
-          onValueChange={onChange as (value: string) => void}
-        >
+        <AnswerCardGrid>
           {SEBUM_LEVELS.map((level) => (
-            <div key={level.value} className="flex items-center gap-3">
-              <RadioGroupItem value={level.value} id={`sebum-${level.value}`} />
-              <Label
-                htmlFor={`sebum-${level.value}`}
-                className="cursor-pointer font-normal"
-              >
-                {level.label}
-              </Label>
-            </div>
+            <AnswerCard
+              key={level.value}
+              value={level.value}
+              label={level.label}
+              iconPath={level.icon}
+              isSelected={value === level.value}
+              onSelect={handleSelect}
+            />
           ))}
-        </RadioGroup>
+        </AnswerCardGrid>
       </QuestionCard>
     </div>
   );

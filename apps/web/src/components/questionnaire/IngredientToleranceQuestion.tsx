@@ -1,13 +1,25 @@
 'use client';
 
-import { Label, RadioGroup, RadioGroupItem } from '@hair-product-scanner/ui';
-
+import { AnswerCard } from './AnswerCard';
+import { AnswerCardGrid } from './AnswerCardGrid';
 import { QuestionCard } from './QuestionCard';
 
 const INGREDIENT_TOLERANCES = [
-  { value: 'resilient', label: 'Resilient' },
-  { value: 'moderate', label: 'Moderate' },
-  { value: 'hypoallergenic', label: 'Hypoallergenic' },
+  {
+    value: 'resilient',
+    label: 'Resilient',
+    icon: '/answer-icons/resilient.png',
+  },
+  {
+    value: 'moderate',
+    label: 'Moderate',
+    icon: '/answer-icons/moderate_tolerance.png',
+  },
+  {
+    value: 'hypoallergenic',
+    label: 'Hypoallergenic',
+    icon: '/answer-icons/hypoallergenic.png',
+  },
 ] as const;
 
 export type IngredientTolerance =
@@ -24,6 +36,10 @@ export function IngredientToleranceQuestion({
   onChange,
   error,
 }: IngredientToleranceQuestionProps) {
+  const handleSelect = (selectedValue: string) => {
+    onChange?.(selectedValue as IngredientTolerance);
+  };
+
   return (
     <div data-field="ingredientTolerance">
       <QuestionCard
@@ -32,25 +48,18 @@ export function IngredientToleranceQuestion({
         description="How sensitive is your scalp to ingredients?"
         error={error}
       >
-        <RadioGroup
-          value={value}
-          onValueChange={onChange as (value: string) => void}
-        >
+        <AnswerCardGrid>
           {INGREDIENT_TOLERANCES.map((tolerance) => (
-            <div key={tolerance.value} className="flex items-center gap-3">
-              <RadioGroupItem
-                value={tolerance.value}
-                id={`tolerance-${tolerance.value}`}
-              />
-              <Label
-                htmlFor={`tolerance-${tolerance.value}`}
-                className="cursor-pointer font-normal"
-              >
-                {tolerance.label}
-              </Label>
-            </div>
+            <AnswerCard
+              key={tolerance.value}
+              value={tolerance.value}
+              label={tolerance.label}
+              iconPath={tolerance.icon}
+              isSelected={value === tolerance.value}
+              onSelect={handleSelect}
+            />
           ))}
-        </RadioGroup>
+        </AnswerCardGrid>
       </QuestionCard>
     </div>
   );

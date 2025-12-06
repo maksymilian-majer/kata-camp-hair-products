@@ -6,6 +6,24 @@
 
 ---
 
+Branches
+
+```
+kata/1-story-complete
+kata/2-lovable-complete
+kata/3-plan-complete
+kata/4-phase-1-complete
+kata/5-phase-2-complete
+kata/6-phase-3-complete
+kata/7-phase-4-complete
+kata/8-phase-5-complete
+kata/9-phase-6-complete
+kata/10-phase-7-complete
+kata/11-bonus-phase
+```
+
+---
+
 ## Pre-Workshop Checklist
 
 - [ ] Docker Desktop installed (latest version)
